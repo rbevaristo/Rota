@@ -36,4 +36,26 @@ class LoginController extends Controller
     {
         $this->middleware('guest:employee')->except('logout');
     }
+
+     /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        return view('employee.login');
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('employee');
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        return redirect('/');
+    }
 }

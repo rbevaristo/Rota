@@ -22,7 +22,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //Admin Routes
 
-Route::group(['prefix' => 'admin'], function() {
+Route::group([
+    'prefix' => 'admin'
+], function() {
     Route::get('home', 'AdminController@index')->name('admin.home');
     Route::get('login', 'Admin\LoginController@showLoginForm')->name('admin.login');
     Route::post('login', 'Admin\LoginController@login');
@@ -34,7 +36,9 @@ Route::group(['prefix' => 'admin'], function() {
 
 
 //Employee Routes
-Route::group(['prefix' => 'employee'], function() {
+Route::group([
+    'prefix' => 'employee'
+], function() {
     Route::get('home', 'EmployeeController@index')->name('employee.home');
     Route::get('login', 'Employee\LoginController@showLoginForm')->name('employee.login');
     Route::post('login', 'Employee\LoginController@login');
