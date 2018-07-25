@@ -162,9 +162,9 @@
                                                 </span>
                                                 <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required placeholder="Email...">
                                                 @if ($errors->has('email'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('email') }}</strong>
-                                                    </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('email') }}</strong>
+                                                </span>
                                                 @endif
                                             </div>
                                             <div class="input-group form-group-no-border input-lg">

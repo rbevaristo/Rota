@@ -20,10 +20,58 @@
     /* Standard syntax */
 }
 
+.breadcrumb .breadcrumb-text, .breadcrumb .fa  {
+    color: #333;
+}
+
+.breadcrumb .active .fa, .breadcrumb .active .breadcrumb-text {
+    color: orange;
+}
+
+.fa-ellipsis-v {
+    font-size: 20px;
+}
+
+.list-group .list-group-item img {
+    width: 40px;
+    height: 40px;
+}
+
+.employee-lists img {
+    width: 60px;
+    height: 60px;
+}
+
+#employee-attendance img{
+    width:20px;
+    height:20px;
+}
+
+main {
+    margin-top: -20px;
+}
+
+strong, small {
+    color: #333;
+}
+
+#employee-list {
+    position: absolute;
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+#user-profile .author {
+    padding: 20px;
+}
+#user-profile .author img {
+    height: 80px;
+    width: 80px;
+}
 
 /*---Media Queries --*/
 @media (max-width: 992px) {
-
+    
 }
 @media (max-width: 768px) {
 
@@ -39,5 +87,16 @@
 
     .card-login ul {
         display: inline;
+    }
+    .breadcrumb-text {
+        display:none;
+    }
+    
+    #employee-list{
+        display:none;
+    }
+
+    #eval-table {
+        font-size: 10px;
     }
 }

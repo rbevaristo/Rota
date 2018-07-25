@@ -18,7 +18,16 @@ Route::get('/', function () {
 //User Routes
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+
+Route::group([], function() {
+    Route::get('/dashboard/profile', 'UserController@profile')->name('user.profile');
+    Route::get('/dashboard/schedule', 'UserController@schedule')->name('user.schedule');
+    Route::get('/dashboard/employee', 'UserController@employee')->name('user.employee');
+    Route::get('/dashboard/attendance', 'UserController@attendance')->name('user.attendance');
+    Route::get('/dashboard/performance-evaluation', 'UserController@performance')->name('user.performance');
+    Route::get('/dashboard/settings', 'UserController@settings')->name('user.settings');
+});
 
 //Admin Routes
 

@@ -49,6 +49,20 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            @if(Auth::guard()->user()->role_id == 1)
+                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                Dashboard
+                            </a>
+                            @elseif(Auth::guard()->user()->role_id == 3)
+                            <a class="dropdown-item" href="{{ route('employee.dashboard') }}">
+                                Dashboard
+                            </a>
+                            @else
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    Dashboard
+                                </a>
+                            @endif
+
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
