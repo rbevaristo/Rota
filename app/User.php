@@ -30,4 +30,13 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo('App\Role');
     }
+
+    public function employees() {
+        return $this->hasMany('App\Employee');
+    }
+
+    public function profile() {
+        return $this->hasOne('App\Profile');
+    }
+
 }

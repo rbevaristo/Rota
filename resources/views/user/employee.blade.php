@@ -19,7 +19,7 @@
                 </a>
                 <ul class="nav ml-auto">
                     <li class="nav-item">
-                        <button class="btn btn-primary btn-sm">
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
                             <i class="fa fa-user-plus" data-toggle="tooltip" data-placement="top" title="Add Employee"></i> 
                         </button>
                     </li>
@@ -119,6 +119,44 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Core -->
+<div class="modal fade text-black" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
+        </div>
+        <div class="modal-body">
+          <form action="">
+                <div class="form-group">
+                    <label for="emp_id">Employee ID <span>*</span></label>
+                    <input type="text" class="form-control" id="emp_id" name="emp_id" required placeholder="Employee ID...">
+                </div>
+                <div class="form-group">
+                    <label for="emp_name">Name <span>*</span></label>
+                    <input type="text" class="form-control" id="emp_name" name="emp_name" required placeholder="Employee Name...">
+                </div>
+                <div class="form-group">
+                    <label for="emp_email">Email <small>(optional)</small></label>
+                    <input type="text" class="form-control" id="emp_email" name="emp_email" placeholder="Employee Email...">
+                </div>
+                <div class="form-group">
+                    <label for="emp_position"></label>
+                    <select name="emp_position" id="emp_position" data-live-search="true" required class="form-control">
+                        <option value=""></option>
+                    </select>
+                </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info btn-simple">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @section('js')

@@ -16,11 +16,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/now-ui-kit.css') }}" rel="stylesheet">
+    @yield('styles')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
-<body class="landing-page sidebar-collapse">
+<body class="lading-page sidebar-collapse">
     @include('components.navbar')
-    <main class="page-header clear-filter" filter-color="orange">
+    <main class="page-header clear-filter">
         <div class="container-fluid">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -30,7 +31,7 @@
             @yield('content')
         </div>
     </main>
-    {{-- @include('components.footer') --}}
+    
     <!-- Scripts -->
     <script src="{{ asset('js/core/jquery.3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/core/popper.min.js') }}"></script>

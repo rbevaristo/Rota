@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -40,6 +41,15 @@ class LoginController extends Controller
     public function username() 
     {
         return 'email';
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        // throw ValidationException::withMessages([
+        //     $this->username() => [trans('auth.failed')],
+        // ]);
+
+        return redirect()->back()->with('error', 'Invalid Username or Password');
     }
 
 }

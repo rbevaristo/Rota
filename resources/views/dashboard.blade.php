@@ -1,5 +1,9 @@
 @extends('layouts.user')
 
+@section('styles')
+    
+@endsection
+
 @section('breadcrumb')
     @parent
     <li class="breadcrumb-item {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page">
@@ -102,10 +106,5 @@
 
 @section('js')
     @parent
-    <script src="js/core/jquery.slimscroll.min.js"></script>
-    <script>
-        $(function(){
-
-        });
-    </script>
+    
 @endsection

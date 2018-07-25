@@ -16,10 +16,6 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function dashboard() {
-        return view('dashboard');
-    }
-
     public function profile() {
         return view('user.profile');
     }

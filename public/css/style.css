@@ -69,6 +69,10 @@ strong, small {
     width: 80px;
 }
 
+/* .alert {
+    display:none;
+} */
+
 /*---Media Queries --*/
 @media (max-width: 992px) {
     

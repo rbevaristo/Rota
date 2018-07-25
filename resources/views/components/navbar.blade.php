@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent" >
 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ Request::is('/dashboard') ? 'active' : ''}}">
+                <li class="nav-item {{ Request::is('dashboard') ? 'active' : ''}}">
                     <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item {{ Request::is('dashboard/schedule') ? 'active' : ''}}">
