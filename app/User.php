@@ -39,4 +39,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Profile');
     }
 
+    public function setting() {
+        return $this->hasOne('App\Setting');
+    }
+
+    public function positions() {
+        return $this->hasMany('App\Position');
+    }
 }

@@ -1,5 +1,7 @@
 @extends('layouts.user')
-
+@section('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
+@endsection
 @section('breadcrumb')
     <li class="breadcrumb-item" aria-current="page">
         <a href="{{ route('dashboard')}}"><span class="fa fa-home"></span><span class="breadcrumb-text"> Home</span></a>
@@ -43,78 +45,17 @@
         </div>
         <div class="card-body">
             <div class="row">
+                @foreach($user->employees as $employee)
                 <div class="col-md-2 col-sm-2 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
+                    <p><strong>{{ $employee->name }}</strong></p>
                     <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
+                    <p>{{ $employee->position->name }}</p>
                     <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
                     <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
                     <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
                     <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
                 </div>
-                <div class="col-md-2 col-sm-3 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
-                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
-                    <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                    <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                    <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                    <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
-                </div>
-                <div class="col-md-2 col-sm-3 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
-                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
-                    <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                    <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                    <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                    <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
-                </div>
-                <div class="col-md-2 col-sm-3 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
-                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
-                    <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                    <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                    <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                    <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
-                </div>
-                <div class="col-md-2 col-sm-3 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
-                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
-                    <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                    <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                    <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                    <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
-                </div>
-                <div class="col-md-2 col-sm-3 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
-                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
-                    <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                    <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                    <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                    <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
-                </div>
-                <div class="col-md-2 col-sm-3 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
-                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
-                    <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                    <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                    <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                    <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
-                </div>
-                <div class="col-md-2 col-sm-3 text-center employee-lists">
-                    <p><strong>Richard Evaristo</strong></p>
-                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                    <p>Supervisor</p>
-                    <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                    <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                    <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                    <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -126,41 +67,43 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
+          <h4 class="modal-title" id="myModalLabel"><i class="fa fa-user-plus"></i> Employee</h4>
         </div>
         <div class="modal-body">
-          <form action="">
-                <div class="form-group">
-                    <label for="emp_id">Employee ID <span>*</span></label>
-                    <input type="text" class="form-control" id="emp_id" name="emp_id" required placeholder="Employee ID...">
-                </div>
-                <div class="form-group">
-                    <label for="emp_name">Name <span>*</span></label>
-                    <input type="text" class="form-control" id="emp_name" name="emp_name" required placeholder="Employee Name...">
-                </div>
-                <div class="form-group">
-                    <label for="emp_email">Email <small>(optional)</small></label>
-                    <input type="text" class="form-control" id="emp_email" name="emp_email" placeholder="Employee Email...">
-                </div>
-                <div class="form-group">
-                    <label for="emp_position"></label>
-                    <select name="emp_position" id="emp_position" data-live-search="true" required class="form-control">
-                        <option value=""></option>
-                    </select>
-                </div>
-          </form>
+          <form action="{{ url('/dashboard/employee/create') }}" method="POST">
+          @csrf
+            <div class="form-group">
+                <label for="employee_id">Employee ID <span>*</span></label>
+                <input type="text" class="form-control" id="employee_id" name="employee_id" required placeholder="Employee ID...">
+            </div>
+            <div class="form-group">
+                <label for="name">Name <span>*</span></label>
+                <input type="text" class="form-control" id="name" name="name" required placeholder="Employee Name...">
+            </div>
+            <div class="form-group">
+                <label for="email">Email <small>(optional)</small></label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Employee Email...">
+            </div>
+            <div class="form-group">
+                <label for="emp_position"></label>
+                <select name="position_id" id="position_id" class="form-control" required>
+                    <option value="">Select Position</option>
+                    @foreach(explode(',', $user->position) as $position)
+                        <option value="{{ $position }}">{{ $position }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-info btn-simple">Save</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
+            </form>
       </div>
     </div>
   </div>
 @endsection
 
 @section('js')
-    <script>
-
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
 @endsection

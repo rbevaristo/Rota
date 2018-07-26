@@ -19,9 +19,9 @@
     @yield('styles')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
-<body class="lading-page sidebar-collapse">
+<body class="landing-page sidebar-collapse">
     @include('components.navbar')
-    <main class="page-header clear-filter">
+    <main class="">
         <div class="container-fluid">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">

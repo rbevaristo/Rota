@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Setting;
+use App\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\EmployeeRequest;
 
 class UserController extends Controller
 {
@@ -25,7 +29,8 @@ class UserController extends Controller
     }
 
     public function employee() {
-        return view('user.employee');
+        $user = auth()->user();
+        return view('user.employee', compact('user'));
     }
 
     public function performance() {
@@ -37,6 +42,24 @@ class UserController extends Controller
     }
 
     public function settings() {
-        return view('user.settings');
+        $user = auth()->user();
+        return view('user.settings', compact('user'));
+    }
+
+    public function store(EmployeeRequest $request) {
+        $employee = Employee::create([
+            'name' => $request->name,
+            'employee_id' => $request->employee_id,
+            'email' => $request->email,
+            'password' => Hash::make('123456'),
+            'position_id' => $request->position_id,
+            'user_id' => auth()->user()->id
+        ]);
+        
+        if(!$employee) {
+            return response()->json(['success' => false, 'message' => 'Error']);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Added']);
     }
 }

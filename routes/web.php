@@ -27,6 +27,9 @@ Route::group([], function() {
     Route::get('/dashboard/attendance', 'UserController@attendance')->name('user.attendance');
     Route::get('/dashboard/performance-evaluation', 'UserController@performance')->name('user.performance');
     Route::get('/dashboard/settings', 'UserController@settings')->name('user.settings');
+    Route::post('/dashboard/settings/update-setting/{id}/{setting}/{value}', 'SettingsController@update');
+    Route::post('/dashboard/positions/update-position/{id}/{positions}', 'PositionsController@update');
+    Route::post('/dashboard/employee/create', 'UserController@store');
 });
 
 //Admin Routes

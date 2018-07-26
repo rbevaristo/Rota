@@ -5,16 +5,20 @@
     <div class="page-header" filter-color="orange">
         <div class="container">
             <div class="col-md-6 content-center">
-                @if(session('error'))
+                @if($errors->any())
                 <div class="alert alert-danger" role="alert">
                     <div class="container">
                         <div class="alert-icon">
-                            <i class="now-ui-icons objects_support-17"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
                         </div>
-                        <strong>{{session('error')}}</strong>.
+                        <strong class="text-white">
+                            @foreach($errors->all() as $error)
+                                {{$error}}
+                            @endforeach
+                        </strong>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">
-                                <i class="now-ui-icons ui-1_simple-remove"></i>
+                                <i class="fa fa-window-close"></i>
                             </span>
                         </button>
                     </div>
@@ -92,22 +96,12 @@
                                                     <i class="fa fa-user"></i>
                                                 </span>
                                                 <input id="employee_id" type="text" class="form-control{{ $errors->has('employee_id') ? ' is-invalid' : '' }}" name="employee_id" value="{{ old('employee_id') }}" required placeholder="Employee ID...">
-                                                @if ($errors->has('employee_id'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('employee_id') }}</strong>
-                                                    </span>
-                                                @endif
                                             </div>
                                             <div class="input-group form-group-no-border input-lg">
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-user-secret"></i>
                                                 </span>
                                                 <input id="password1" type="password" class="form-control{{ $errors->has('password1') ? ' is-invalid' : '' }}" name="password" required placeholder="Password...">
-                                                @if ($errors->has('password1'))
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('password1') }}</strong>
-                                                    </span>
-                                                @endif
                                             </div>
                                         </div>
                 

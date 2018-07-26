@@ -43,13 +43,13 @@ class LoginController extends Controller
         return 'email';
     }
 
-    protected function sendFailedLoginResponse(Request $request)
+    protected function sendLoginResponse(Request $request)
     {
-        // throw ValidationException::withMessages([
-        //     $this->username() => [trans('auth.failed')],
-        // ]);
+        $request->session()->regenerate();
 
-        return redirect()->back()->with('error', 'Invalid Username or Password');
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+                ?: redirect()->intended($this->redirectPath());
     }
-
 }
