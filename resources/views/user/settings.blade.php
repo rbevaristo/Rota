@@ -40,7 +40,7 @@
                                             $value .= $position->name . ",";
                                         @endphp
                                     @endforeach
-                                    <input type="text" value="{{ $value }}" class="form-control" data-role="tagsinput" placeholder="Add Positions" id="positions"/>
+                                        <input type="text" value="{{ $value }}" class="form-control" data-role="tagsinput" placeholder="Add Positions" id="positions"/>
                                 </div>
                             </div>
                         </div>
@@ -107,14 +107,28 @@
             }
         });
         $('#positions').on('change', function(){
-            var url = "{{ url('/dashboard/positions/update-position/') }}"+"/"+$('#user_id').val()+"/"+$(this).val();
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                success: function (result) {},
-            });
+            if($(this).val() == ""){
+                var url = "{{ url('/dashboard/positions/delete-position/') }}"+"/"+$('#user_id').val();
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {},
+                });
+            } else {
+                var url = "{{ url('/dashboard/positions/update-position/') }}"+"/"+$('#user_id').val()+"/"+$(this).val();
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {},
+                });
+            }
+            
         });
 
         $('input[type="checkbox"]').on('change', function() {

@@ -29,6 +29,7 @@ Route::group([], function() {
     Route::get('/dashboard/settings', 'UserController@settings')->name('user.settings');
     Route::post('/dashboard/settings/update-setting/{id}/{setting}/{value}', 'SettingsController@update');
     Route::post('/dashboard/positions/update-position/{id}/{positions}', 'PositionsController@update');
+    Route::delete('/dashboard/positions/delete-position/{id}', 'PositionsController@destroy');
     Route::post('/dashboard/employee/create', 'UserController@store');
 });
 

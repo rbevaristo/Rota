@@ -88,8 +88,8 @@
                 <label for="emp_position"></label>
                 <select name="position_id" id="position_id" class="form-control" required>
                     <option value="">Select Position</option>
-                    @foreach(explode(',', $user->position) as $position)
-                        <option value="{{ $position }}">{{ $position }}</option>
+                    @foreach($user->positions as $position)
+                        <option value="{{ $position->id }}">{{ $position->name }}</option>
                     @endforeach
                 </select>
             </div>

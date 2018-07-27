@@ -57,9 +57,9 @@ class UserController extends Controller
         ]);
         
         if(!$employee) {
-            return response()->json(['success' => false, 'message' => 'Error']);
+            return redirect()->back()->with('error', 'Error Adding');
         }
 
-        return response()->json(['success' => true, 'message' => 'Added']);
+        return redirect()->back()->with('success', 'Employee Added');
     }
 }
