@@ -13,20 +13,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent" >
 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ Request::is('dashboard') ? 'active' : ''}}">
-                    <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
+                <li class="nav-item {{ Request::is('employee/dashboard') ? 'active' : ''}}">
+                    <a href="{{ route('employee.dashboard') }}" class="nav-link">Dashboard</a>
                 </li>
-                <li class="nav-item {{ Request::is('dashboard/schedule') ? 'active' : ''}}">
-                    <a href="{{ route('user.schedule') }}" class="nav-link">Schedule</a>
+                <li class="nav-item {{ Request::is('employee/dashboard/messages') ? 'active' : ''}}">
+                    <a href="{{ route('employee.messages') }}" class="nav-link">Messages</a>
                 </li>
-                <li class="nav-item {{ Request::is('dashboard/employee') ? 'active' : ''}}">
-                    <a href="{{ route('user.employee') }}" class="nav-link">Employees</a>
+                <li class="nav-item {{ Request::is('employee/dashboard/schedule') ? 'active' : ''}}">
+                    <a href="{{ route('employee.schedule') }}" class="nav-link">Schedule</a>
                 </li>
-                <li class="nav-item {{ Request::is('dashboard/attendance') ? 'active' : ''}}">
-                    <a href="{{ route('user.attendance') }}" class="nav-link">Attendance</a>
-                </li>
-                <li class="nav-item {{ Request::is('dashboard/performance-evaluation') ? 'active' : ''}}">
-                    <a href="{{ route('user.performance') }}" class="nav-link">Performance Evaluation</a>
+                <li class="nav-item {{ Request::is('employee/dashboard/evaluation') ? 'active' : ''}}">
+                    <a href="{{ route('employee.evaluation') }}" class="nav-link">Evaluation</a>
                 </li>
             </ul>
 
@@ -45,19 +42,16 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('user.profile') }}">
+                        <a class="dropdown-item" href="{{ route('employee.profile') }}">
                             <span class="fa fa-user"></span> {{ __('My Profile') }}
                         </a>
-                        <a class="dropdown-item" href="{{ route('user.settings') }}">
-                            <span class="fa fa-gear"></span> {{ __('Settings') }}
-                        </a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
+                        <a class="dropdown-item" href="{{ route('employee.logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
                             <span class="fa fa-sign-out"></span>{{ __('Logout') }}
                         </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('employee.logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
                     </div>

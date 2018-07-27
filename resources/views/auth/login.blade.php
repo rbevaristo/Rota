@@ -95,7 +95,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-user"></i>
                                                 </span>
-                                                <input id="employee_id" type="text" class="form-control{{ $errors->has('employee_id') ? ' is-invalid' : '' }}" name="employee_id" value="{{ old('employee_id') }}" required placeholder="Employee ID...">
+                                                <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required placeholder="Employee ID...">
                                             </div>
                                             <div class="input-group form-group-no-border input-lg">
                                                 <span class="input-group-addon">

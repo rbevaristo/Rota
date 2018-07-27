@@ -52,11 +52,16 @@ Route::group([
 Route::group([
     'prefix' => 'employee'
 ], function() {
-    Route::get('home', 'EmployeeController@index')->name('employee.home');
+    Route::get('dashboard', 'EmployeeController@index')->name('employee.dashboard');
     Route::get('login', 'Employee\LoginController@showLoginForm')->name('employee.login');
     Route::post('login', 'Employee\LoginController@login');
     Route::post('logout', 'Employee\LoginController@logout')->name('employee.logout');
     Route::post('password/email', 'Employee\ForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
     Route::get('password/reset', 'Employee\ForgotPasswordController@showLinkRequestForm')->name('employee.password.request');
     Route::post('password/reset', 'Employee\ResetPasswordController@reset');
+
+    Route::get('/dashboard/profile', 'EmployeeRoutesController@profile')->name('employee.profile');
+    Route::get('/dashboard/messages', 'EmployeeRoutesController@messages')->name('employee.messages');
+    Route::get('/dashboard/schedule', 'EmployeeRoutesController@schedule')->name('employee.schedule');
+    Route::get('/dashboard/evaluation', 'EmployeeRoutesController@evaluation')->name('employee.evaluation');
 });

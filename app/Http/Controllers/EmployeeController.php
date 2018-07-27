@@ -23,7 +23,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.home');
+        return view('employee.dashboard');
     }
 
 }
