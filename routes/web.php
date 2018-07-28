@@ -19,7 +19,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
-
+Route::get('/dashboard/setup', 'HomeController@setup')->name('user.setup');
+Route::get('/dashboard/setup-2', 'HomeController@setup2')->name('user.setup2');
+Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');
 Route::group([], function() {
     Route::get('/dashboard/profile', 'UserController@profile')->name('user.profile');
     Route::get('/dashboard/schedule', 'UserController@schedule')->name('user.schedule');
@@ -30,6 +32,8 @@ Route::group([], function() {
     Route::post('/dashboard/settings/update-setting/{id}/{setting}/{value}', 'SettingsController@update');
     Route::post('/dashboard/positions/update-position/{id}/{positions}', 'PositionsController@update');
     Route::delete('/dashboard/positions/delete-position/{id}', 'PositionsController@destroy');
+    Route::post('/dashboard/requests/update-request/{id}/{request}', 'RequestsController@update');
+    Route::delete('/dashboard/requests/delete-request/{id}', 'RequestsController@destroy');
     Route::post('/dashboard/employee/create', 'UserController@store');
 });
 
@@ -48,13 +52,13 @@ Route::group([
 });
 
 
+Route::post('employee/login', 'Employee\LoginController@login')->name('employee.login');
 //Employee Routes
 Route::group([
     'prefix' => 'employee'
 ], function() {
     Route::get('dashboard', 'EmployeeController@index')->name('employee.dashboard');
-    Route::get('login', 'Employee\LoginController@showLoginForm')->name('employee.login');
-    Route::post('login', 'Employee\LoginController@login');
+    // Route::get('login', 'Employee\LoginController@showLoginForm')->name('employee.login');
     Route::post('logout', 'Employee\LoginController@logout')->name('employee.logout');
     Route::post('password/email', 'Employee\ForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
     Route::get('password/reset', 'Employee\ForgotPasswordController@showLinkRequestForm')->name('employee.password.request');
@@ -64,4 +68,8 @@ Route::group([
     Route::get('/dashboard/messages', 'EmployeeRoutesController@messages')->name('employee.messages');
     Route::get('/dashboard/schedule', 'EmployeeRoutesController@schedule')->name('employee.schedule');
     Route::get('/dashboard/evaluation', 'EmployeeRoutesController@evaluation')->name('employee.evaluation');
+
+    Route::post('/dashboard/messages/create', 'MessageController@messageToUser')->name('employee.message.create');
+    Route::post('/dashboard/requests/create', 'MessageController@requestToUser')->name('employee.request.create');
+
 });

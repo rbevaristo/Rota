@@ -44,4 +44,12 @@ class Employee extends Authenticatable
     public function role() {
         return $this->belongsTo('App\Role');
     }
+
+    public function requests() {
+        return $this->hasMany('App\UserRequest');
+    }
+
+    public function messages() {
+        return $this->hasMany('App\Message');
+    }
 }

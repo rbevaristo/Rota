@@ -1,7 +1,11 @@
 @extends('layouts.user')
 
 @section('styles')
-    
+    <style>
+        #slides {
+
+        }
+    </style>
 @endsection
 
 @section('breadcrumb')

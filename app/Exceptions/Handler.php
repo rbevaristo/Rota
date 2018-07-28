@@ -70,7 +70,7 @@ class Handler extends ExceptionHandler
                 return redirect()->guest(route('admin.login'));
                 break;
             case 'employee':
-                return redirect()->guest(route('employee.login'));
+                return redirect()->guest(route('login'));
                 break;
             default:
                 return redirect()->guest(route('login'));

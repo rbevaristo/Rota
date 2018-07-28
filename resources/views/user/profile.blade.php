@@ -41,16 +41,9 @@
                             </label>
                         </div>
                     </div>
-                    
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6 px-1">
-                        <div class="form-group">
-                            <label>Company</label>
-                            <input type="text" class="form-control" id="company" name="company" placeholder="Company Name" value="">
-                        </div>
-                    </div>
                     <div class="col-md-6 px-1">
                         <div class="form-group">
                             <label>Name</label>
@@ -70,17 +63,15 @@
                         <div class="form-group">
                             <label for="gender">Gender</label>
                         </div>
-                        <div class="form-check form-check-radio">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gender" id="exampleRadios1" value="option1" checked>
-                                Male
-                                <span class="form-check-sign"></span>
-                            </label>
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="gender" id="exampleRadios2" value="option2">
-                                Female
-                                <span class="form-check-sign"></span>
-                            </label>
+                        <div class="radio">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="male" name="gender" class="custom-control-input">
+                            <label class="custom-control-label" for="male">Male</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="female" name="gender" class="custom-control-input">
+                            <label class="custom-control-label" for="female">Female</label>
+                            </div>
                         </div>
                     </div>
                 </div>

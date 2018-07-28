@@ -19,11 +19,11 @@ class CreateProfilesTable extends Migration
             $table->string('gender')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('contact')->nullable();
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->integer('employee_id')->unsigned()->nullable();
+            $table->integer('user')->unsigned();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('employee_id')->references('id')->on('employees');
+            $table->foreign('user')
+                    ->references('id')->on('employees')
+                    ->references('id')->on('users');
             $table->timestamps();
         });
     }

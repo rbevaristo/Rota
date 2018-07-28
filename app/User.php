@@ -46,4 +46,12 @@ class User extends Authenticatable
     public function positions() {
         return $this->hasMany('App\Position');
     }
+
+    public function requests() {
+        return $this->hasMany('App\Request');
+    }
+
+    public function company() {
+        return $this->hasOne('App\Company');
+    }
 }

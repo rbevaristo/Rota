@@ -2,84 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Message;
 use Illuminate\Http\Request;
+use App\Notifications\NotifyUsers;
 
 class MessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware(['auth:employee', 'auth']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function messageToUser(Request $request) 
     {
-        //
-    }
+        $message = \App\Message::create([
+            'title' => $request->title,
+            'message' => $request->message,
+            'user_id' => auth()->user()->id
+        ]);
+        if(!$message) {
+            return redirect()->back()->with('error', 'There is an error with your message');
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return redirect()->back()->with('success', 'Message Sent!');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Message $message)
+    
+    public function requestToUser(Request $request)
     {
-        //
-    }
+        $req = \App\UserRequest::create([
+            'request' => $request->name,
+            'start_date' => date('Y-m-d', strtotime($request->start_date)),
+            'end_date' => date('Y-m-d', strtotime($request->end_date)),
+            'message' => $request->message, 
+            'user' => auth()->user()->id
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
+        // $req1 = \App\UserRequest::find($req->id);
+        // $user = User::find($req1->user)->notify(new NotifyUsers($req1));
+        if(!$req) {
+            return redirect()->back()->with('error', 'There is an error with your request');
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Message $message)
-    {
-        //
+        return redirect()->back()->with('success', 'Request Sent!');
     }
 }

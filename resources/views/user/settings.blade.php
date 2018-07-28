@@ -35,12 +35,33 @@
                                     @php
                                         $value = "";
                                     @endphp
-                                    @foreach($user->positions as $position)
+                                    @foreach(auth()->user()->positions as $position)
                                         @php
                                             $value .= $position->name . ",";
                                         @endphp
                                     @endforeach
-                                        <input type="text" value="{{ $value }}" class="form-control" data-role="tagsinput" placeholder="Add Positions" id="positions"/>
+                                    <input type="text" value="{{ $value }}" class="form-control" data-role="tagsinput" placeholder="Add Positions" id="positions"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-muted pt-3">
+                            <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <strong class="text-gray-dark">
+                                        Requests
+                                        <small>
+                                            <i class="fa fa-question-circle text-warning" data-toggle="tooltip" data-placement="top" title="info on sharing ...."></i>
+                                        </small>
+                                    </strong>
+                                    @php
+                                        $value = "";
+                                    @endphp
+                                    @foreach($user->requests as $request)
+                                        @php
+                                            $value .= $request->name . ",";
+                                        @endphp
+                                    @endforeach
+                                    <input type="text" value="{{ $value }}" class="form-control" data-role="tagsinput" placeholder="Add Requests Options" id="requests"/>
                                 </div>
                             </div>
                         </div>
@@ -119,6 +140,30 @@
                 });
             } else {
                 var url = "{{ url('/dashboard/positions/update-position/') }}"+"/"+$('#user_id').val()+"/"+$(this).val();
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {},
+                });
+            }
+            
+        });
+        $('#requests').on('change', function(){
+            if($(this).val() == ""){
+                var url = "{{ url('/dashboard/requests/delete-request/') }}"+"/"+$('#user_id').val();
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {},
+                });
+            } else {
+                var url = "{{ url('/dashboard/requests/update-request/') }}"+"/"+$('#user_id').val()+"/"+$(this).val();
                 console.log(url);
                 $.ajax({
                     url: url,

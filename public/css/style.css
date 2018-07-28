@@ -69,10 +69,9 @@ strong, small {
     width: 80px;
 }
 
-/* .alert {
-    display:none;
-} */
-
+.text-small {
+    
+}
 /*---Media Queries --*/
 @media (max-width: 992px) {
     
@@ -102,5 +101,10 @@ strong, small {
 
     #eval-table {
         font-size: 10px;
+    }
+
+    .turn-small {
+        font-size:10px;
+        width: 50%;
     }
 }

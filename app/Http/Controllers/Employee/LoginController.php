@@ -31,7 +31,7 @@ class LoginController extends Controller
     
     public function username() 
     {
-        return 'username';
+        return 'employee_id';
     }
 
     public function showLoginForm()
