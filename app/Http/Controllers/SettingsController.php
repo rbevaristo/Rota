@@ -14,7 +14,8 @@ class SettingsController extends Controller
 
     public function update($id, $setting, $value)
     {
-        $s = Setting::where('user_id', $id)->first()->update([
+        $s = Setting::where('user_id', $id)->first()
+        ->update([
             $setting => $value
         ]);
 

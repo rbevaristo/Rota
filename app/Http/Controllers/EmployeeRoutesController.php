@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class EmployeeRoutesController extends Controller
 {
@@ -17,7 +16,7 @@ class EmployeeRoutesController extends Controller
     }
 
     public function messages() {
-        $user = Auth::user()->user;
+        $user = auth()->user()->user;
         return view('employee.messages', compact('user'));
     }
 

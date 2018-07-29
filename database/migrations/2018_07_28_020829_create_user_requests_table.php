@@ -20,7 +20,7 @@ class CreateUserRequestsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('user')->unsigned();
-            $table->foreign('request')->references('id')->on('requests');
+            $table->foreign('request')->references('id')->on('requests')->references('id')->on('custom_requests');
             $table->foreign('user')->references('id')->on('employee')
                                      ->references('id')->on('users');
 

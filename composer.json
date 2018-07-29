@@ -25,7 +25,11 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/Http/Helpers/PasswordMaker.php",
+            "app/Http/Helpers/Converter.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

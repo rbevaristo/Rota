@@ -16,10 +16,18 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
+
+        $request = new \App\Request;
+        $request->name = "Vacation Leave";
+        $request->save();
+        $request = new \App\Request;
+        $request->name = "Sick Leave";
+        $request->save();
+        $request = new \App\Request;
+        $request->name = "Emergency Leave";
+        $request->save();
     }
 
     /**

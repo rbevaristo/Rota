@@ -1,6 +1,5 @@
 <?php
 
-use App\Role;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -20,15 +19,13 @@ class CreateRolesTable extends Migration
             $table->timestamps();
         });
 
-        Role::create([
-            'name' => 'Administrator',
-        ]);
-        Role::create([
-            'name' => 'User',
-        ]);
-        Role::create([
-            'name' => 'Employee',
-        ]);
+        $role = new \App\Role;
+        $role->name = 'Developer';
+        $role->save();
+        $role->name = 'Administrator';
+        $role->save();
+        $role->name = 'Employee';
+        $role->save();
     }
 
     /**

@@ -25,14 +25,14 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $company = Company::create([
-            'name' => $request->company_name,
-            'email' => $request->company_email,
-            'location' => $request->company_location,
-            'contact' => $request->company_contact,
-            'user_id' => auth()->user()->id
-        ]);
-
+        $company = new Company;
+        $company->name = $request->company_name;
+        $company->email = $request->company_email;
+        $comapny->location = $request->company_location;
+        $company->contact = $request->company_contact;
+        $company->user_id = auth()->user()->id;
+        $company->save();
+        
         if(!$company){
             return 'Error';
         }

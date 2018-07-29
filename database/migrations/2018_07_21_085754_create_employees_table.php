@@ -15,7 +15,8 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('firstname');
+            $table->string('lastname');
             $table->string('employee_id')->unique();
             $table->string('email')->unique();
             $table->string('password');
@@ -23,7 +24,7 @@ class CreateEmployeesTable extends Migration
             $table->integer('role_id')->unsigned()->default(3);
             $table->integer('user_id')->unsigned();
             
-            $table->foreign('position_id')->references('id')->on('positions');
+            $table->foreign('position_id')->references('id')->on('positions')->references('id')->on('custom_positions');
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('user_id')->references('id')->on('users');
             $table->rememberToken();

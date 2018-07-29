@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Message;
+use Converter;
 use Illuminate\Http\Request;
 use App\Notifications\NotifyUsers;
 
@@ -16,11 +15,12 @@ class MessageController extends Controller
 
     public function messageToUser(Request $request) 
     {
-        $message = \App\Message::create([
-            'title' => $request->title,
-            'message' => $request->message,
-            'user_id' => auth()->user()->id
-        ]);
+        $message = new \App\Message;
+        $message->title = $request->title;
+        $message->message = $request->message;
+        $message->user_id = auth()->user()->id;
+        $message->save();
+
         if(!$message) {
             return redirect()->back()->with('error', 'There is an error with your message');
         }
@@ -30,13 +30,13 @@ class MessageController extends Controller
     
     public function requestToUser(Request $request)
     {
-        $req = \App\UserRequest::create([
-            'request' => $request->name,
-            'start_date' => date('Y-m-d', strtotime($request->start_date)),
-            'end_date' => date('Y-m-d', strtotime($request->end_date)),
-            'message' => $request->message, 
-            'user' => auth()->user()->id
-        ]);
+        $req = new \App\UserRequest;
+        $req->request = $request->name;
+        $req->start_date = Converter::toDate($request->start_date);
+        $req->end_date = Converter::toDate($request->end_date);
+        $req->message = $request->message;
+        $req->user = auth()->user()->id;
+        $req->save();
 
         // $req1 = \App\UserRequest::find($req->id);
         // $user = User::find($req1->user)->notify(new NotifyUsers($req1));

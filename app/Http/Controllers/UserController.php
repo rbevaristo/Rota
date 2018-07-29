@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Setting;
 use App\Employee;
+use PasswordMaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\EmployeeRequest;
@@ -46,15 +47,22 @@ class UserController extends Controller
         return view('user.settings', compact('user'));
     }
 
+    /**
+     * Method that handles request for storing Employee.
+     * @param \Http\Requests\EmployeeRequest $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(EmployeeRequest $request) {
-        $employee = Employee::create([
-            'name' => $request->name,
-            'employee_id' => $request->employee_id,
-            'email' => $request->email,
-            'password' => Hash::make('123456'),
-            'position_id' => $request->position_id,
-            'user_id' => auth()->user()->id
-        ]);
+        
+        $employee = new Employee;
+        $employee->firstname = $request->firstname;
+        $employee->lastname = $request->lastname;
+        $employee->employee_id = $request->employee_id;
+        $employee->email = $request->email;
+        $employee->password = new PasswordMaker($request->firstname, $request->lastname, $request->employee_id);
+        $employee->position_id = $request->position_id;
+        $employee->user_id = auth()->user()->id;
+        $employee->save();
         
         if(!$employee) {
             return redirect()->back()->with('error', 'Error Adding');
@@ -62,4 +70,5 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Employee Added');
     }
+
 }
