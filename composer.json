@@ -28,7 +28,8 @@
         },
         "files": [
             "app/Http/Helpers/PasswordMaker.php",
-            "app/Http/Helpers/Converter.php"
+            "app/Http/Helpers/Converter.php",
+            "app/Http/Helpers/Helper.php"
         ]
     },
     "autoload-dev": {

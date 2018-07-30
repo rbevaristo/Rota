@@ -52,4 +52,8 @@ class LoginController extends Controller
         return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());
     }
+
+    public function loginAsAdmin() {
+        return view('auth.admin-login');
+    }
 }

@@ -14,36 +14,33 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- Styles -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap.tagsInput.css')}}" rel="stylesheet">
-    <link href="{{ asset('css/now-ui-kit.css') }}" rel="stylesheet">
-    
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/floating-labels.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
-        strong {
-            color: orange;
+        #setup {
+            padding-top:30px;
+        }
+        #setup .dropdown-item {
+            width: 400px;
         }
     </style>
 </head>
-<body class="login-page">
-    <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent" color-on-scroll="400">
-        <div class="container-fluid">
-    
-            <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name') }}
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-bar bar1"></span>
-                    <span class="navbar-toggler-bar bar2"></span>
-                    <span class="navbar-toggler-bar bar3"></span>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light box-shadow">
+            <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
+            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+                <span class="navbar-toggler-icon"></span>
             </button>
-    
-            <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+        
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-    
+        
                 </ul>
-    
+        
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Page Links-->
@@ -60,16 +57,16 @@
                     @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ Helper::name() }} <span class="caret"></span>
                             </a>
-    
+
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">   
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-    
+
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
@@ -78,147 +75,96 @@
                     @endguest
                 </ul>
             </div>
-        </div>
-    </nav>
-         
-    <div class="page-header" filter-color="orange">
-        <div class="container">
-            <div class="col-md-4 content-center">
-                <div class="card card-login card-plain">
-                        <div class="content">
-                            <h6><strong>Almost Done! </strong> Please fill up the form to complete your registration</h6>
-                            <div class="text-center">
-                                <h2>Employee ....</h2>
+        </nav>
+
+        <main id="setup">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>
+                            Employees Settings
+                        </h2>
+                        <div class="alert alert-warning">
+                            Manage your employees or you can <a href="#" class="btn btn-sm btn-link">Skip</a> this and manage them later on your dashboard.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card box-shadow">
+                            <div class="card-header">
+                                Employees
+                                <a href="#add_employee"><span class="float-right d-md-none d-sm-block"><i class="fa fa-user-plus"></i>Add Employee</span></a>
                             </div>
-                            <div class="card" style="background:transparent">
-                                <div class="card-body">
-                                    <div class="rounded box-shadow">
-                                        <h6 class="border-bottom border-gray pb-2 mb-0">Employee</h6>
-                                        <div class="text-muted pt-3">
-                                            <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-                                                <div class="d-flex justify-content-between align-items-center w-100">
-                                                    <strong class="text-gray-dark">
-                                                        Positions
-                                                        <small>
-                                                            <i class="fa fa-question-circle text-warning" data-toggle="tooltip" data-placement="top" title="info on sharing ...."></i>
-                                                        </small>
-                                                    </strong>
-                                                    @php
-                                                        $value = "";
-                                                    @endphp
-                                                    @foreach(auth()->user()->positions as $position)
-                                                        @php
-                                                            $value .= $position->name . ",";
-                                                        @endphp
-                                                    @endforeach
-                                                <input type="text" value="{{ $value }}" class="form-control" data-role="tagsinput" placeholder="Add Positions" id="positions" required/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-muted pt-3">
-                                            <div class="media-body pb-3 mb-0 lh-125 border-bottom border-gray">
-                                                <div class="d-flex justify-content-between align-items-center w-100">
-                                                    <strong class="text-gray-dark">
-                                                        Requests
-                                                        <small>
-                                                            <i class="fa fa-question-circle text-warning" data-toggle="tooltip" data-placement="top" title="info on sharing ...."></i>
-                                                        </small>
-                                                    </strong>
-                                                    @php
-                                                        $value = "";
-                                                    @endphp
-                                                    @foreach(auth()->user()->requests as $request)
-                                                        @php
-                                                            $value .= $request->name . ",";
-                                                        @endphp
-                                                    @endforeach
-                                                    <input type="text" value="{{ $value}}" class="form-control" data-role="tagsinput" placeholder="Add Requests Options" id="requests" required/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="form-group row">
-                                            <div class="col-md-12">
-                                                <a href="{{ route('dashboard') }}" class="btn btn-primary btn-round btn-md" >
-                                                    {{ __('Finish') }}
-                                                </a>
-                                        
-                                                <a class="btn btn-link text-white" href="{{ route('dashboard') }}" data-toggle="tooltip" data-placement="top" title="This can be set later on Your Account > Settings">
-                                                    {{ __('Skip') }}
-                                                </a>
-                                            </div>
-                                        </div>
+                            @if(count(auth()->user()->employees) > 0)
+                            <div class="card-body">
+                                <div class="row">
+                                    @foreach(auth()->user()->employees as $employee)
+                                    <div class="col-md-2 col-sm-2 text-center employee-lists">
+                                        <p><strong>{{ $employee->name }}</strong></p>
+                                        <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
+                                        <p>{{ $employee->position->name }}</p>
+                                        <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
+                                        <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
+                                        <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
+                                        <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
+                            @else
+                            <div class="card-body">
+                                No Employee
+                            </div>
+                            @endif
                         </div>
-                    </form>
+                    </div>
+                    <div class="col-md-3" id="add_employee">
+                        <div class="card">
+                            <div class="card-header">Add Employee</div>
+                            <div class="card-body">
+                                <form action="{{ url('/dashboard/employee/create') }}" method="POST" class="form-signin">
+                                    @csrf
+                                    <div class="form-label-group">
+                                        <input type="text" id="employee_id" name="employee_id" class="form-control" placeholder="Employee ID" required>
+                                        <label for="employee_id">Employee ID</label>
+                                    </div>
+                                    <div class="form-label-group">
+                                        <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Employee ID" required>
+                                        <label for="firstname">Firstname</label>
+                                    </div>
+                                    <div class="form-label-group">
+                                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Employee ID" required>
+                                        <label for="lastname">Lastname</label>
+                                    </div>
+                                    <div class="form-label-group">
+                                        <input type="text" id="email" name="email" class="form-control" placeholder="Employee ID" required>
+                                        <label for="email">Email</label>
+                                    </div>
+                                        <div class="form-group">
+                                            <label for="emp_position"></label>
+                                            <select name="position_id" id="position_id" class="form-control" required>
+                                                <option value="">Select Position</option>
+                                                @foreach(\App\Position::all() as $position)
+                                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+        
     </div>
-    
     <!-- Scripts -->
     <script src="{{ asset('js/core/jquery.3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.tagsInput.js') }}"></script>
-    <script src="{{ asset('js/now-ui-kit.js') }}"></script>
-    <script src="{{ asset('js/rota.js')}}"></script>
-    <script>
-        $(document).ready(function(){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#positions').on('change', function(){
-                    if($(this).val() == ""){
-                        var url = "{{ url('/dashboard/positions/delete-position/') }}"+"/" + '{{ auth()->user()->id }}';
-                        console.log(url);
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            dataType: 'json',
-                            contentType: 'application/json; charset=utf-8',
-                            success: function (result) {},
-                        });
-                    } else {
-                        var url = "{{ url('/dashboard/positions/update-position/') }}"+"/"+'{{ auth()->user()->id }}'+"/"+$(this).val();
-                        console.log(url);
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            dataType: 'json',
-                            contentType: 'application/json; charset=utf-8',
-                            success: function (result) {},
-                        });
-                    }
-                    
-                });
-                $('#requests').on('change', function(){
-                    if($(this).val() == ""){
-                        var url = "{{ url('/dashboard/requests/delete-request/') }}"+"/"+'{{ auth()->user()->id }}';
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            dataType: 'json',
-                            contentType: 'application/json; charset=utf-8',
-                            success: function (result) {},
-                        });
-                    } else {
-                        var url = "{{ url('/dashboard/requests/update-request/') }}"+"/"+'{{ auth()->user()->id }}'+"/"+$(this).val();
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            dataType: 'json',
-                            contentType: 'application/json; charset=utf-8',
-                            success: function (result) {},
-                        });
-                    }
-                    
-                });
-            });
-    </script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/offcanvas.js')}}"></script>
 </body>
 </html>

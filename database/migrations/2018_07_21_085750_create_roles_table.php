@@ -22,8 +22,10 @@ class CreateRolesTable extends Migration
         $role = new \App\Role;
         $role->name = 'Developer';
         $role->save();
+        $role = new \App\Role;
         $role->name = 'Administrator';
         $role->save();
+        $role = new \App\Role;
         $role->name = 'Employee';
         $role->save();
     }

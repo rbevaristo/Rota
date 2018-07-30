@@ -1,4 +1,4 @@
-<footer class="footer {{ Request::is('login') || Request::is('register') ? 'fixed-bottom text-white' : 'footer-default'}}">
+<footer class="footer {{ Request::is('login') || Request::is('login-as-admin') || Request::is('register') ? 'fixed-bottom text-white' : 'footer-default'}}">
     <div class="container">
         <nav>
             <ul>

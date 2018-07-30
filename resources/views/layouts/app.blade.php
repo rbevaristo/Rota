@@ -19,7 +19,7 @@
     <link href="{{ asset('css/now-ui-kit.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
-<body class="{{ Request::is('login') || Request::is('register')? 'login-page' : 'landing-page'}} sidebar-collapse">
+<body class="{{ Request::is('login') || Request::is('login-as-admin') || Request::is('register')? 'login-page' : 'landing-page'}} sidebar-collapse">
     <div id="app">
         @include('components.navigation')
         <main>
