@@ -80,17 +80,13 @@
         <main id="setup">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-9">
                         <h2>
-                            Employees Settings
+                            Manage Employees
                         </h2>
                         <div class="alert alert-warning">
                             Manage your employees or you can <a href="#" class="btn btn-sm btn-link">Skip</a> this and manage them later on your dashboard.
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-9">
                         <div class="card box-shadow">
                             <div class="card-header">
                                 Employees
@@ -120,41 +116,84 @@
                         </div>
                     </div>
                     <div class="col-md-3" id="add_employee">
-                        <div class="card">
-                            <div class="card-header">Add Employee</div>
-                            <div class="card-body">
-                                <form action="{{ url('/dashboard/employee/create') }}" method="POST" class="form-signin">
-                                    @csrf
-                                    <div class="form-label-group">
-                                        <input type="text" id="employee_id" name="employee_id" class="form-control" placeholder="Employee ID" required>
-                                        <label for="employee_id">Employee ID</label>
-                                    </div>
-                                    <div class="form-label-group">
-                                        <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Employee ID" required>
-                                        <label for="firstname">Firstname</label>
-                                    </div>
-                                    <div class="form-label-group">
-                                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Employee ID" required>
-                                        <label for="lastname">Lastname</label>
-                                    </div>
-                                    <div class="form-label-group">
-                                        <input type="text" id="email" name="email" class="form-control" placeholder="Employee ID" required>
-                                        <label for="email">Email</label>
-                                    </div>
-                                        <div class="form-group">
-                                            <label for="emp_position"></label>
-                                            <select name="position_id" id="position_id" class="form-control" required>
-                                                <option value="">Select Position</option>
-                                                @foreach(\App\Position::all() as $position)
-                                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
-                                                @endforeach
-                                            </select>
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Upload a file
+                                        </button>
+                                    </h5>
+                                </div>
+                            
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="card-body">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="customFile" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                                <label class="custom-file-label" for="customFile">Choose Excel file</label>
+                                            </div>
+                                            <div class="bs-example">
+                                                <div class="alert alert-warning">
+                                                    {{-- <a href="#" class="close" data-dismiss="alert">&times;</a> --}}
+                                                    <strong>Note:</strong> To be able to successfully upload the file here are the columns needed.
+                                                    <ul>
+                                                        <li>ID</li>
+                                                        <li>Firstname</li>
+                                                        <li>Lastname</li>
+                                                        <li>Email</li>
+                                                        <li>Position</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </form>
+                                </div>
                             </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Manually
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                    <form action="{{ url('/dashboard/employee/create') }}" method="POST" class="form-signin">
+                                        @csrf
+                                        <div class="form-label-group">
+                                            <input type="text" id="employee_id" name="employee_id" class="form-control" placeholder="Employee ID" required>
+                                            <label for="employee_id">Employee ID</label>
+                                        </div>
+                                        <div class="form-label-group">
+                                            <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Employee ID" required>
+                                            <label for="firstname">Firstname</label>
+                                        </div>
+                                        <div class="form-label-group">
+                                            <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Employee ID" required>
+                                            <label for="lastname">Lastname</label>
+                                        </div>
+                                        <div class="form-label-group">
+                                            <input type="text" id="email" name="email" class="form-control" placeholder="Employee ID" required>
+                                            <label for="email">Email</label>
+                                        </div>
+                                            <div class="form-group">
+                                                <label for="emp_position"></label>
+                                                <select name="position_id" id="position_id" class="form-control" required>
+                                                    <option value="">Select Position</option>
+                                                    @foreach(\App\Position::all() as $position)
+                                                        <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </form>
+                                </div>
+                            </div>
+
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -162,9 +201,29 @@
         
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/core/jquery.3.2.1.min.js') }}"></script>
-    <script src="{{ asset('js/core/popper.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/offcanvas.js')}}"></script>
+    <script src="{{ asset('js/lib/xlsx.full.min.js') }}"></script>
+    <script>
+        // var url = "http://oss.sheetjs.com/test_files/formula_stress_test.xlsx";
+        // /* set up async GET request */
+        // var req = new XMLHttpRequest();
+        // req.open("GET", url, true);
+        // req.responseType = "arraybuffer";
+
+        // req.onload = function(e) {
+        // var data = new Uint8Array(req.response);
+        // var workbook = XLSX.read(data, {type:"array"});
+
+        // /* DO SOMETHING WITH workbook HERE */
+        // var first_sheet_name = workbook.SheetNames[0];
+
+        // /* Get worksheet */
+        // var worksheet = workbook.Sheets[first_sheet_name];
+        // console.log(XLSX.utils.sheet_to_json(worksheet));
+        // }
+
+        // req.send();
+    </script>
 </body>
 </html>
