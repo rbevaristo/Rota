@@ -93,7 +93,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="team-player">
-                        <img src="" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h4 class="team-name">Jaspher Dingal</h4>
                         <p class="category text-primary">Programmer</p>
                         <p class="description"> 
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="team-player">
-                        <img src="" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h4 class="team-name">Richard Evaristo</h4>
                         <p class="category text-primary">Programmer</p>
                         <p class="description">
@@ -117,7 +117,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="team-player">
-                        <img src="" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h4 class="team-name">Kennet Mallari</h4>
                         <p class="category text-primary">Researcher</p>
                         <p class="description">
@@ -132,7 +132,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
                     <div class="team-player">
-                        <img src="" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h4 class="team-name">Luc Johannes Racca</h4>
                         <p class="category text-primary">Researcher</p>
                         <p class="description">
@@ -144,7 +144,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="team-player">
-                        <img src="" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h4 class="team-name">Renz Tolentino</h4>
                         <p class="category text-primary">Researcher</p>
                         <p class="description">

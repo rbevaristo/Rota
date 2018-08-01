@@ -40,7 +40,7 @@ class HomeController extends Controller
         if(!auth()->user()->company){
             return view('user.setup');
         } 
-            return view('user.manage');
+        return view('user.manage');
     }
 
     

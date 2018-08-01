@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use Illuminate\Http\Request;
+use App\Http\Requests\CompanyRequest;
 
 class CompanyController extends Controller
 {
@@ -23,18 +24,18 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
         $company = Company::create([
-            'name' => $request->company_name,
-            'email' => $request->company_email,
-            'location' => $request->company_location,
-            'contact' => $request->company_contact,
+            'name' => $request->name,
+            'email' => $request->email,
+            'location' => $request->location,
+            'contact' => $request->contact,
             'user_id' => auth()->user()->id
         ]);
         
         if(!$company){
-            return 'Error';
+            return redirect()->back()->with('error', 'Invalid Data');
         }
 
         return redirect('/dashboard/manage');

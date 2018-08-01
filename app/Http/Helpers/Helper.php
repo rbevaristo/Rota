@@ -6,4 +6,8 @@ class Helper
     {
         return auth()->user()->firstname . " " . auth()->user()->lastname;
     } 
+
+    static function employee($firstname, $lastname) {
+        return $firstname . " " . $lastname;
+    }
 }

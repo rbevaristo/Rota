@@ -31,6 +31,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Position');
     }
 
+    public function company() {
+        return $this->hasOne('App\Company');
+    }
+
     public function request_types() {
         return $this->hasMany('App\RequestType');
     }
@@ -49,5 +53,9 @@ class User extends Authenticatable
 
     public function user_requests() {
         return $this->hasMany('App\UserRequest');
+    }
+
+    public function role() {
+        return $this->belongsTo('App\Role');
     }
 }

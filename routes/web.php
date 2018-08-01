@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('login-as-admin', 'Auth\LoginController@loginAsAdmin')->name('auth.admin');
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 Route::get('/dashboard/setup', 'HomeController@setup')->name('user.setup');
-Route::get('/dashboard/manage-employees', 'HomeController@manage')->name('user.manage');
+Route::get('/dashboard/manage', 'HomeController@manage')->name('user.manage');
 Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');
 Route::group([], function() {
     Route::get('/dashboard/profile', 'UserController@profile')->name('user.profile');

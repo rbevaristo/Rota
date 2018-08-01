@@ -5,20 +5,20 @@
 @endsection
 
 @section('content')
-<section>
-    <div class="page-header" filter-color="orange">
-        <div class="container">
-            <div class="col-md-6 content-center">
-                <div class="card card-login card-plain">
-                    <div class="card-header"><strong class="text-white">Login as Administrator</strong></div>
-                    <div class="card-body">
+<section id="login">
+    <div class="container d-flex justify-content-center h-100 align-items-center">
+        <div class="col-md-6">
+            <h2 class="title text-center">Login</h2>
+            <div class="card">
+                <div class="card-header"><strong>Login as <span>Administrator</span></strong></div>
+                <div class="card-body">
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
                         <div class="container">
                             <div class="alert-icon">
                                 <i class="fa fa-exclamation-triangle"></i>
                             </div>
-                            <strong class="text-white">
+                            <strong class="text-primary">
                                 @foreach($errors->all() as $error)
                                     {{$error}}
                                 @endforeach
@@ -31,29 +31,22 @@
                         </div>
                     </div>
                     @endif
-                    <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}">
+                    <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}" class="form-signin">
                         @csrf
-                        <div class="content">
-                            <div class="input-group form-group-no-border input-lg">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                                <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required placeholder="Email">
-                            </div>
-                            <div class="input-group form-group-no-border input-lg">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-user-secret"></i>
-                                </span>
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="Password...">
-                            </div>
+                        <div class="form-label-group">
+                            <input type="email" id="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" required placeholder="Email">
+                            <label for="email" class="text-primary"><i class="fa fa-user"></i> Email</label>
                         </div>
-
+                        <div class="form-label-group">
+                            <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" value="{{ old('password') }}" required placeholder="Password">
+                            <label for="password" class="text-primary"><i class="fa fa-user-secret"></i> Password</label>
+                        </div>
                         <div class="form-group row">
                             <div class="col-md-8">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember1" {{ old('remember') ? 'checked' : '' }}>
 
-                                    <label class="form-check-label" for="remember1">
+                                    <label class="form-check-label text-primary" for="remember1">
                                         {{ __('Remember Me') }}
                                     </label>
                                 </div>
@@ -65,13 +58,13 @@
                                 <button type="submit" class="btn btn-primary btn-round btn-md">
                                     {{ __('Login') }}
                                 </button>
-                                <a class="btn btn-link text-white" href="{{ route('password.request') }}">
+                                <a class="btn btn-link text-primary" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             </div>
                         </div>
-                        <div class="separator separator-primary"></div>
-                        <div class="form-group row">
+                        <div class="or-seperator"><i>or</i></div>
+                        <div class="form-group row text-center">
                             <div class="col-md-12">
                                 <a class="btn btn-primary text-white" href="{{ route('login') }}">
                                     {{ __('Login as Employee') }}
@@ -82,7 +75,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </section>
 @endsection
