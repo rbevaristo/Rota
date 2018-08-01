@@ -37,7 +37,7 @@ class CompanyController extends Controller
             return 'Error';
         }
 
-        return redirect('/dashboard/setup-2');
+        return redirect('/dashboard/manage');
     }
 
     /**

@@ -9,15 +9,13 @@ class Employee extends Authenticatable
 {
     use Notifiable;
 
-    protected $guard = 'employee';
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'employee_id', 'firstname', 'lastname', 'email', 'password', 'position_id', 'role_id', 'user_id'
+        'firstname', 'lastname', 'email', 'password', 'role_id', 'user_id'
     ];
 
     /**
@@ -38,22 +36,16 @@ class Employee extends Authenticatable
     }
 
     public function position() {
-        return $this->belongsTo('App\Position');
-    }
-
-    public function custom_position() {
-        return $this->belongsTo('App\CustomPosition');
+        return $this->hasOne('App\Position');
     }
 
     public function role() {
         return $this->belongsTo('App\Role');
     }
 
-    public function requests() {
+    public function user_requests() {
         return $this->hasMany('App\UserRequest');
     }
 
-    public function messages() {
-        return $this->hasMany('App\Message');
-    }
+
 }

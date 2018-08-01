@@ -27,31 +27,27 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function role() {
-        return $this->belongsTo('App\Role');
+    public function positions() {
+        return $this->hasMany('App\Position');
+    }
+
+    public function request_types() {
+        return $this->hasMany('App\RequestType');
+    }
+
+    public function profle() {
+        return $this->hasOne('App\Profile');
+    }
+
+    public function user_setting() {
+        return $this->hasOne('App\UserSetting');
     }
 
     public function employees() {
         return $this->hasMany('App\Employee');
     }
 
-    public function profile() {
-        return $this->hasOne('App\Profile');
-    }
-
-    public function setting() {
-        return $this->hasOne('App\Setting');
-    }
-
-    public function positions() {
-        return $this->hasMany('App\Position');
-    }
-
-    public function requests() {
-        return $this->hasMany('App\Request');
-    }
-
-    public function company() {
-        return $this->hasOne('App\Company');
+    public function user_requests() {
+        return $this->hasMany('App\UserRequest');
     }
 }

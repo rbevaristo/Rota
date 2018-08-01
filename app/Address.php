@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     protected $fillable = [
-        'street', 'city', 'state', 'zip_code', 'profile_id'
+        'number', 'street', 'city', 'state', 'zip', 'country', 'profile_id'
     ];
+
+    public function profile() {
+        return $this->belongsTo('App\Profile');
+    }
 }

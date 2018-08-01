@@ -16,19 +16,21 @@ class CreatePositionsTable extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
 
-        $position = new \App\Position;
+        $position = new App\Position;
         $position->name = "Manager";
         $position->save();
-        $position = new \App\Position;
+        $position = new App\Position;
         $position->name = "Supervisor";
         $position->save();
-        $position = new \App\Position;
+        $position = new App\Position;
         $position->name = "Lead Clerk";
         $position->save();
-        $position = new \App\Position;
+        $position = new App\Position;
         $position->name = "Clerk";
         $position->save();
     }

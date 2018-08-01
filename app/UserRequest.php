@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class UserRequest extends Model
 {
     protected $fillable = [
-        'request', 'start_date', 'end_date', 'message', 'user'
+        'title', 'message', 'from', 'upto', 'emp_id', 'approved', 'user_id',
     ];
 
     public function employee() {
         return $this->belongsTo('App\Employee');
     }
 
-    public function request() {
-        return $this->belongsTo('App\Request');
+    public function user() {
+        return $this->belongsTo('App\User');
     }
 }

@@ -4,17 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class RequestType extends Model
 {
     protected $fillable = [
-        'title', 'message', 'user_id'
+        'name', 'user_id'
     ];
 
     public function user() {
         return $this->belongsTo('App\User');
     }
 
-    public function employee() {
-        return $this->belongsTo('App\Employee');
+    public function user_requests() {
+        return $this->hasMany('App\UserRequest');
     }
 }

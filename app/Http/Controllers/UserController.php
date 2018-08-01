@@ -59,7 +59,8 @@ class UserController extends Controller
         $employee->lastname = $request->lastname;
         $employee->employee_id = $request->employee_id;
         $employee->email = $request->email;
-        $employee->password = new PasswordMaker($request->firstname, $request->lastname, $request->employee_id);
+        $pwrd = new PasswordMaker($request->firstname, $request->lastname, $request->employee_id);
+        $employee->password = $pwrd->makePassword();
         $employee->position_id = $request->position_id;
         $employee->user_id = auth()->user()->id;
         $employee->save();

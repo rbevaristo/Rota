@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Setting;
-use App\Position;
+use App\Address;
+use App\Profile;
+use App\UserSetting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -74,13 +75,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-
-        if($user){
-            Setting::create([
-                'user_id' => $user->id
-            ]);
+        if($user) {
+            $setting = UserSetting::create(['user_id' => $user->id]);
+            $profile = Profile::create(['user_id' => $user->id]);
+            $address = Address::create(['profile_id' => $profile->id]);
         }
-
         return $user;
     }
 }

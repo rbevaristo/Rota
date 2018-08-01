@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     protected $fillable = [
-        'gender', 'birthdate', 'contact', 'address_id', 'user_id', 'employee_id'
+        'avatar', 'gender', 'birthdate', 'contact', 'user_id', 'emp_id'
     ];
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    public function employee() {
+        return $this->belongsTo('App\Employee');
+    }
+
+    public function address() {
+        return $this->hasOne('App\Address');
+    }
 }

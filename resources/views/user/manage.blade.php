@@ -174,8 +174,8 @@
                                             <label for="lastname">Lastname</label>
                                         </div>
                                         <div class="form-label-group">
-                                            <input type="text" id="email" name="email" class="form-control" placeholder="Employee ID" required>
-                                            <label for="email">Email</label>
+                                            <input type="text" id="email" name="email" class="form-control" placeholder="Employee ID">
+                                            <label for="email">Email <small>optional</small></label>
                                         </div>
                                             <div class="form-group">
                                                 <label for="emp_position"></label>
@@ -198,32 +198,73 @@
                 </div>
             </div>
         </main>
-        
+        <footer class="footer fixed-bottom text-white">
+            <div class="container">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="{{Request::is('login') || Request::is('register') ? '/' : '#home'}}">
+                                {{ config('app.name') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{Request::is('login') || Request::is('register') ? '/' : '#about'}}">
+                                About
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{Request::is('login') || Request::is('register') ? '/' : '#services'}}">
+                                Services
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{Request::is('login') || Request::is('register') ? '/' : '#team'}}">
+                                Team
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{Request::is('login') || Request::is('register') ? '/' : '#contact'}}">
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>
+                    <a href="#">Rota.com</a>.
+                </div>
+            </div>
+        </footer>
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/offcanvas.js')}}"></script>
-    <script src="{{ asset('js/lib/xlsx.full.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/lib/xlsx.core.min.js') }}"></script>
     <script>
-        // var url = "http://oss.sheetjs.com/test_files/formula_stress_test.xlsx";
-        // /* set up async GET request */
-        // var req = new XMLHttpRequest();
-        // req.open("GET", url, true);
-        // req.responseType = "arraybuffer";
+        $('#customFile').on('change', function(e){
+            var url = $(this).val();
 
-        // req.onload = function(e) {
-        // var data = new Uint8Array(req.response);
-        // var workbook = XLSX.read(data, {type:"array"});
+            /* set up async GET request */
+            var req = new XMLHttpRequest();
+            req.open("GET", url, true);
+            req.responseType = "arraybuffer";
 
-        // /* DO SOMETHING WITH workbook HERE */
-        // var first_sheet_name = workbook.SheetNames[0];
+            req.onload = function(e) {
+            var data = new Uint8Array(req.response);
+            var workbook = XLSX.read(data, {type:"array"});
 
-        // /* Get worksheet */
-        // var worksheet = workbook.Sheets[first_sheet_name];
-        // console.log(XLSX.utils.sheet_to_json(worksheet));
-        // }
+                /* Get worksheet */
+                var first_sheet_name = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[first_sheet_name];
+                console.log(XLSX.utils.sheet_to_json(worksheet));
+            }
 
-        // req.send();
-    </script>
+            req.send();
+        });
+
+    </script> --}}
 </body>
 </html>

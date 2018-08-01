@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 //User Routes
@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('login-as-admin', 'Auth\LoginController@loginAsAdmin')->name('auth.admin');
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 Route::get('/dashboard/setup', 'HomeController@setup')->name('user.setup');
-Route::get('/dashboard/setup-2', 'HomeController@setup2')->name('user.setup2');
+Route::get('/dashboard/manage-employees', 'HomeController@manage')->name('user.manage');
 Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');
 Route::group([], function() {
     Route::get('/dashboard/profile', 'UserController@profile')->name('user.profile');

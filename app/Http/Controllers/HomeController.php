@@ -31,16 +31,16 @@ class HomeController extends Controller
 
     public function setup() {
         if(auth()->user()->company){
-            return view('user.setup2');
+            return view('user.manage');
         }
         return view('user.setup');
     }
 
-    public function setup2(){
+    public function manage(){
         if(!auth()->user()->company){
             return view('user.setup');
         } 
-            return view('user.setup2');
+            return view('user.manage');
     }
 
     

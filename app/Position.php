@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Position extends Model
 {
     protected $fillable = [
-        'name'
+        'name', 'user_id'
     ];
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
 
     public function employees() {
         return $this->hasMany('App\Employee');

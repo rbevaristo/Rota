@@ -11,16 +11,15 @@ class PasswordMaker
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->id = $id;
-        $this->makePassword($this->firstname, $this->lastname, $this->id);
     }
 
     /**
      * @param string $firstname, $lastname, $id
      * @return Hash String
      */
-    public function makePassword($firstname, $lastname, $id)
+    public function makePassword()
     {
-        return Hash::make($this->getFirstCharacter($firstname) . $this->getFullString($lastname) . $this->getLastTwoCharacters($id));
+        return Hash::make($this->getFirstCharacter($this->firstname) . $this->getFullString($this->lastname) . $this->getLastTwoCharacters($this->id));
     }
 
     /**

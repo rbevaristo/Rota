@@ -15,15 +15,15 @@ class CreateUserRequestsTable extends Migration
     {
         Schema::create('user_requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('request')->unsigned();
-            $table->text('message');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->integer('user')->unsigned();
-            $table->foreign('request')->references('id')->on('requests')->references('id')->on('custom_requests');
-            $table->foreign('user')->references('id')->on('employee')
-                                     ->references('id')->on('users');
-
+            $table->string('title')->nullable();
+            $table->text('message')->nullable();
+            $table->date('from')->nullable();
+            $table->date('upto')->nullable();
+            $table->integer('emp_id')->unsigned();
+            $table->boolean('approved')->default(false);
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('emp_id')->references('id')->on('employees');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
