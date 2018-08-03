@@ -37,8 +37,20 @@ section .title {
     text-shadow: 2px 2px 5px #333;
 }
 
+a .fa {
+    color: #f96332;
+}
+
+a .fa-gear {
+    color: #fff !important;
+}
+
 .dropdown-toggle::after {
     display: none;
+}
+
+.nav-item .fa-gear {
+    color: #f96332 !important;
 }
 
 
@@ -46,7 +58,7 @@ section .title {
 
 #home {
     width: 100%;
-    height: 60vh;
+    height: 80vh;
 }
 
 #home .content {
@@ -316,7 +328,22 @@ section .title {
 
 #employees {
     margin-top: 30px;
-    height: 100%;
+    height: 500px;
+}
+
+#employees img {
+    height: 60px;
+    width: 60px;
+    border-radius: 50% !important;
+}
+
+
+/* Manage Employees */
+
+#manage-employees img {
+    height: 60px;
+    width: 60px;
+    border-radius: 50% !important;
 }
 
 
@@ -348,6 +375,10 @@ footer a {
 footer a:hover {
     color: yellow;
     text-decoration: none;
+}
+
+#employee-dashboard {
+    margin-top: 30px;
 }
 
 @media (max-width: 992px) {}

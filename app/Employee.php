@@ -15,7 +15,7 @@ class Employee extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstname', 'lastname', 'email', 'password', 'role_id', 'user_id'
+        'employee_id','firstname', 'lastname', 'email', 'password', 'role_id', 'user_id', 'position_id'
     ];
 
     /**
@@ -36,7 +36,7 @@ class Employee extends Authenticatable
     }
 
     public function position() {
-        return $this->hasOne('App\Position');
+        return $this->belongsTo('App\Position');
     }
 
     public function role() {

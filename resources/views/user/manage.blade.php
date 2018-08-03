@@ -13,12 +13,30 @@
                         Employees
                         <a href="#add_employee"><span class="float-right d-md-none d-sm-block"><i class="fa fa-user-plus"></i>Add Employee</span></a>
                     </div>
-                    @if(count(auth()->user()->employees) > 0)
+                    
                     <div class="card-body">
+                        @if($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            <div class="container">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <strong class="text-primary">
+                                    @foreach($errors->all() as $error)
+                                        {{$error}}
+                                    @endforeach
+                                </strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-window-close"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+                        @if(count(auth()->user()->employees) > 0)
                         <div class="row">
                             @foreach(auth()->user()->employees as $employee)
                             <div class="col-md-2 col-sm-2 text-center employee-lists">
-                                <p><strong>{{ $employee->name }}</strong></p>
+                                <p><strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong></p>
                                 <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
                                 <p>{{ $employee->position->name }}</p>
                                 <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
@@ -28,12 +46,10 @@
                             </div>
                             @endforeach
                         </div>
-                    </div>
-                    @else
-                    <div class="card-body">
-                        No Employee
-                    </div>
-                    @endif
+                        @else
+                            No Employee
+                        @endif
+                    </div>                 
                 </div>
             </div>
             <div class="col-md-3" id="add_employee">
@@ -123,3 +139,6 @@
 </section>
 @endsection
 
+@section('custom_scripts')
+
+@endsection

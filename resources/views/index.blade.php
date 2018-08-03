@@ -8,7 +8,7 @@
 {{-- Home --}}
 <section id="home" class="animated fadeInUp">
     <div class="content">
-        <h1>ROTA</h1>
+    <h1>ROTA </h1>
         <h2>Making <span>your scheduling tasks</span><br>easy!</h2>
         <div>
             <a href="#" class="btn btn-primary btn-lg">Get Started</a>
@@ -49,7 +49,7 @@
 
                 <div class="col-lg-6">
                     <div class="box animated fadeInLeft">
-                    <div class="icon"><i class="fa fa-bar-chart"></i></div>
+                    <div class="icon"><i class="fa fa-calendar"></i></div>
                     <h4 class="title"><a href="#">Staff Scheduling</a></h4>
                     <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident etiro rabeta lingo.</p>
                     </div>
@@ -57,7 +57,7 @@
         
                 <div class="col-lg-6">
                     <div class="box animated fadeInRight">
-                    <div class="icon"><i class="fa fa-picture-o"></i></div>
+                    <div class="icon"><i class="fa fa-desktop"></i></div>
                     <h4 class="title"><a href="#">Attendance Monitoring</a></h4>
                     <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata nodera clas.</p>
                     </div>
@@ -65,7 +65,7 @@
         
                 <div class="col-lg-6">
                     <div class="box animated fadeInLeft" data-wow-delay="0.2s">
-                    <div class="icon"><i class="fa fa-shopping-bag"></i></div>
+                    <div class="icon"><i class="fa fa-bar-chart"></i></div>
                     <h4 class="title"><a href="#">Performance Evaluation</a></h4>
                     <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur trinige zareta lobur trade.</p>
                     </div>
@@ -73,7 +73,7 @@
         
                 <div class="col-lg-6">
                     <div class="box animated fadeInRight" data-wow-delay="0.2s">
-                    <div class="icon"><i class="fa fa-map"></i></div>
+                    <div class="icon"><i class="fa fa-file"></i></div>
                     <h4 class="title"><a href="#">Report Generation</a></h4>
                     <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum rideta zanox satirente madera</p>
                     </div>

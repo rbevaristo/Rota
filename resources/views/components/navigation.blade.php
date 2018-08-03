@@ -28,7 +28,61 @@
             <li class="nav-item {{ Request::is('/#contact') ? 'active' : ''}}">
                 <a href="{{ Request::is('login') || Request::is('register') ? url('/#contact') : '#contact' }}" class="nav-link">Contact</a>
             </li>
-            @guest
+            @if(auth()->guard('employee') && auth()->guard('employee')->user())
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <img src="{{ asset('img/default.png') }}" alt="" width="20" height="20">
+                        {{ auth()->guard('employee')->user()->firstname }} 
+                        {{ auth()->guard('employee')->user()->lastname }} 
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                       <a class="dropdown-item" href="{{ route('employee.dashboard') }}">
+                           Dashboard
+                       </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            @elseif(auth()->guard() && auth()->user())
+            <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <img src="{{ asset('img/default.png') }}" alt="" width="20" height="20">
+                        {{ auth()->guard()->user()->firstname }} 
+                        {{ auth()->guard()->user()->lastname }} 
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                       <a class="dropdown-item" href="{{ route('dashboard') }}">
+                           Dashboard
+                       </a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            @else
+                <li class="nav-item {{ Request::is('login') ? 'active' : ''}}">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                <li class="nav-item {{ Request::is('register') ? 'active' : ''}}">
+                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                </li>
+            @endif
+            {{-- @guest
                 <li class="nav-item {{ Request::is('login') ? 'active' : ''}}">
                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                 </li>
@@ -38,13 +92,22 @@
             @else
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <img src="{{ asset('img/default.png') }}" alt="" width="20" height="20">
                         {{ Helper::name() }} <span class="caret"></span>
                     </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">   
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                       @if(Auth::guard()->user()->role_id == 2)
+                       <a class="dropdown-item" href="{{ route('dashboard') }}">
+                           Dashboard
+                       </a>
+                       @elseif(Auth::guard()->user()->role_id == 3)
+                       <a class="dropdown-item" href="{{ route('employee.dashboard') }}">
+                           Dashboard
+                       </a>
+                       @endif
                         <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
+                           onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
 
@@ -53,7 +116,7 @@
                         </form>
                     </div>
                 </li>
-            @endguest
+            @endguest    --}}
         </ul>
     </div>
 </nav>

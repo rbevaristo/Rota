@@ -26,8 +26,8 @@
                             @foreach(auth()->user()->employees as $employee)
                                 <li class="list-group-item">
                                     <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                                    <strong>Helper::employee($employee->firstname, $employee->lastname)</strong>
-                                    <p><small>$employee->position->name</small></p>
+                                    <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname)  }}</strong>
+                                    <p><small>{{ $employee->position->name }}</small></p>
                                     <span class="float-right">
                                         <a href="#">
                                             <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i>

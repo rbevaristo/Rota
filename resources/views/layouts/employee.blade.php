@@ -14,24 +14,23 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- Styles -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/now-ui-kit.css') }}" rel="stylesheet">
-    @yield('styles')
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/floating-labels.css') }}">
+    @yield('custom_styles')
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-<body class="landing-page sidebar-collapse">
-    @include('components.employee-navbar')
-    <main class="">
-        <div class="container-fluid">
+<body>
+    <div id="app">
+        @include('components.employee-navbar')
+        <main>
             @yield('content')
-        </div>
-    </main>
-    
+        </main>
+    </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/core/jquery.3.2.1.min.js') }}"></script>
-    <script src="{{ asset('js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/now-ui-kit.js') }}"></script>
-    @yield('js')
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/offcanvas.js')}}"></script>
+    <script src="{{ asset('js/rota.js') }}"></script>
+    @yield('custom_scripts')
 </body>
 </html>

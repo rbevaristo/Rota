@@ -28,7 +28,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    <span class="fa fa-bell"></span> <span class="d-sm-block d-lg-none"> Notifications</span>
+                    <span class="fa fa-bell text-white"></span> <span class="d-sm-block d-lg-none"> Notifications</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right notifications" aria-labelledby="navbarDropdown">
                     <div class="notification-heading">
@@ -78,7 +78,7 @@
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                        <span class="fa fa-sign-out"></span>{{ __('Logout') }}
+                        <span class="fa fa-sign-out"></span> {{ __('Logout') }}
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

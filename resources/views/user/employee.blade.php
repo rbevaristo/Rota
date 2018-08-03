@@ -21,12 +21,13 @@
                         </span>
                     </div>
                     <div class="card-body">
+                        <div class="row">
                         @if(count(auth()->user()->employees) > 0)
                             @foreach(auth()->user()->employees as $employee)
-                                <div>
+                                <div class="col-md-2 col-sm-2 text-center employee-lists">
                                     <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                                    <strong>Helper::employee($employee->firstname, $employee->lastname)</strong>
-                                    <p><small>$employee->position->name</small></p>
+                                    <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong>
+                                    <p><small>{{ $employee->position->name }}</small></p>
                                     <span class="float-right"><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
                                     <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
                                     <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
@@ -38,6 +39,7 @@
                                 No Data
                             </div>
                         @endif
+                        </div>
                     </div>
                 </div>
             </div>

@@ -30,7 +30,7 @@
             <div class="card-header">
                 <h5 class="title">Edit Profile</h5>
             </div>
-             <div class="card-body">
+            <div class="card-body">
             <form>
                 <div class="row">
                     <div class="col-md-12">

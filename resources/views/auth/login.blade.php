@@ -15,9 +15,7 @@
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
                         <div class="container">
-                            <div class="alert-icon">
-                                <i class="fa fa-exclamation-triangle"></i>
-                            </div>
+                            <i class="fa fa-exclamation-triangle"></i>
                             <strong class="text-primary">
                                 @foreach($errors->all() as $error)
                                     {{$error}}

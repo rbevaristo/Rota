@@ -14,10 +14,10 @@
     
                 <h6 class="text-uppercase font-weight-bold">Services</h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 80px;">
-                <p><a href="{{ url('/#ss') }}">Staff Scheduling</a></p>
-                <p><a href="{{ url('/#am') }}">Attendance Monitoring</a></p>
-                <p><a href="{{ url('/#pe') }}">Performance Evaluation</a></p>
-                <p><a href="{{ url('/#rg') }}">Report Generator</a></p> 
+                <p><a href="{{ url('/#services') }}">Staff Scheduling</a></p>
+                <p><a href="{{ url('/#services') }}">Attendance Monitoring</a></p>
+                <p><a href="{{ url('/#services') }}">Performance Evaluation</a></p>
+                <p><a href="{{ url('/#services') }}">Report Generator</a></p> 
 
             </div>
 

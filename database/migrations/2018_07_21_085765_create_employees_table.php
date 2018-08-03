@@ -15,13 +15,16 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('employee_id')->unique();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
+            $table->boolean('is_reset')->default(false);
             $table->integer('role_id')->unsigned()->default(3);
             $table->integer('user_id')->unsigned();
             $table->integer('position_id')->unsigned();
+            
             $table->foreign('role_id')->references('id')->on('roles');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('position_id')->references('id')->on('positions');

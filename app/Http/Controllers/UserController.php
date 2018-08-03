@@ -53,14 +53,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(EmployeeRequest $request) {
-        
+
         $employee = new Employee;
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
         $employee->employee_id = $request->employee_id;
         $employee->email = $request->email;
-        $pwrd = new PasswordMaker($request->firstname, $request->lastname, $request->employee_id);
-        $employee->password = $pwrd->makePassword();
+        $pwd = new PasswordMaker;
+        $employee->password = $pwd->makePassword($request->firstname, $request->lastname, $request->employee_id);
         $employee->position_id = $request->position_id;
         $employee->user_id = auth()->user()->id;
         $employee->save();

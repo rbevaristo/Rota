@@ -1,19 +1,10 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// Route::get('/', function () {
+//     return view('index');
+// });
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'PagesController@index');
 
 //User Routes
 Auth::routes();
@@ -72,4 +63,7 @@ Route::group([
     Route::post('/dashboard/messages/create', 'MessageController@messageToUser')->name('employee.message.create');
     Route::post('/dashboard/requests/create', 'MessageController@requestToUser')->name('employee.request.create');
 
+
+    Route::post('/dashboard/change-password', 'Employee\ChangePasswordController@update')->name('employee.change-password');
+    Route::post('/dashboard/password-check/{password}', 'Employee\ChangePasswordController@check')->name('employee.password-check');
 });

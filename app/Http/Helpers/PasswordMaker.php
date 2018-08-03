@@ -4,22 +4,19 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordMaker
 {
-    public $firstname, $lastname, $id;
-    
-    public function _construct($firstname, $lastname, $id)
+  
+    public function _construct()
     {
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
-        $this->id = $id;
+
     }
 
     /**
      * @param string $firstname, $lastname, $id
      * @return Hash String
      */
-    public function makePassword()
+    public function makePassword($firstname, $lastname, $id)
     {
-        return Hash::make($this->getFirstCharacter($this->firstname) . $this->getFullString($this->lastname) . $this->getLastTwoCharacters($this->id));
+        return Hash::make($this->getFirstCharacter($firstname) . $this->getFullString($lastname) . $this->getLastTwoCharacters($id));
     }
 
     /**
@@ -29,7 +26,7 @@ class PasswordMaker
      */
     private function getFirstCharacter($string)
     {
-        return substr($string, 0);
+        return strtolower(substr($string, 0, 1));
     }
 
     /**
@@ -39,7 +36,7 @@ class PasswordMaker
      */
     private function getLastTwoCharacters($string)
     {
-        return substr($string, -2);
+        return strtolower(substr($string, -2, 2));
     }
 
     /**
@@ -49,6 +46,6 @@ class PasswordMaker
      */
     private function getFullString($string)
     {
-        return $string;
+        return strtolower($string);
     }
 }

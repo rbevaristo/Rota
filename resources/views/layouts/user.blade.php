@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -27,11 +27,12 @@
         <main>
             @yield('content')
         </main>
-        @include('components.footer')
+        {{-- @include('components.footer') --}}
     </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/offcanvas.js')}}"></script>
+    <script src="{{ asset('js/rota.js') }}"></script>
     @yield('custom_scripts')
 </body>
 </html>
