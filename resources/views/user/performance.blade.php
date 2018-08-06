@@ -3,110 +3,148 @@
 @section('content')
 <section id="evaluation">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2">
-                <div class="list-group">
-                    <div class="list-group-item list-group-item-action bg-primary text-white">Employees
-                        <span class="float-right dropdown">
-                            <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-gear"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('user.manage') }}">Manage</a>
-                            </div>
-                        </span>
+        <div class="row" id="list-of-employees">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Employees
                     </div>
-                    @if(count(auth()->user()->employees) > 0)
-                        @foreach(auth()->user()->employees as $employee)
-                            <a href="#" class="list-group-item list-group-item-action">
-                                <img src="{{ asset('img/default.png') }}" alt="avatar">
-                                <strong>{{ Helper::employee($employee->firstname, $employee->lastname) }}</strong>    
-                            </a>
-                        @endforeach
-                    @else
-                    <p class="list-group-item list-group-item-action"> No Data</p>
-                    @endif
+                    <div class="card-body" style="background-color: gray">
+                        <div class="container-fluid">
+                            <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="0">
+                                <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                                    @if(count(auth()->user()->employees) > 0)
+                                        @php
+                                            $count = 0;
+                                        @endphp
+                                        @foreach(auth()->user()->employees as $employee)
+                                        
+                                        <div class="carousel-item col-md-2 {{ $count == 0 ? 'active' : '' }}">
+                                            <div class="card" style="padding:10px">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <img class="img-fluid mx-auto d-block" src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" alt="slide 2">
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong>
+                                                        <p>{{ $employee->position->name }}</p>
+                                                        <p>
+                                                            <a href="#">
+                                                                <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i>
+                                                            </a>
+                                                            <a href="#">
+                                                                <i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i>
+                                                            </a>
+                                                            <a href="#">
+                                                                <i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i>
+                                                            </a>
+                                                            <a href="#">
+                                                                <i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i>
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @php
+                                            $count++;
+                                        @endphp
+                                        @endforeach
+                                    @else
+                                    No Data
+                                    @endif
+
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <a href="#carouselExample" data-slide="prev" style="padding:5px">
+                                        <span class="fa fa-arrow-left text-white"></span>
+                                    </a>
+                                    <a href="#carouselExample" data-slide="next" style="padding:5px">
+                                        <span class="fa fa-arrow-right text-white"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-10">
+        </div>
+        <div class="row" id="evaluation-form">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">Performance Evaluation Form</div>
                     <div class="card-body">
                         <div class="container-fluid">
-                            <div class="row table-responsive-sm">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Factor</th>
-                                            <th>Description</th>
-                                            <th>Above Average</th>
-                                            <th>Average</th>
-                                            <th>Below Average</th>
-                                            <th>Unsatisfactory</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach(\App\Evaluation::all() as $eval)
-                                            <tr>
-                                                <td>{{  $eval->factor }}</td>
-                                                <td>{{  $eval->description }}</td>
-                                                <td><input type="checkbox" name="above_average" id="above_average"></td>
-                                                <td><input type="checkbox" name="average" id="average"></td>
-                                                <td><input type="checkbox" name="below_average" id="below_average"></td>
-                                                <td><input type="checkbox" name="unsatisfactory" id="unsatisfactory"></td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        {{-- <div class="container-fluid">
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-6">
+                                    Name: <strong>Richard Evaristo</strong>
+                                </div>
+                                <div class="col-6">
+                                    <p class="float-right"> Date: <strong>{{ date('F d, Y') }} </strong></p>
+                                </div>
+                                <div class="col-6">
+                                    Employee ID: <strong> 20473143 </strong>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-3">
                                    <strong>FACTOR</strong> 
                                 </div>
                                 <div class="col-6">
                                     <strong>DESCRIPTION</strong> 
                                 </div>
-                                <div class="col-1">
-                                    <small>ABOVE AVERAGE</small> 
-                                </div>
-                                <div class="col-1">
-                                    <small>AVERAGE</small> 
-                                </div>
-                                <div class="col-1">
-                                    <small>BELOW AVERAGE</small> 
-                                </div>
-                                <div class="col-1">
-                                    <small>UNSATISFACTORY</small> 
+                                <div class="col-3">
+                                    <strong>Evaluation</strong>
                                 </div>
                             </div>
                             @foreach(\App\Evaluation::all() as $eval)
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-3">
                                     {{ $eval->factor }}
                                 </div>
                                 <div class="col-6">
                                     {{ $eval->description }} 
                                 </div>
-                                <div class="col-1 text-center">
-                                    <input type="checkbox" name="above_average" id="above_average">
-                                </div>
-                                <div class="col-1 text-center">
-                                    <input type="checkbox" name="average" id="average">
-                                </div>
-                                <div class="col-1 text-center">
-                                    <input type="checkbox" name="below_average" id="below_average">
-                                </div>
-                                <div class="col-1 text-center">
-                                    <input type="checkbox" name="unsatisfactory" id="unsatisfactory">
+                                <div class="col-3">
+                                    <select class="form-control" name="eval" id="eval">
+                                        <option value="0">0 - Not Applicable</option>
+                                        <option value="1">1 - Above Average</option>
+                                        <option value="2">2 - Average</option>
+                                        <option value="3">3 - Below Average</option>
+                                        <option value="4">4 - Unsatisfactory</option>
+                                    </select>
                                 </div>
                             </div>
                             @endforeach
-                        </div> --}}
-                        <div class="container">
+                            <hr>
                             <div class="row">
-                                <div class="col-12"></div>
+                                <div class="col-12">
+                                    <div class="form-label-group">
+                                      <textarea class="form-control" name="qualities" id="qualities" rows="3" placeholder="Best qualities demonstrated"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-label-group">
+                                        <textarea class="form-control" name="improvements" id="improvements" rows="3" placeholder="How improvements can be Made"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-label-group">
+                                        <textarea class="form-control" name="comments" id="comments" rows="3" placeholder="Comments"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row text-center">
+                                <div class="col-md-12">
+                                    <a class="btn btn-primary form-control text-white" href="{{ route('auth.admin') }}">
+                                        {{ __('Save & Print') }}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -115,4 +153,29 @@
         </div>
     </div>
 </section>
+@endsection
+
+@section('custom_scripts')
+    <script>
+        $('#carouselExample').on('slide.bs.carousel', function (e) {
+
+            var $e = $(e.relatedTarget);
+            var idx = $e.index();
+            var itemsPerSlide = 6;
+            var totalItems = $('.carousel-item').length;
+            
+            if (idx >= totalItems-(itemsPerSlide-1)) {
+                var it = itemsPerSlide - (totalItems - idx);
+                for (var i=0; i<it; i++) {
+                    // append slides to end
+                    if (e.direction=="left") {
+                        $('.carousel-item').eq(i).appendTo('.carousel-inner');
+                    }
+                    else {
+                        $('.carousel-item').eq(0).appendTo('.carousel-inner');
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

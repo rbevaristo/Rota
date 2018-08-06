@@ -99,8 +99,8 @@
                         <p class="description"> 
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim maiores quibusdam quae doloribus dicta dolorum accusamus officia harum impedit est mollitia, adipisci sequi illo facere! 
                         </p>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -111,8 +111,8 @@
                         <p class="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia harum quaerat alias beatae ullam suscipit sapiente. Itaque hic, recusandae quaerat sit nulla quasi! Corrupti, facilis?
                         </p>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -123,8 +123,8 @@
                         <p class="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo explicabo beatae, perspiciatis nesciunt deleniti, voluptatem repudiandae maiores sit inventore, nemo quasi corrupti laudantium eum sapiente.
                         </p>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -138,8 +138,8 @@
                         <p class="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, corrupti? Sapiente suscipit quae modi facere ducimus nobis asperiores earum fugit cupiditate rem unde, nemo vitae!
                         </p>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -150,8 +150,8 @@
                         <p class="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Id enim eaque laboriosam voluptatem aliquid, quam molestiae fuga voluptatibus porro quasi ex et magnam quod quia.
                         </p>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-primary btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-2"></div>

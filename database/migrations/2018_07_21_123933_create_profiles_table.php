@@ -16,11 +16,12 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('avatar')->default('default.png');
-            $table->string('gender')->nullable();
+            $table->boolean('gender')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('contact')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
             $table->integer('emp_id')->unsigned()->nullable();
+            
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('emp_id')->references('id')->on('employees');
             $table->timestamps();

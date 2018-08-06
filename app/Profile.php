@@ -10,15 +10,15 @@ class Profile extends Model
         'avatar', 'gender', 'birthdate', 'contact', 'user_id', 'emp_id'
     ];
 
+    public function address() {
+        return $this->hasOne('App\Address');
+    }
+
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     public function employee() {
-        return $this->belongsTo('App\Employee');
-    }
-
-    public function address() {
-        return $this->hasOne('App\Address');
+        return $this->belongsTo('App\Employee', 'emp_id', 'id');
     }
 }

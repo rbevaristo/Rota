@@ -12,28 +12,13 @@
             <div class="card">
                 <div class="card-header"><strong>Login as <span>Employee</span></strong></div>
                 <div class="card-body">
-                    @if($errors->any())
-                    <div class="alert alert-danger" role="alert">
-                        <div class="container">
-                            <i class="fa fa-exclamation-triangle"></i>
-                            <strong class="text-primary">
-                                @foreach($errors->all() as $error)
-                                    {{$error}}
-                                @endforeach
-                            </strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">
-                                    <i class="fa fa-window-close"></i>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                    @endif
+                    @include('components.sessions')
+                    @include('components.messages')
                     <form method="POST" action="{{ route('employee.login') }}" aria-label="{{ __('Login') }}" class="form-signin">
                         @csrf
                         <div class="form-label-group">
-                            <input type="text" id="employee_id" name="employee_id" class="form-control{{ $errors->has('employee_id') ? ' is-invalid' : '' }}" value="{{ old('employee_id') }}" required placeholder="Employee ID">
-                            <label for="employee_id" class="text-primary"><i class="fa fa-user"></i> Employee ID</label>
+                            <input type="text" id="username" name="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" value="{{ old('username') }}" required placeholder="Employee ID">
+                            <label for="username" class="text-primary"><i class="fa fa-user"></i> Employee ID</label>
                         </div>
                         <div class="form-label-group">
                             <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" value="{{ old('password') }}" required placeholder="Password">

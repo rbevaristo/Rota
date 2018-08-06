@@ -8,7 +8,7 @@ Route::get('/', 'PagesController@index');
 
 //User Routes
 Auth::routes();
-Route::get('login-as-admin', 'Auth\LoginController@loginAsAdmin')->name('auth.admin');
+Route::get('login/admin', 'Auth\LoginController@loginAsAdmin')->name('auth.admin');
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 Route::get('/dashboard/setup', 'HomeController@setup')->name('user.setup');
 Route::get('/dashboard/manage', 'HomeController@manage')->name('user.manage');
@@ -26,6 +26,9 @@ Route::group([], function() {
     Route::post('/dashboard/requests/update-request/{id}/{request}', 'RequestsController@update');
     Route::delete('/dashboard/requests/delete-request/{id}', 'RequestsController@destroy');
     Route::post('/dashboard/employee/create', 'UserController@store');
+    Route::post('/dashboard/profile/update', 'UserProfileController@update')->name('user.profile.update');
+    Route::post('/dashboard/company/update', 'CompanyController@update')->name('user.company.update');
+    Route::get('verify/{token}', 'Auth\RegisterController@verify');
 });
 
 //Admin Routes

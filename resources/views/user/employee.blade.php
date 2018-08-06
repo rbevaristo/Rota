@@ -25,7 +25,7 @@
                         @if(count(auth()->user()->employees) > 0)
                             @foreach(auth()->user()->employees as $employee)
                                 <div class="col-md-2 col-sm-2 text-center employee-lists">
-                                    <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
+                                    <img src="{{ asset('storage/avatar') }}/{{ $employee }}" class="rounded" alt="avatar">
                                     <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong>
                                     <p><small>{{ $employee->position->name }}</small></p>
                                     <span class="float-right"><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>

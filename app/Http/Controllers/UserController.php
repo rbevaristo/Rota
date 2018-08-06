@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
+use App\Profile;
 use App\Setting;
 use App\Employee;
 use PasswordMaker;
@@ -30,8 +32,7 @@ class UserController extends Controller
     }
 
     public function employee() {
-        $user = auth()->user();
-        return view('user.employee', compact('user'));
+        return view('user.employee');
     }
 
     public function performance() {
@@ -43,8 +44,7 @@ class UserController extends Controller
     }
 
     public function settings() {
-        $user = auth()->user();
-        return view('user.settings', compact('user'));
+        return view('user.settings');
     }
 
     /**
@@ -57,19 +57,24 @@ class UserController extends Controller
         $employee = new Employee;
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
-        $employee->employee_id = $request->employee_id;
+        $employee->username = $request->username;
         $employee->email = $request->email;
         $pwd = new PasswordMaker;
-        $employee->password = $pwd->makePassword($request->firstname, $request->lastname, $request->employee_id);
+        $employee->password = $pwd->makePassword($request->firstname, $request->lastname, $request->username);
         $employee->position_id = $request->position_id;
         $employee->user_id = auth()->user()->id;
         $employee->save();
         
-        if(!$employee) {
-            return redirect()->back()->with('error', 'Error Adding');
+        if($employee) {
+            $profile = Profile::create(['emp_id' => $employee->id]);
+            $address = Address::create(['profile_id' => $profile->id]);
+            
+            return redirect()->back()->with('success', 'Employee Added');
         }
 
-        return redirect()->back()->with('success', 'Employee Added');
+        return redirect()->back()->with('error', 'Error Adding');
+        
+
     }
 
 }

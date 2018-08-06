@@ -28,7 +28,7 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    <span class="fa fa-bell text-white"></span> <span class="d-sm-block d-lg-none"> Notifications</span>
+                    <span class="fa fa-bell text-white"></span> <span class="d-sm-block d-md-none"> Notifications</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right notifications" aria-labelledby="navbarDropdown">
                     <div class="notification-heading">

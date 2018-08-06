@@ -73,7 +73,7 @@ class Handler extends ExceptionHandler
                 return redirect()->guest(route('login'));
                 break;
             default:
-                return redirect()->guest(route('login'));
+                return redirect()->guest(route('auth.admin'));
         }
     }
 }

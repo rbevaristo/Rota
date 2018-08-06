@@ -48,9 +48,20 @@ class CompanyController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(CompanyRequest $request)
     {
-        
+        $company = auth()->user()->company;
+        $company->name = $request->name;
+        $company->email = $request->email;
+        $company->location = $request->location;
+        $company->contact = $request->contact;
+        $company->save();
+
+        if(!$company){
+            return redirect()->back()->with('error', 'Invalid Input Data');
+        }
+
+        return redirect()->back()->with('success', 'Update Success!!');
     }
 
 }

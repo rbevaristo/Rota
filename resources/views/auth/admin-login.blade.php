@@ -12,25 +12,8 @@
             <div class="card">
                 <div class="card-header"><strong>Login as <span>Administrator</span></strong></div>
                 <div class="card-body">
-                    @if($errors->any())
-                    <div class="alert alert-danger" role="alert">
-                        <div class="container">
-                            <div class="alert-icon">
-                                <i class="fa fa-exclamation-triangle"></i>
-                            </div>
-                            <strong class="text-primary">
-                                @foreach($errors->all() as $error)
-                                    {{$error}}
-                                @endforeach
-                            </strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">
-                                    <i class="fa fa-window-close"></i>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                    @endif
+                    @include('components.sessions')
+                    @include('components.messages')
                     <form method="POST" action="{{ route('login') }}" aria-label="{{ __('Login') }}" class="form-signin">
                         @csrf
                         <div class="form-label-group">
