@@ -10,12 +10,9 @@
             <li class="nav-item {{ Request::is('dashboard') ? 'active' : ''}}">
                 <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
             </li>
-            {{-- <li class="nav-item {{ Request::is('dashboard/schedule') ? 'active' : ''}}">
-                <a href="{{ route('user.schedule') }}" class="nav-link">Schedule</a>
-            </li> --}}
-            <li class="nav-item {{ Request::is('dashboard/employee') ? 'active' : ''}}">
+            {{-- <li class="nav-item {{ Request::is('dashboard/employee') ? 'active' : ''}}">
                 <a href="{{ route('user.employee') }}" class="nav-link">Employees</a>
-            </li>
+            </li> --}}
             <li class="nav-item {{ Request::is('dashboard/attendance') ? 'active' : ''}}">
                 <a href="{{ route('user.attendance') }}" class="nav-link">Attendance</a>
             </li>
