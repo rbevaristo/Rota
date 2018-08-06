@@ -15,10 +15,10 @@ class Profile extends Model
     }
 
     public function user() {
-        return $this->belongsTo('App\User', 'user_id', 'id');
+        return $this->belongsTo('App\User');
     }
 
     public function employee() {
-        return $this->belongsTo('App\Employee', 'emp_id', 'id');
+        return $this->belongsTo('App\Employee');
     }
 }

@@ -42,7 +42,7 @@
                             <div class="notification-item">
                                 <div class="media">
                                     <div class="media-left">
-                                        <img src="{{ asset('img/default.png') }}" class="media-object rounded" style="width:60px">
+                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
                                         <h4 class="media-heading">Left-aligned </h4>
@@ -64,7 +64,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    <img src="{{ asset('img/default.png') }}" alt="" width="20" height="20">
+                    <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" alt="" width="20" height="20">
                     {{ Helper::name() }} <span class="caret"></span>
                 </a>
 

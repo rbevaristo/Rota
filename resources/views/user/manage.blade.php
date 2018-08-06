@@ -99,24 +99,24 @@
                             <form action="{{ url('/dashboard/employee/create') }}" method="POST" class="form-signin">
                                 @csrf
                                 <div class="form-label-group">
-                                    <input type="text" id="employee_id" name="employee_id" class="form-control" placeholder="Employee ID" required>
-                                    <label for="employee_id">Employee ID</label>
+                                    <input type="text" id="username" name="username" class="form-control" placeholder="Employee ID" required>
+                                    <label for="username" class="text-primary">Employee ID</label>
                                 </div>
                                 <div class="form-label-group">
                                     <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Employee ID" required>
-                                    <label for="firstname">Firstname</label>
+                                    <label for="firstname" class="text-primary">Firstname</label>
                                 </div>
                                 <div class="form-label-group">
                                     <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Employee ID" required>
-                                    <label for="lastname">Lastname</label>
+                                    <label for="lastname" class="text-primary">Lastname</label>
                                 </div>
                                 <div class="form-label-group">
                                     <input type="text" id="email" name="email" class="form-control" placeholder="Employee ID">
-                                    <label for="email">Email <small>optional</small></label>
+                                    <label for="email" class="text-primary">Email <small>optional</small></label>
                                 </div>
                                     <div class="form-group">
                                         <label for="emp_position"></label>
-                                        <select name="position_id" id="position_id" class="form-control" required>
+                                        <select name="position_id" id="position_id" class="form-control text-primary" required>
                                             <option value="">Select Position</option>
                                             @foreach(\App\Position::all() as $position)
                                                 <option value="{{ $position->id }}">{{ $position->name }}</option>

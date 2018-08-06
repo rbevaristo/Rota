@@ -27,7 +27,7 @@
                                             <div class="card" style="padding:10px">
                                                 <div class="row">
                                                     <div class="col-4">
-                                                        <img class="img-fluid mx-auto d-block" src="{{ asset('storage/avatar/') }}/{{ $employee->profile->avatar }}" alt="slide 2">
+                                                        <img class="img-fluid mx-auto d-block" src="{{ asset('storage/avatar/') }}/{{ $employee->profile->avatar }}" alt="avatar">
                                                     </div>
                                                     <div class="col-8">
                                                         <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong>
