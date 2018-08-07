@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('custom_styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
 @endsection
 @section('content')
 <section id="user-dashboard">
@@ -50,20 +50,21 @@
                                                 <div class="col-8">
                                                     <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong>
                                                     <p>{{ $employee->position->name }}</p>
-                                                    <p>
-                                                        <a href="#">
+                                                    <div>
+                                                        <input type="hidden" id="employee_id" value="{{ $employee->id }}">
+                                                        <a href="#myModal" class="profile" data-toggle="modal" role="button">
                                                             <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i>
                                                         </a>
-                                                        <a href="#">
+                                                        <a href="#myModal" class="schedule" data-toggle="modal" role="button">
                                                             <i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i>
                                                         </a>
-                                                        <a href="#">
+                                                        <a href="#myModal" class="message" data-toggle="modal" role="button">
                                                             <i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i>
                                                         </a>
-                                                        <a href="#">
+                                                        <a href="#myModal" class="evaluation" data-toggle="modal" role="button">
                                                             <i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i>
                                                         </a>
-                                                    </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,83 +117,19 @@
     </div>
 </section>
 
-<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">
-    TODO: modal Profile View, Schedule View, Message, Evaluate
-</a>
-
-<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-full" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body p-4" id="result">
-                <div class="row">
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        Content
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            Content
-                        </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
+@include('components.modal')
 
 @endsection
 
 @section('custom_scripts')
     <script>
-        $(document).ready(() => {
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $('#carousel').on('slide.bs.carousel', function (e) {
                 var $e = $(e.relatedTarget);
                 var idx = $e.index();
@@ -212,14 +149,28 @@
                     }
                 }
             });
-
-            $('#myModal').on('hide.bs.modal', function () {
-                $(this).removeClass().addClass('modal zoomOut animated');
+            
+            
+            $('a.profile').on('click', function(){
+                var url = "{{ url('/dashboard/employee/') }}"+"/"+$(this).siblings('input').val();
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        console.log(result['data']);
+                        $('.modal .modal-body').html(
+                            `
+                                <div class="row">
+                                    <h1>Hello World!!</h1>
+                                </div>
+                            `
+                        );
+                    },
+                });
             });
-
-            $('#myModal').on('show.bs.modal', function () {
-                $(this).removeClass().addClass('modal zoomIn animated');
-            });
+            
         });
         
     </script>
