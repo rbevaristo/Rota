@@ -1,5 +1,11 @@
 @extends('layouts.user')
+<<<<<<< HEAD
 
+=======
+@section('custom_styles')
+
+@endsection
+>>>>>>> bb58981ede88eb8bd109148e8b8ab7d74f72249e
 @section('content')
 <section id="user-dashboard">
     <div class="container-fluid">
@@ -166,6 +172,7 @@
                     },
                 });
             });
+            
         });
         
     </script>
