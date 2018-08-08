@@ -68,9 +68,6 @@
                     <a class="dropdown-item" href="{{ route('user.profile') }}">
                         <span class="fa fa-user"></span> {{ __('My Profile') }}
                     </a>
-                    <a class="dropdown-item" href="{{ route('user.settings') }}">
-                        <span class="fa fa-gear"></span> {{ __('Settings') }}
-                    </a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">

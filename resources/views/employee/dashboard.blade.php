@@ -6,44 +6,16 @@
         @if(!auth()->user()->is_reset)
             <div class="row">
                 <div class="col-12">
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong> Click 
-                            <a href="#" data-toggle="modal" data-target="#exampleModalCenter"> here </a> 
+                    <div class="alert fade show notice notice-warning" role="alert">
+                        <strong> Notice </strong> 
+                        Click <a href="#" data-toggle="modal" data-target="#exampleModalCenter"> here </a> 
                             to change your password
-                        </strong> 
                     </div>
                 </div>
             </div>
         @endif
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <strong>
-                @foreach($errors->all() as $error)
-                    {{$error}}
-                @endforeach
-                </strong> 
-            </div>
-        @elseif(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('success') }}</strong> 
-            </div>
-        @elseif(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <strong>{{ session('error') }}</strong> 
-            </div>
-        @endif
+        @include('components.sessions')
+        @include('components.messages')
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
@@ -89,7 +61,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" id="checkPassword" class="btn btn-primary">Save changes</button>
+            <button type="button" id="checkPassword" class="btn btn-primary">Submit</button>
         </div>
     </div>
 </div>
@@ -128,23 +100,16 @@
                                 $('.modal-body').html(`
                                     <form action="{{ route('employee.change-password') }}" method="POST" class="form-signin">
                                         @csrf
-                                        <div class="modal-body">
-                                            
-                                                <div class="form-label-group">
-                                                    <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="Current Password">
-                                                    <label for="password" class="text-primary"><i class="fa fa-user-secret"></i> New Password</label>
-                                                </div>
-                                                <div class="form-label-group">
-                                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="Confirm Password">
-                                                    <label for="password-confirm" class="text-primary"><i class="fa fa-user-secret"></i> Confirm Password</label>
-                                                </div>
-
+                                        <div class="form-label-group">
+                                            <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="Current Password">
+                                            <label for="password" class="text-primary"><i class="fa fa-user-secret"></i> New Password</label>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <div class="form-label-group">
+                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="Confirm Password">
+                                            <label for="password-confirm" class="text-primary"><i class="fa fa-user-secret"></i> Confirm Password</label>
                                         </div>
-                                    </div>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
                                 `);
                                 $('.modal-footer').html('');

@@ -61,12 +61,11 @@
         </div>
     </div>
 </section> --}}
-<section id="login">
+<section id="register">
     <div class="container d-flex justify-content-center h-100 align-items-center">
         <div class="col-md-6">
-            <h2 class="title text-center">Register</h2>
             <div class="card">
-                <div class="card-header"><strong>Register as <span>Administrator</span></strong></div>
+                <div class="card-header text-center bg-primary text-white"><strong>Register as <span>Administrator</span></strong></div>
                 <div class="card-body">
                     @include('components.sessions')
                     @include('components.messages')

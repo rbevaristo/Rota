@@ -29,6 +29,8 @@ Route::group([], function() {
     Route::post('/dashboard/profile/update', 'UserProfileController@update')->name('user.profile.update');
     Route::post('/dashboard/company/update', 'CompanyController@update')->name('user.company.update');
     Route::get('verify/{token}', 'Auth\RegisterController@verify');
+
+    Route::get('/dashboard/employee/{id}', 'EmployeesController@show');
 });
 
 //Admin Routes
@@ -51,17 +53,16 @@ Route::post('employee/login', 'Employee\LoginController@login')->name('employee.
 Route::group([
     'prefix' => 'employee'
 ], function() {
-    Route::get('dashboard', 'EmployeeController@index')->name('employee.dashboard');
-    // Route::get('login', 'Employee\LoginController@showLoginForm')->name('employee.login');
+    Route::get('dashboard', 'Employee\EmployeeController@index')->name('employee.dashboard');
     Route::post('logout', 'Employee\LoginController@logout')->name('employee.logout');
     Route::post('password/email', 'Employee\ForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
     Route::get('password/reset', 'Employee\ForgotPasswordController@showLinkRequestForm')->name('employee.password.request');
     Route::post('password/reset', 'Employee\ResetPasswordController@reset');
 
-    Route::get('/dashboard/profile', 'EmployeeRoutesController@profile')->name('employee.profile');
-    Route::get('/dashboard/messages', 'EmployeeRoutesController@messages')->name('employee.messages');
-    Route::get('/dashboard/schedule', 'EmployeeRoutesController@schedule')->name('employee.schedule');
-    Route::get('/dashboard/evaluation', 'EmployeeRoutesController@evaluation')->name('employee.evaluation');
+    Route::get('/dashboard/profile', 'Employee\EmployeeRoutesController@profile')->name('employee.profile');
+    Route::get('/dashboard/messages', 'Employee\EmployeeRoutesController@messages')->name('employee.messages');
+    Route::get('/dashboard/schedule', 'Employee\EmployeeRoutesController@schedule')->name('employee.schedule');
+    Route::get('/dashboard/evaluation', 'Employee\EmployeeRoutesController@evaluation')->name('employee.evaluation');
 
     Route::post('/dashboard/messages/create', 'MessageController@messageToUser')->name('employee.message.create');
     Route::post('/dashboard/requests/create', 'MessageController@requestToUser')->name('employee.request.create');
@@ -69,4 +70,6 @@ Route::group([
 
     Route::post('/dashboard/change-password', 'Employee\ChangePasswordController@update')->name('employee.change-password');
     Route::post('/dashboard/password-check/{password}', 'Employee\ChangePasswordController@check')->name('employee.password-check');
+
+
 });
