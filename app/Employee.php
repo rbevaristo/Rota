@@ -47,5 +47,8 @@ class Employee extends Authenticatable
         return $this->hasMany('App\UserRequest');
     }
 
+    public function evaluation_results() {
+        return $this->hasMany('App\EvaluationResult', 'emp_id');
+    }
 
 }

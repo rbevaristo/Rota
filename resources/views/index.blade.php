@@ -12,9 +12,10 @@
             <div class="row">
                 <div class="col-6">
                     <h1>ROTA </h1>
-                    <h2>Making <span>your scheduling tasks</span> easy!</h2>
+                    <h2>Supporting businesses small to medium with <span>tasks and decisions </span> in scheduling and monitoring workers.</h2>
                     <div>
-                        <a href="#" class="btn btn-primary">Get Started</a>
+                        <a href="#about" class="btn btn-primary">Learn More</a>
+                        <a href="{{ route('auth.admin') }}" class="btn btn-primary">Get Started</a>
                     </div>
                     
                 </div>

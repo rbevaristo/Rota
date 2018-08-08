@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
+use App\EvaluationResult;
 use Illuminate\Http\Request;
-use App\Http\Resources\EmployeeResource;
 
-class EmployeesController extends Controller
+class EvaluationResultsController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -38,9 +38,13 @@ class EmployeesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
-        //
+        $eval = EvaluationResult::create($request->all());
+        $eval->update(
+            ['emp_id' => $id, 'user_id' => auth()->user()->id]
+        );
+        return redirect()->back()->with('success', "Evaluation Success");
     }
 
     /**
@@ -51,17 +55,7 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::where('id',$id)->first();
-        if($employee) {
-            return response()->json([
-                'success' => true,
-                'data' => new EmployeeResource($employee) 
-            ]);
-        }
-         return response()->json([
-            'success' => false,
-            'data' => "Cant retrieve information try again."
-        ]);
+        //
     }
 
     /**

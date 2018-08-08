@@ -62,4 +62,8 @@ class User extends Authenticatable
     public function verify() {
         return $this->hasOne('App\VerifyUsers');
     }
+
+    public function evaluation_results(){
+        return $this->hasMany('App\EvaluationResult', 'user_id');
+    }
 }

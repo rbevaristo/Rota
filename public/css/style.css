@@ -16,6 +16,10 @@ body {
     color: #084c61 !important;
 }
 
+.text-default {
+    color: #478dd2 !important; 
+}
+
 .navbar .nav-link {
     color: #fff !important;
 }
@@ -32,10 +36,6 @@ section .title {
     color: #373737;
     margin-bottom: 30px;
     font-size: 60px;
-}
-
-a .fa {
-    color: #ffffff !important;
 }
 
 a .fa-google-plus {
@@ -99,6 +99,7 @@ a .fa-gear {
 #home .content h2 {
     color: #ffffff;
     font-size: 34px;
+    padding-bottom: 20px;
 }
 
 #home .content h2 span {
@@ -569,6 +570,9 @@ footer a:hover {
     input[type='search'] {
         width: 150px !important;
     }
+    select {
+        padding: 0;
+    }
 }
 
 .carousel .carousel-inner .card {
@@ -791,4 +795,18 @@ input[type='search'] {
 
 .notice-danger>strong {
     color: #d73814;
+}
+
+#employee-schedule {
+    height: 20px;
+    overflow-y: visible;
+}
+textarea {
+    resize: none;
+}
+
+#count_message {
+    background-color: smoke;
+    margin-top: -20px;
+    margin-right: 5px;
 }

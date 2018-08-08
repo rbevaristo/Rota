@@ -31,6 +31,7 @@ Route::group([], function() {
     Route::get('verify/{token}', 'Auth\RegisterController@verify');
 
     Route::get('/dashboard/employee/{id}', 'EmployeesController@show');
+    Route::post('/dashboard/employee/{id}/evaluation_results', 'EvaluationResultsController@store')->name('user.employee.evaluation');
 });
 
 //Admin Routes
