@@ -108,7 +108,7 @@
                         <h5 class="team-name text-primary">Jaspher Dingal</h5>
                         <p class="category">Programmer</p>
                         <p class="description"> 
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione quo esse, ipsam corrupti neque cupiditate! 
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, error?
                         </p>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
@@ -120,7 +120,7 @@
                         <h5 class="team-name text-primary">Richard Evaristo</h5>
                         <p class="category">Programmer</p>
                         <p class="description">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae voluptatum iure, id perspiciatis quae consectetur?
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur.
                         </p>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
@@ -132,7 +132,7 @@
                         <h5 class="team-name text-primary">Kennet Mallari</h5>
                         <p class="category">Researcher</p>
                         <p class="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex nostrum adipisci iure voluptatem eligendi perferendis?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, nisi.
                         </p>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
@@ -144,7 +144,7 @@
                         <h5 class="team-name text-primary">Luc Racca</h5>
                         <p class="category">Researcher</p>
                         <p class="description">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum repudiandae alias voluptatibus suscipit minima veniam!
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, modi.
                         </p>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
@@ -156,7 +156,7 @@
                         <h5 class="team-name text-primary">Renz Tolentino</h5>
                         <p class="category">Researcher</p>
                         <p class="description">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Culpa, incidunt. Eveniet sunt nam illo dicta?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, soluta.
                         </p>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
                         <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>

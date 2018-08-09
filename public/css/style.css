@@ -17,7 +17,7 @@ body {
 }
 
 .text-default {
-    color: #478dd2 !important; 
+    color: #478dd2 !important;
 }
 
 .navbar .nav-link {
@@ -33,9 +33,11 @@ body {
 }
 
 section .title {
-    color: #373737;
+    color: #478dd2;
     margin-bottom: 30px;
     font-size: 60px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 a .fa-google-plus {
@@ -98,13 +100,13 @@ a .fa-gear {
 
 #home .content h2 {
     color: #ffffff;
-    font-size: 34px;
+    font-size: 25px;
     padding-bottom: 20px;
 }
 
 #home .content h2 span {
-    color: #808080;
-    text-decoration: underline;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 
@@ -209,6 +211,10 @@ a .fa-gear {
     transform: translateY(-10px);
     -webkit-transform: translateY(-10px);
     -moz-transform: translateY(-10px);
+}
+
+#team .category {
+    margin-top: -10px;
 }
 
 
@@ -482,7 +488,6 @@ footer a:hover {
 
 @media (max-width: 768px) {
     section .title {
-        color: #373737;
         margin-bottom: 30px;
         font-size: 32px;
     }
@@ -523,7 +528,6 @@ footer a:hover {
 
 @media (max-width: 576px) {
     section .title {
-        color: #373737;
         margin-bottom: 30px;
         font-size: 27px;
     }
@@ -539,14 +543,15 @@ footer a:hover {
         font-size: 27px;
     }
     #home .content h2 {
-        font-size: 15px;
+        font-size: 10px;
     }
     #home img {
         width: 100%;
         height: 80%;
     }
     #home .btn {
-        font-size: 12px;
+        font-size: 8px;
+        padding: 5px;
     }
     #team img {
         width: 30%;
@@ -801,6 +806,7 @@ input[type='search'] {
     height: 20px;
     overflow-y: visible;
 }
+
 textarea {
     resize: none;
 }

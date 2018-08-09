@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Employee;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class EmployeeRoutesController extends Controller
 {

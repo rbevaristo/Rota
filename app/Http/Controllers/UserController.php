@@ -36,7 +36,35 @@ class UserController extends Controller
     }
 
     public function performance() {
-        return view('user.performance');
+        $chartjs = app()->chartjs
+        ->name('chart')
+        ->type('bar')
+        ->size(['width' => 100, 'height' => 100])
+        ->labels([
+            'Quality ofWork',
+            'Efficiency of Work',
+            'Dependability',
+            'Job Knowledge',
+            'Attitude',
+            'Housekeeping',
+            'Reliability',
+            'Personal Care',
+            'Judgement',
+            ])
+        ->datasets([
+            [
+                "label" => "My First dataset",
+                'backgroundColor' => "rgba(38, 185, 154, 0.31)",
+                'borderColor' => "rgba(38, 185, 154, 0.7)",
+                "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
+                "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
+                "pointHoverBackgroundColor" => "#fff",
+                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                'data' => [4,2,3,4,1,2,3,4,4],
+            ],
+        ])
+        ->options([]);
+        return view('user.performance', compact('chartjs'));
     }
 
     public function attendance() {

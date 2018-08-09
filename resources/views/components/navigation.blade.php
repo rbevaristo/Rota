@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-primary shadow-lg p-3 mb-5">
-    <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
+<a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" width="40" height="40"> {{ config('app.name') }}</a>
     <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -82,41 +82,6 @@
                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                 </li>
             @endif
-            {{-- @guest
-                <li class="nav-item {{ Request::is('login') ? 'active' : ''}}">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-                <li class="nav-item {{ Request::is('register') ? 'active' : ''}}">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                </li>
-            @else
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        <img src="{{ asset('img/default.png') }}" alt="" width="20" height="20">
-                        {{ Helper::name() }} <span class="caret"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                       @if(Auth::guard()->user()->role_id == 2)
-                       <a class="dropdown-item" href="{{ route('dashboard') }}">
-                           Dashboard
-                       </a>
-                       @elseif(Auth::guard()->user()->role_id == 3)
-                       <a class="dropdown-item" href="{{ route('employee.dashboard') }}">
-                           Dashboard
-                       </a>
-                       @endif
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
-                                           document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
-            @endguest    --}}
         </ul>
     </div>
 </nav>

@@ -1,4 +1,7 @@
 @extends('layouts.user')
+@section('custom_styles')
+
+@endsection
 @section('content')
 <section id="user-dashboard">
     <div class="container-fluid">
@@ -54,9 +57,6 @@
                                                         <a href="#myModal" class="profile" data-toggle="modal" role="button">
                                                             <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i>
                                                         </a>
-                                                        {{-- <a href="#myModal" class="schedule" data-toggle="modal" role="button">
-                                                            <i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i>
-                                                        </a> --}}
                                                         <a href="#myModal" class="message" data-toggle="modal" role="button">
                                                             <i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i>
                                                         </a>
@@ -121,6 +121,7 @@
 @endsection
 
 @section('custom_scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script>
         $(document).ready(() => {
             $.ajaxSetup({
@@ -157,14 +158,8 @@
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
-                        $('.modal .modal-header').html('');
-                        $('.modal .modal-body').html('');
-                        $('.modal .modal-header').html(`
-                            Profile
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        `);
+                        console.log(result);
+                        
                         $('.modal .modal-body').html(
                             `
                                 <div class="row">
@@ -173,11 +168,11 @@
                                             <div class="card-body">
                                                 <div class="author text-center">
                                                     <a href="#">
-                                                        <img class="avatar border-gray" src="{{ asset('storage/avatar/') }}/`+result["data"]["profile"]["avatar"]+`" alt="Avatar" width="70" height="70">
-                                                        <h5 class="name">`+result["data"]["name"]+`</h5>
+                                                        <img class="avatar border-gray" src="{{ asset('storage/avatar/') }}/`+result.data.profile.avatar+`" alt="Avatar" width="70" height="70">
+                                                        <h5 class="name">`+result.data.name+`</h5>
                                                     </a>
-                                                    <p class="text-black">`+check(result["data"]["email"])+`</p>
-                                                    <p class="text-black">`+result["data"]["position"]+`</p>
+                                                    <p class="text-black">`+check(result.data.email)+`</p>
+                                                    <p class="text-black">`+result.data.position+`</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -191,7 +186,7 @@
                                                         <tr>
                                                             <td>Gender</td>
                                                             <td>
-                                                                @if(`+result["data"]["profile"]["gender"]+`)
+                                                                @if(`+result.data.profile.gender+`)
                                                                     Male
                                                                 @else
                                                                     Female
@@ -201,24 +196,24 @@
                                                         <tr>
                                                             <td>Birthday</td>
                                                             <td>
-                                                                `+check(result["data"]["profile"]["birthdate"])+`
+                                                                `+check(result.data.profile.birthdate)+`
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>Contact</td>
                                                             <td>
-                                                                `+check(result["data"]["profile"]["contact"])+`
+                                                                `+check(result.data.profile.contact)+`
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>Address</td>
                                                             <td>
-                                                                `+check(result["data"]["address"]["number"])+`
-                                                                `+check(result["data"]["address"]["street"])+`
-                                                                `+check(result["data"]["address"]["city"])+`
-                                                                `+check(result["data"]["address"]["state"])+`
-                                                                `+check(result["data"]["address"]["zip"])+`
-                                                                `+check(result["data"]["address"]["country"])+`
+                                                                `+check(result.data.address.number)+`
+                                                                `+check(result.data.address.street)+`
+                                                                `+check(result.data.address.city)+`
+                                                                `+check(result.data.address.state)+`
+                                                                `+check(result.data.address.zip)+`
+                                                                `+check(result.data.address.country)+`
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -238,7 +233,12 @@
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Evaluation</div>
                                             <div class="card-body" style="height: 350px; overflow-y: auto;">
-                                                
+                                                <div style="width:40%">
+                                                    <canvas id="chart" width="100" height="100">
+                                                       @php
+                                                            $chartjs = `+result.chartjs+`
+                                                       @endphp                                                      
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -322,13 +322,13 @@
                                                 <div class="container-fluid text-default">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            Name: <strong>`+result["data"]["name"]+`</strong>
+                                                            Name: <strong>`+result.data.name+`</strong>
                                                         </div>
                                                         <div class="col-6">
                                                             <p class="float-right"> Date: <strong>{{ date('F d, Y') }} </strong></p>
                                                         </div>
                                                         <div class="col-6">
-                                                            Employee ID: <strong> `+result["data"]["username"]+` </strong>
+                                                            Employee ID: <strong> `+result.data.username+` </strong>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -369,7 +369,7 @@
                                                         <div class="col-12">
                                                             <div class="form-label-group">
                                                             <textarea class="form-control noresize" name="qualities" max-length="200" id="qualities" rows="3" placeholder="Best qualities demonstrated"></textarea>
-                                                            <span class="float-right label label-default" id="count_message"></span>
+                                                            <span class="float-right label label-default" id="count_message">200</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -406,16 +406,6 @@
                         );
                     },
                 });
-                var text_max = 200;
-                    $('#count_message').html('0 / ' + text_max );
-
-                    $('#evaluation-form #qualities').keyup(function() {
-                        var text_length = $('#qualities').val().length;
-                        var text_remaining = text_max - text_length;
-                        
-                        $('#count_message').html(text_length + ' / ' + text_max);
-                });
-                    
             });
             
             function check(value){

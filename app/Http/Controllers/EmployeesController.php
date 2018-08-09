@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Employee;
 use Illuminate\Http\Request;
 use App\Http\Resources\EmployeeResource;
+use App\Charts\PerformanceChart;
+
 
 class EmployeesController extends Controller
 {
@@ -51,11 +53,40 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::where('id',$id)->first();
+        $employee = Employee::where('id', $id)->first();
+        $chartjs = app()->chartjs
+        ->name('chart')
+        ->type('bar')
+        ->size(['width' => 100, 'height' => 100])
+        ->labels([
+            'Quality ofWork',
+            'Efficiency of Work',
+            'Dependability',
+            'Job Knowledge',
+            'Attitude',
+            'Housekeeping',
+            'Reliability',
+            'Personal Care',
+            'Judgement',
+            ])
+        ->datasets([
+            [
+                "label" => "My First dataset",
+                'backgroundColor' => "rgba(38, 185, 154, 0.31)",
+                'borderColor' => "rgba(38, 185, 154, 0.7)",
+                "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
+                "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
+                "pointHoverBackgroundColor" => "#fff",
+                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                'data' => [4,2,3,4,1,2,3,4,4],
+            ],
+        ])
+        ->options([]);
         if($employee) {
             return response()->json([
                 'success' => true,
-                'data' => new EmployeeResource($employee) 
+                'data' => new EmployeeResource($employee),
+                'chart' => $chartjs
             ]);
         }
          return response()->json([
