@@ -7,8 +7,8 @@
 @section('content')
 {{-- Home --}}
 <section id="home" class="animated fadeIn">
-    <div class="content">
-        <div class="container">
+    <div class="content d-flex justify-content-center align-items-center">
+        <div class="container ">
             <div class="row">
                 <div class="col-6">
                     <h1>ROTA </h1>

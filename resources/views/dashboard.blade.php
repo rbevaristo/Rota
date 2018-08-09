@@ -121,7 +121,6 @@
 @endsection
 
 @section('custom_scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script>
         $(document).ready(() => {
             $.ajaxSetup({
@@ -159,7 +158,14 @@
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
                         console.log(result);
-                        
+                        $('.modal .modal-header').html('');
+                        $('.modal .modal-body').html('');
+                        $('.modal .modal-header').html(`
+                            Employee Profile
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        `);
                         $('.modal .modal-body').html(
                             `
                                 <div class="row">
@@ -233,12 +239,6 @@
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Evaluation</div>
                                             <div class="card-body" style="height: 350px; overflow-y: auto;">
-                                                <div style="width:40%">
-                                                    <canvas id="chart" width="100" height="100">
-                                                       @php
-                                                            $chartjs = `+result.chartjs+`
-                                                       @endphp                                                      
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -415,6 +415,5 @@
             }
 
         });
-        
     </script>
 @endsection

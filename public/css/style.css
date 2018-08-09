@@ -84,13 +84,16 @@ a .fa-gear {
 #home img {
     width: 80%;
 }
+#home .content .container{
+    margin-top: 70px;
+}
 
 #home .content {
     padding: 50px;
-    justify-content: left;
-    align-items: left;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    text-align: left;
+    text-align: center;
 }
 
 #home .content h1 {

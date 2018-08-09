@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use App\Employee;
 use App\EvaluationResult;
+use App\EvaluationComments;
 use Illuminate\Http\Request;
+use App\Http\Resources\DataSource;
+use Illuminate\Support\Facades\App;
 
 class EvaluationResultsController extends Controller
 {
@@ -44,6 +49,19 @@ class EvaluationResultsController extends Controller
         $eval->update(
             ['emp_id' => $id, 'user_id' => auth()->user()->id]
         );
+        
+        $comment = EvaluationComments::create([
+            'best_qualities_demonstrated' => $request->qualities,
+            'how_improvements_can_be_made' => $request->improvements,
+            'comments' => $request->comments,
+            'eval_id' => $eval->id
+        ]);
+        
+        $data = new DataSource(auth()->user());
+        $employee = Employee::find($eval->emp_id);
+        $name = $employee->firstname.'_'.$employee->lastname.'_'.date('mdy').time().'.pdf';
+        $pdf = PDF::loadView('pdf.evaluation', compact('data'));
+        return $pdf->download($name);
         return redirect()->back()->with('success', "Evaluation Success");
     }
 
