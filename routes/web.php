@@ -65,12 +65,12 @@ Route::group([
     Route::get('/dashboard/schedule', 'Employee\EmployeeRoutesController@schedule')->name('employee.schedule');
     Route::get('/dashboard/evaluation', 'Employee\EmployeeRoutesController@evaluation')->name('employee.evaluation');
 
-    Route::post('/dashboard/messages/create', 'MessageController@messageToUser')->name('employee.message.create');
+    Route::get('/dashboard/message/create', 'MessageController@messageToUser')->name('employee.message.create');
     Route::post('/dashboard/requests/create', 'MessageController@requestToUser')->name('employee.request.create');
 
 
     Route::post('/dashboard/change-password', 'Employee\ChangePasswordController@update')->name('employee.change-password');
     Route::post('/dashboard/password-check/{password}', 'Employee\ChangePasswordController@check')->name('employee.password-check');
 
-
+    Route::post('/dashboard/notifications/message/notification', 'Employee\MessageController@notification');
 });

@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <p>{{ $data->employee }}</p>
+
         </div>
     </div>
 </body>

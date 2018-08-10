@@ -2,26 +2,23 @@
 
 namespace App\Notifications;
 
-use App\UserRequest;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 
-
-class NotifyUsers extends Notification
+class MessagesNotification extends Notification
 {
     use Queueable;
-    public $request;
+    protected $message;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(UserRequest $request)
+    public function __construct($message)
     {
-        $this->request = $request;
+        $this->message = $message;
     }
 
     /**
@@ -44,15 +41,8 @@ class NotifyUsers extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'request' => $this->request
+            'messages' => $this->message
         ];
-    }
-
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'request' => $this->request
-        ]);
     }
 
     /**
@@ -61,10 +51,10 @@ class NotifyUsers extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toBroadcast($notifiable)
     {
         return [
-            //
+            'messages' => $this->message
         ];
     }
 }

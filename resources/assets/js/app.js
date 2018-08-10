@@ -18,5 +18,21 @@ window.Vue = require('vue');
 Vue.component('notification', require('./components/notification.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        messages: ''
+    },
+    created() {
+        if (window.Laravel.userId) {
+            axios.post('employee/dashboard/notifications/message/notification').then(response => {
+                this.messages = response.data;
+
+            });
+
+            Echo.private('App.Employee.' + window.Laravel.userId).notification((response) => {
+                data = { "data": response };
+                this.messages.push(data);
+            });
+        }
+    }
 });

@@ -45,10 +45,9 @@ class EvaluationResultsController extends Controller
      */
     public function store($id, Request $request)
     {
+        $request['emp_id'] = $id;
+        $request['user_id'] = auth()->user()->id;
         $eval = EvaluationResult::create($request->all());
-        $eval->update(
-            ['emp_id' => $id, 'user_id' => auth()->user()->id]
-        );
         
         $comment = EvaluationComments::create([
             'best_qualities_demonstrated' => $request->qualities,
@@ -57,11 +56,11 @@ class EvaluationResultsController extends Controller
             'eval_id' => $eval->id
         ]);
         
-        $data = new DataSource(auth()->user());
-        $employee = Employee::find($eval->emp_id);
-        $name = $employee->firstname.'_'.$employee->lastname.'_'.date('mdy').time().'.pdf';
-        $pdf = PDF::loadView('pdf.evaluation', compact('data'));
-        return $pdf->download($name);
+        // $data = new DataSource(auth()->user());
+        // $employee = Employee::find($id);
+        // $name = $employee->firstname.'_'.$employee->lastname.'_'.date('mdy').time().'.pdf';
+        // $pdf = PDF::loadView('pdf.evaluation', compact('data'));
+        // return $pdf->download($name);
         return redirect()->back()->with('success', "Evaluation Success");
     }
 

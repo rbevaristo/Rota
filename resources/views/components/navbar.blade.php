@@ -23,7 +23,8 @@
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
+            <notification v-bind:messages="messages"></notification>
+            {{-- <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     <span class="fa fa-bell text-white"></span> <span class="d-sm-block d-md-none"> Notifications</span>
                 </a>
@@ -33,7 +34,7 @@
                     </div>
                     <li class="divider"></li>
                     <div class="notifications-wrapper">
-                        {{-- Notification  --}}
+
                         <a class="content" href="#">
                             
                             <div class="notification-item">
@@ -49,7 +50,7 @@
                             </div>
                             
                         </a>
-                    {{-- Notification --}}
+
                     </div>
                     <li class="divider"></li>
                     <a href="">
@@ -58,7 +59,7 @@
                         </div>
                     </a>
                 </ul>
-            </li>
+            </li> --}}
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" alt="" width="20" height="20">

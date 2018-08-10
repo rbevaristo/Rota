@@ -84,7 +84,8 @@ a .fa-gear {
 #home img {
     width: 80%;
 }
-#home .content .container{
+
+#home .content .container {
     margin-top: 70px;
 }
 
@@ -547,6 +548,9 @@ footer a:hover {
     }
     #home .content h2 {
         font-size: 10px;
+    }
+    #home .content .container {
+        margin-top: 0px;
     }
     #home img {
         width: 100%;

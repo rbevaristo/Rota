@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Converter;
+use App\Message;
 use Illuminate\Http\Request;
 use App\Notifications\NotifyUsers;
+use App\Notifications\MessagesNotification;
 
 class MessageController extends Controller
 {
@@ -16,16 +19,22 @@ class MessageController extends Controller
     public function messageToUser(Request $request) 
     {
         $message = new \App\Message;
-        $message->title = $request->title;
-        $message->message = $request->message;
-        $message->user_id = auth()->user()->id;
+        $message->title = 'Sample Title';
+        $message->body = 'This is a sample message body';
+        $message->user_id = 1;
         $message->save();
-
+        // $message->title = $request->title;
+        // $message->message = $request->message;
+        // $message->user_id = auth()->user()->id;
+        // $message->save();
+        $user = User::find(1);
         if(!$message) {
             return redirect()->back()->with('error', 'There is an error with your message');
         }
 
-        return redirect()->back()->with('success', 'Message Sent!');
+        if(\Notification::send($user, new MessagesNotification(Message::latest('id')->first()))){
+            return redirect()->back()->with('success', 'Message Sent!');
+        }
     }
     
     public function requestToUser(Request $request)
@@ -45,5 +54,10 @@ class MessageController extends Controller
         }
 
         return redirect()->back()->with('success', 'Request Sent!');
+    }
+
+    public function notification()
+    {
+        return auth()->user()->unreadNotifications;
     }
 }

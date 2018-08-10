@@ -20,9 +20,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "chart.js": "^2.7.2",
         "laravel-echo": "^1.4.0",
-        "pusher-js": "^4.2.2",
-        "scrollreveal": "^3.4.0"
+        "pusher-js": "^4.2.2"
     }
 }
