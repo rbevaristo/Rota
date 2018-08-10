@@ -23,16 +23,13 @@ const app = new Vue({
         messages: ''
     },
     created() {
-        if (window.Laravel.userId) {
-            axios.post('employee/dashboard/notifications/message/notification').then(response => {
-                this.messages = response.data;
+        axios.post('dashboard/notifications/get').then(response => {
+            this.messages = response.data;
+        });
 
-            });
-
-            Echo.private('App.Employee.' + window.Laravel.userId).notification((response) => {
-                data = { "data": response };
-                this.messages.push(data);
-            });
-        }
+        var userId = $('meta[name="userId"]').attr('content');
+        Echo.private('App.User.' + this.userId).notification((response) => {
+            this.messages.push(response);
+        });
     }
 });

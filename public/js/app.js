@@ -13901,16 +13901,14 @@ var app = new Vue({
     created: function created() {
         var _this = this;
 
-        if (window.Laravel.userId) {
-            axios.post('employee/dashboard/notifications/message/notification').then(function (response) {
-                _this.messages = response.data;
-            });
+        axios.post('dashboard/notifications/get').then(function (response) {
+            _this.messages = response.data;
+        });
 
-            Echo.private('App.Employee.' + window.Laravel.userId).notification(function (response) {
-                data = { "data": response };
-                _this.messages.push(data);
-            });
-        }
+        var userId = $('meta[name="userId"]').attr('content');
+        Echo.private('App.User.' + this.userId).notification(function (response) {
+            _this.messages.push(response);
+        });
     }
 });
 
@@ -16314,9 +16312,9 @@ window.Popper = __webpack_require__(4).default;
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(2);
+    window.$ = window.jQuery = __webpack_require__(2);
 
-  __webpack_require__(17);
+    __webpack_require__(17);
 } catch (e) {}
 
 /**
@@ -16338,9 +16336,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
 /**
@@ -16354,10 +16352,10 @@ if (token) {
 window.Pusher = __webpack_require__(38);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
-  broadcaster: 'pusher',
-  key: "bfc4bf83682033a454f2",
-  cluster: "ap1",
-  encrypted: true
+    broadcaster: 'pusher',
+    key: "bfc4bf83682033a454f2",
+    cluster: "ap1",
+    encrypted: true
 });
 
 /***/ }),
@@ -55740,9 +55738,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['messages']
+    props: ['messages'],
+    methods: {
+        MarkAsRead: function MarkAsRead(message) {
+            var data = {
+                id: message.id
+            };
+            axios.post('dashboard/notification/read', data).then(function (response) {
+                window.location.href = "/message/" + message.id;
+            });
+        }
+    }
 });
 
 /***/ }),
@@ -55757,22 +55773,41 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c(
-      "div",
+      "ul",
       {
         staticClass: "dropdown-menu dropdown-menu-right",
         attrs: { "aria-labelledby": "navbarDropdown" }
       },
-      _vm._l(_vm.messages, function(message) {
-        return _c(
-          "a",
-          {
-            key: message.id,
-            staticClass: "dropdown-item",
-            attrs: { href: "#" }
-          },
-          [_vm._v("\n            " + _vm._s(message.data) + "\n       ")]
-        )
-      })
+      [
+        _vm._l(_vm.messages, function(message) {
+          return _c("li", [
+            _c(
+              "a",
+              {
+                staticClass: "dropdown-item",
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    _vm.MarkAsRead(message)
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(message.data.messages.title) +
+                    "\n            "
+                )
+              ]
+            )
+          ])
+        }),
+        _vm._v(" "),
+        _vm.messages.length == 0
+          ? _c("li", [_c("span", [_vm._v("No Message")])])
+          : _vm._e()
+      ],
+      2
     )
   ])
 }
@@ -55798,11 +55833,9 @@ var staticRenderFns = [
       [
         _c("span", { attrs: { class: "fa fa-bell" } }),
         _vm._v(" "),
-        _c(
-          "span",
-          { attrs: { class: "badge badge-danger", id: "count-notification" } },
-          [_vm._v("{{ messages.length }}")]
-        )
+        _c("span", { attrs: { class: "badge badge-danger" } }, [
+          _vm._v("\n           {{ messages.length }}\n        ")
+        ])
       ]
     )
   }

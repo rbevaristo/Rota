@@ -32,12 +32,6 @@ class MessagesNotification extends Notification
         return ['database', 'broadcast'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toDatabase($notifiable)
     {
         return [

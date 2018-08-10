@@ -32,6 +32,8 @@ Route::group([], function() {
 
     Route::get('/dashboard/employee/{id}', 'EmployeesController@show');
     Route::post('/dashboard/employee/{id}/evaluation_results', 'EvaluationResultsController@store')->name('user.employee.evaluation');
+    Route::get('/dashboard/message/create', 'MessageController@messageToUser');
+    Route::get('/dashboard/notification/markAsRead', 'MessageController@markRead')->name('markRead');
 });
 
 //Admin Routes
@@ -72,5 +74,8 @@ Route::group([
     Route::post('/dashboard/change-password', 'Employee\ChangePasswordController@update')->name('employee.change-password');
     Route::post('/dashboard/password-check/{password}', 'Employee\ChangePasswordController@check')->name('employee.password-check');
 
-    Route::post('/dashboard/notifications/message/notification', 'Employee\MessageController@notification');
+    
 });
+
+Route::post('/dashboard/notifications/get', 'MessageController@notification');
+Route::post('/dashboard/notification/read', 'MessageController@read');
