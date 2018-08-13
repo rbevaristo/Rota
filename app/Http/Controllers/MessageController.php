@@ -19,14 +19,11 @@ class MessageController extends Controller
     public function messageToUser(Request $request) 
     {
         $message = new \App\Message;
-        $message->user_id = auth()->user()->id;
-        $message->title = 'Sample Title';
-        $message->body = 'This is a sample message body';
+        $message->from = auth()->user()->id;
+        $message->to = auth()->user()->user->id;
+        $message->title = $request->title;
+        $message->message = $request->message;
         $message->save();
-        // $message->title = $request->title;
-        // $message->message = $request->message;
-        // $message->user_id = auth()->user()->id;
-        // $message->save();
         $user = User::where('id', '!=', $message->user_id);
         if(!$message) {
             return redirect()->back()->with('error', 'There is an error with your message');

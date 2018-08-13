@@ -5,6 +5,7 @@
     </button>
 
     <div class="navbar-collapse offcanvas-collapse bg-primary" id="navbarsExampleDefault">
+
         <ul class="navbar-nav mr-auto">
             <li class="nav-item {{ Request::is('employee/dashboard') ? 'active' : ''}}">
                 <a href="{{ route('employee.dashboard') }}" class="nav-link">Dashboard</a>
@@ -20,11 +21,20 @@
             </li>
         </ul>
 
-        <!-- Right Side Of Navbar -->
+
         <ul class="navbar-nav ml-auto">
+            {{-- <notification v-bind:messages="messages"></notification> --}}
+            @if(Auth::check())
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    <span class="fa fa-bell text-white"></span> <span class="d-sm-block d-md-none"> Notifications</span>
+                    <span class="fa fa-bell text-white"></span> 
+                    <span class="badge badge-danger">
+                            @if(auth()->user()->unreadNotifications->count())
+                                {{auth()->user()->unreadNotifications->count()}}
+                            @endif
+                    </span>
+                    <span class="d-sm-block d-md-none"> Notifications</span>
+                    
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right notifications" aria-labelledby="navbarDropdown">
                     <div class="notification-heading">
@@ -32,23 +42,56 @@
                     </div>
                     <li class="divider"></li>
                     <div class="notifications-wrapper">
-                        {{-- Notification  --}}
+                        @if(auth()->user()->notifications->count())
+                        @foreach(auth()->user()->unreadNotifications as $notification)
                         <a class="content" href="#">
                             
                             <div class="notification-item">
                                 <div class="media">
                                     <div class="media-left">
-                                        <img src="{{ asset('img/default.png') }}" class="media-object rounded" style="width:60px">
+                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="media-heading">Left-aligned </h4>
-                                        <p><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small> </p>
+                                        <h4 class="media-heading"> {{ $notification->data["messages"]["title"] }} </h4>
+                                        <p>
+                                            <small>{{ $notification->data["messages"]["body"] }}</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        </a>
+                        @endforeach
+                        <li class="divider"></li>
+                        @foreach(auth()->user()->readNotifications as $notification)
+                        <a class="content" href="#">
+                            
+                            <div class="notification-item">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"> {{ $notification->data["messages"]["title"] }} </h4>
+                                        <p>
+                                            <small>{{ $notification->data["messages"]["body"] }}</small>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             
                         </a>
-                    {{-- Notification --}}
+                        @endforeach
+
+                        @else
+                        <a class="content" href="#">
+                            
+                            <div class="notification-item">
+                                No Message
+                            </div>
+                                
+                        </a>
+                        @endif
                     </div>
                     <li class="divider"></li>
                     <a href="">
@@ -58,6 +101,7 @@
                     </a>
                 </ul>
             </li>
+            @endif
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     <img src="{{ asset('img/default.png') }}" alt="" width="20" height="20">
@@ -65,7 +109,7 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('user.profile') }}">
+                    <a class="dropdown-item" href="{{ route('employee.profile') }}">
                         <span class="fa fa-user"></span> {{ __('My Profile') }}
                     </a>
                     <a class="dropdown-item" href="{{ route('logout') }}"

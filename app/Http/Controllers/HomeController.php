@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         if(!auth()->user()->company){
-            return view('user.setup');
+            return view('user.setup')->with('error', 'Please fill up the form.');
         }
         return view('dashboard');
     }
@@ -38,7 +38,7 @@ class HomeController extends Controller
 
     public function manage(){
         if(!auth()->user()->company){
-            return view('user.setup');
+            return view('user.setup')->with('error', 'Please fill up the form.');
         } 
         return view('user.manage');
     }

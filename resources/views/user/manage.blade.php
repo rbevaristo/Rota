@@ -1,5 +1,9 @@
 @extends('layouts.user')
 
+@section('custom_styles')
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link href="{{ asset('css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+@endsection
 @section('content')
 <section id="manage-employees">
     <div class="container-fluid align-items-center">
@@ -15,46 +19,67 @@
                     </div>
                     
                     <div class="card-body">
-                        @if($errors->any())
-                        <div class="alert alert-danger" role="alert">
-                            <div class="container">
-                                <i class="fa fa-exclamation-triangle"></i>
-                                <strong class="text-primary">
-                                    @foreach($errors->all() as $error)
-                                        {{$error}}
-                                    @endforeach
-                                </strong>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">
-                                        <i class="fa fa-window-close"></i>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                        @endif
-                        @if(count(auth()->user()->employees) > 0)
+                        @include('components.messages')
+                        @include('components.sessions')
+                        {{-- @if(count(auth()->user()->employees) > 0)
                         <div class="row">
                             @foreach(auth()->user()->employees as $employee)
                             <div class="col-md-2 col-sm-2 text-center employee-lists">
                                 <p><strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong></p>
                                 <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
                                 <p>{{ $employee->position->name }}</p>
-                                <span><a href="#"><i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i></a>
-                                <a href="#"><i class="fa fa-calendar" data-toggle="tooltip" data-placement="top" title="View Schedule"></i></a>
-                                <a href="#"><i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i></a>
-                                <a href="#"><i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i></a></span>
+                                <div>
+                                    <input type="hidden" id="employee_id" value="{{ $employee->id }}">
+                                    <a href="#myModal" class="profile" data-toggle="modal" role="button">
+                                        <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i>
+                                    </a>
+                                </div>
                             </div>
                             @endforeach
                         </div>
                         @else
                             No Employee
-                        @endif
+                        @endif --}}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Activate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(count(auth()->user()->employees) > 0)
+                                @foreach(auth()->user()->employees->sortByDesc('username') as $employee)
+                                <tr>
+                                    <td>
+                                        {{ $employee->username }}
+                                    </td>
+                                    <td>
+                                        <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
+                                        <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong>
+                                    </td>
+                                    <td>
+                                        {{ $employee->position->name }}
+                                    </td>
+                                    <td>
+
+                                        <input type="checkbox" data-toggle="toggle" id="status" value="{{ $employee->id }}" {{ $employee->status == false ? '' : 'checked' }}>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @else
+                                    No Employee
+                                @endif 
+                            </tbody>
+                        </table>
                     </div>                 
                 </div>
             </div>
             <div class="col-md-3" id="add_employee">
                 <div id="accordion">
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header bg-primary" id="headingOne">
                             <h5 class="mb-0">
                                 <a class="btn-link text-white" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -72,7 +97,6 @@
                                     </div>
                                     <div class="bs-example">
                                         <div class="alert alert-warning">
-                                            {{-- <a href="#" class="close" data-dismiss="alert">&times;</a> --}}
                                             <strong>Note:</strong> To be able to successfully upload the file here are the columns needed.
                                             <ul>
                                                 <li>ID</li>
@@ -86,16 +110,19 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card">
                         <div class="card-header bg-primary" id="headingTwo">
                             <h5 class="mb-0">
                                 <a class="btn-link collapsed text-white" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Manually
+                                Add Employee
                                 </a>
                             </h5>
                         </div>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="alert alert-warning notice notice-warning">
+                                <strong>Notice:</strong> view documentation for managing employees and giving access.
+                            </div>
                             <form action="{{ url('/dashboard/employee/create') }}" method="POST" class="form-signin">
                                 @csrf
                                 <div class="form-label-group">
@@ -137,8 +164,51 @@
         </div>
     </div>
 </section>
+
+@include('components.modal')
 @endsection
 
 @section('custom_scripts')
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('js/bootstrap-toggle.min.js') }}"></script>
+<script>
+    $(document).ready(function(){
+        $('.table').DataTable({
 
+        });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('input[type="checkbox"]').on('change', function() {
+            if ($(this).is(':checked')){ 
+                var url = "{{ url('/dashboard/manage/status/update') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        id : $(this).val(),
+                        status: 1
+                    },
+                    success: function (result) {},
+                });
+            } 
+            else { 
+                var url = "{{ url('/dashboard/manage/status/update') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        id : $(this).val(),
+                        status: 0
+                    },
+                    success: function (result) {}
+                });
+            }
+        });
+    });
+</script>
 @endsection

@@ -24,18 +24,16 @@ class UserController extends Controller
     }
 
     public function profile() {
+        if(!auth()->user()->company){
+            return view('user.setup')->with('error', 'Please fill up the form.');
+        }
         return view('user.profile');
     }
 
-    public function schedule() {
-        return view('user.schedule');
-    }
-
-    public function employee() {
-        return view('user.employee');
-    }
-
     public function performance() {
+        if(!auth()->user()->company){
+            return view('user.setup')->with('error', 'Please fill up the form.');
+        }
         $chartjs = app()->chartjs
         ->name('chart')
         ->type('bar')
@@ -68,10 +66,16 @@ class UserController extends Controller
     }
 
     public function attendance() {
+        if(!auth()->user()->company){
+            return view('user.setup')->with('error', 'Please fill up the form.');
+        }
         return view('user.attendance');
     }
 
     public function settings() {
+        if(!auth()->user()->company){
+            return view('user.setup')->with('error', 'Please fill up the form.');
+        }
         return view('user.settings');
     }
 
@@ -102,7 +106,6 @@ class UserController extends Controller
 
         return redirect()->back()->with('error', 'Error Adding');
         
-
     }
 
 }

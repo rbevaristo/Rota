@@ -42,7 +42,7 @@
                                     @php
                                         $count = 0;
                                     @endphp
-                                    @foreach(auth()->user()->employees as $employee)
+                                    @foreach(auth()->user()->employees->where('status', 1) as $employee)
                                     <div class="carousel-item col-sm-4 col-md-3 {{ $count == 0 ? 'active' : '' }}">
                                         <div class="card" style="padding:10px">
                                             <div class="row">
@@ -73,9 +73,12 @@
                                         @endphp
                                         @endforeach
                                     @else
-                                    No Data
+                                    <div class="carousel-item col-sm-4 col-md-3 active">
+                                        <div class="card" style="padding:10px">
+                                            No Employee
+                                        </div>
+                                    </div>
                                     @endif
-                                   
                                 </div>
                                         
                                  <!-- /.carousel-inner -->

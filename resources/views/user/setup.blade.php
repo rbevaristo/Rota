@@ -3,11 +3,12 @@
 @section('content')
 <section id="setup">
     <div class="container d-flex justify-content-center h-100 align-items-center">
-        
+       
         <div class="col-md-6">
             <h2 class="title text-center">Company</h2>
+            @include('components.sessions')
             <div class="card">
-                <div class="card-header">
+                <div class="card-header bg-primary text-white">
                     <strong>Almost Done</strong> Please fill up the form to complete registration.
                 </div>
                 <div class="card-body">
@@ -27,8 +28,8 @@
                             <label for="location" class="text-primary"><i class="fa fa-map-marker"></i> Location</label>
                         </div>
                         <div class="form-label-group">
-                            <input type="text" id="contact" name="contact" class="form-control" placeholder="Contact" required>
-                            <label for="contact" class="text-primary"><i class="fa fa-phone"></i> Contact</label>
+                            <input type="text" id="contact_number" name="contact" class="form-control" placeholder="Contact" required>
+                            <label for="contact_number" class="text-primary"><i class="fa fa-phone"></i> Contact</label>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12">

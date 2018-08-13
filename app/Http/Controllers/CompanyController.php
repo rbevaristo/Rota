@@ -30,7 +30,7 @@ class CompanyController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'location' => $request->location,
-            'contact' => $request->contact,
+            'contact' => $request->contact_number,
             'user_id' => auth()->user()->id
         ]);
         

@@ -14,4 +14,17 @@ class Helper
     static function employee_name($firstname, $lastname) {
         return $firstname . " " . $lastname;
     }
+
+    static function limit_message($message, $limit) {
+        if (str_word_count($message, 0) > $limit) {
+            $words = str_word_count($message, 2);
+            $pos = array_keys($words);
+            $message = substr($message, 0, $pos[$limit]) . '...';
+        }
+        return $message;
+    }
+
+    static function change_to_icon($text) {
+        return substr(substr($string, 0, 1));
+    }
 }

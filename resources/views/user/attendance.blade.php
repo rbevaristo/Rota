@@ -1,14 +1,5 @@
 @extends('layouts.user')
 
-@section('breadcrumb')
-    <li class="breadcrumb-item" aria-current="page">
-        <a href="{{ route('dashboard')}}"><span class="fa fa-home"></span><span class="breadcrumb-text"> Home</span></a>
-    </li>
-    <li class="breadcrumb-item {{ Request::is('dashboard/attendance') ? 'active' : '' }}" aria-current="page">
-        <a href="{{ route('user.attendance')}}"><span class="fa fa-clock-o"></span><span class="breadcrumb-text"> Attendance</span></a>
-    </li>
-@endsection
-
 @section('content')
 <div class="row">
     <div class="col-12">

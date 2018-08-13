@@ -22,7 +22,7 @@
                     <div class="card-body">
                         <div class="author text-center">
                             <a href="#">
-                                <img class="avatar border-gray" src="{{ asset('img/default.png') }}" alt="Avatar" width="70" height="70">
+                                <img class="avatar border-gray" src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" alt="Avatar" width="70" height="70">
                                 <h5 class="name">{{ Helper::name() }}</h5>
                             </a>
                             <p class="text-black">{{ auth()->user()->email }}</p>
@@ -33,6 +33,9 @@
             </div>
             <div class="col-md-9">
                 <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Schedules
+                    </div>
                     <div class="card-body">
                         
                     </div>

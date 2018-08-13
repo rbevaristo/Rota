@@ -21,6 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->boolean('is_reset')->default(false);
+            $table->boolean('status')->default(false);
             $table->integer('role_id')->unsigned()->default(3);
             $table->integer('user_id')->unsigned();
             $table->integer('position_id')->unsigned();

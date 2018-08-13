@@ -302,10 +302,12 @@ a .fa-gear {
 
 #setup .card {
     box-shadow: 10px 10px 15px rgba(73, 78, 92, 0.1);
+    background: #fff;
+    transition: 0.4s;
 }
 
 #setup strong {
-    color: #f96332 !important;
+    color: #478dd2 !important;
 }
 
 
@@ -376,7 +378,6 @@ a .fa-gear {
 
 .btn-primary {
     background-color: #478dd2 !important;
-    border-radius: 50px;
     border-color: #478dd2 !important;
 }
 
@@ -584,6 +585,18 @@ footer a:hover {
     }
     select {
         padding: 0;
+    }
+    .badge-danger {
+        position: relative;
+        top: 8px;
+        left: 8px;
+    }
+    #employee-message {
+        font-size: 12px;
+    }
+    #employee-message .btn-primary {
+        font-size: 8px;
+        padding: 5px;
     }
 }
 
@@ -822,4 +835,10 @@ textarea {
     background-color: smoke;
     margin-top: -20px;
     margin-right: 5px;
+}
+
+.badge-danger {
+    position: relative;
+    top: -8px;
+    left: -8px;
 }

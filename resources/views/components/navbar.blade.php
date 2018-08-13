@@ -10,9 +10,6 @@
             <li class="nav-item {{ Request::is('dashboard') ? 'active' : ''}}">
                 <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
             </li>
-            {{-- <li class="nav-item {{ Request::is('dashboard/employee') ? 'active' : ''}}">
-                <a href="{{ route('user.employee') }}" class="nav-link">Employees</a>
-            </li> --}}
             <li class="nav-item {{ Request::is('dashboard/attendance') ? 'active' : ''}}">
                 <a href="{{ route('user.attendance') }}" class="nav-link">Attendance</a>
             </li>
@@ -23,8 +20,8 @@
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
-            <notification v-bind:messages="messages"></notification>
-            @if(Auth::check())
+            {{-- <notification v-bind:messages="messages"></notification> --}}
+            {{-- @if(Auth::check())
                 <li class="nav-item dropdown">
                     <a href="#" id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-globe"></i> Notification <span class="badge badge-danger" id="count-notification">
@@ -71,10 +68,18 @@
                         @endif
                     </div>
                 </li>
-            @endif
-            {{-- <li class="nav-item dropdown">
+            @endif --}}
+            @if(Auth::check())
+            <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    <span class="fa fa-bell text-white"></span> <span class="d-sm-block d-md-none"> Notifications</span>
+                    <span class="fa fa-bell text-white"></span> 
+                    <span class="badge badge-danger">
+                            @if(auth()->user()->unreadNotifications->count())
+                                {{auth()->user()->unreadNotifications->count()}}
+                            @endif
+                    </span>
+                    <span class="d-sm-block d-md-none"> Notifications</span>
+                    
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right notifications" aria-labelledby="navbarDropdown">
                     <div class="notification-heading">
@@ -82,7 +87,28 @@
                     </div>
                     <li class="divider"></li>
                     <div class="notifications-wrapper">
-
+                        @if(auth()->user()->notifications->count())
+                        @foreach(auth()->user()->unreadNotifications as $notification)
+                        <a class="content" href="#">
+                            
+                            <div class="notification-item">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"> {{ $notification->data["messages"]["title"] }} </h4>
+                                        <p>
+                                            <small>{{ $notification->data["messages"]["body"] }}</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        </a>
+                        @endforeach
+                        <li class="divider"></li>
+                        @foreach(auth()->user()->readNotifications as $notification)
                         <a class="content" href="#">
                             
                             <div class="notification-item">
@@ -98,7 +124,17 @@
                             </div>
                             
                         </a>
+                        @endforeach
 
+                        @else
+                        <a class="content" href="#">
+                            
+                            <div class="notification-item">
+                                No Message
+                            </div>
+                                
+                        </a>
+                        @endif
                     </div>
                     <li class="divider"></li>
                     <a href="">
@@ -107,7 +143,8 @@
                         </div>
                     </a>
                 </ul>
-            </li> --}}
+            </li>
+            @endif
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                     <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" alt="" width="20" height="20">

@@ -102,4 +102,16 @@ class EmployeesController extends Controller
     {
         //
     }
+
+    public function update_status(Request $request)
+    {
+        $update = Employee::where('id', $request->id)->first();
+        $update->status = $request->status;
+        $update->save();
+
+        if(!$update){
+            return response()->json(['success' => false, 'message' => $update]);
+        }
+        return response()->json(['success' => true, 'message' => $update]);
+    }
 }

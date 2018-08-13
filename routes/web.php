@@ -8,12 +8,14 @@ Route::get('/', 'PagesController@index');
 
 //User Routes
 Auth::routes();
-Route::get('login/admin', 'Auth\LoginController@loginAsAdmin')->name('auth.admin');
-Route::get('/dashboard', 'HomeController@index')->name('dashboard');
-Route::get('/dashboard/setup', 'HomeController@setup')->name('user.setup');
-Route::get('/dashboard/manage', 'HomeController@manage')->name('user.manage');
-Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');
+
 Route::group([], function() {
+    Route::get('login/admin', 'Auth\LoginController@loginAsAdmin')->name('auth.admin');
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    Route::get('/dashboard/setup', 'HomeController@setup')->name('user.setup');
+    Route::get('/dashboard/manage', 'HomeController@manage')->name('user.manage');
+    Route::post('/dashboard/manage/status/update', 'EmployeesController@update_status');
+    Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');
     Route::get('/dashboard/profile', 'UserController@profile')->name('user.profile');
     Route::get('/dashboard/schedule', 'UserController@schedule')->name('user.schedule');
     Route::get('/dashboard/employee', 'UserController@employee')->name('user.employee');
@@ -74,8 +76,9 @@ Route::group([
     Route::post('/dashboard/change-password', 'Employee\ChangePasswordController@update')->name('employee.change-password');
     Route::post('/dashboard/password-check/{password}', 'Employee\ChangePasswordController@check')->name('employee.password-check');
 
+    Route::post('/dashboard/profile/update', 'Employee\UserProfileController@update')->name('employee.profile.update');
     
 });
 
-Route::post('/dashboard/notifications/get', 'MessageController@notification');
-Route::post('/dashboard/notification/read', 'MessageController@read');
+// Route::post('/dashboard/notifications/get', 'MessageController@notification');
+// Route::post('/dashboard/notification/read', 'MessageController@read');

@@ -15,13 +15,14 @@ class CreateUserRequestsTable extends Migration
     {
         Schema::create('user_requests', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->nullable();
-            $table->text('message')->nullable();
+            $table->integer('emp_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->date('from')->nullable();
             $table->date('upto')->nullable();
-            $table->integer('emp_id')->unsigned();
+            $table->string('title')->nullable();
+            $table->text('message')->nullable();
             $table->boolean('approved')->default(false);
-            $table->integer('user_id')->unsigned()->nullable();
+            
             $table->foreign('emp_id')->references('id')->on('employees');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
