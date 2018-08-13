@@ -1,6 +1,6 @@
 @extends('layouts.employee')
 
-@section('styles')
+@section('custom_styles')
 <link rel="stylesheet" href="{{ asset('css/jquery-ui.css')}}">
 @endsection
 
@@ -10,71 +10,13 @@
     <div class="container">
         <div class="row" >
             <div class="col-12">
+                @include('components.sessions')
                 @include('components.messages')
             </div>
-            {{-- <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        Request Message
-                    </div>
-                    <div class="card-body">
-                    <form method="POST" action="{{ route('employee.request.create') }}">
-                        @csrf
-                        <div class="service-form">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
-                                    <div class="form-group">
-                                        <label class="control-label sr-only" for="subject"></label>
-                                        <select name="name" id="name" class="form-control" required>
-                                            <option value="">Select Request</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
-                                    <div class="form-group">
-                                        <label class="control-label sr-only" for="start"></label>
-                                        <input type="text" class="form-control" name="start_date" id="start" required placeholder="Start Date">
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
-                                    <div class="form-group">
-                                        <label class="control-label sr-only" for="end"></label>
-                                        <input type="text" class="form-control" name="end_date" id="end" required placeholder="End Date">
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                    <div class="form-group">
-                                        <label class="control-label sr-only" for="message"></label>
-                                        <textarea class="form-control" id="message" name="message" rows="3" placeholder="Reason for request." required></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                    <button type="submit" class="btn btn-primary btn-block mb10">Send Request</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-                </div>
-            </div> --}}
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         Inbox
-                        {{-- <div class="float-right dropdown">
-                            <a id="navbarDropdown2" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-plus"></i>
-                                Compose
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
-                                <a href="#" class="dropdown-item">
-                                    Request
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    Message
-                                </a>
-                            </div>
-                        </div> --}}
                         <div class="float-right dropdown">
                             <a id="navbarDropdown2" class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Compose
@@ -93,13 +35,21 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
-                                <tbody>
+                                <thead>
                                     <tr>
-                                        <td><input type="checkbox"></td>
-                                        <td>Request for Leave</td>
-                                        <td>Message...</td>
-                                        <td class="text-right">March 15</td>
+                                        <th>Title</th>
+                                        <th class="text-center">Body</th>
+                                        <th class="text-right">Date</th>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(\App\Message::all()->sortByDesc('id')->where('from', auth()->user()->id) as $message)
+                                    <tr>
+                                        <td>{{ $message->title }}</td>
+                                        <td class="text-center">{{ Helper::limit_message($message->body, 5)}}</td>
+                                        <td class="text-right">{{ date('F d, Y', strtotime($message->created_at)) }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -110,34 +60,17 @@
     </div>
 </section>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade align-items-center" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-half modal-dialog-centered" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Send a message</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-              <label for=""></label>
-              <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-              <small id="helpId" class="form-text text-muted">Help text</small>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+            
         </div>
     </div>
 </div>
 @endsection
 
-@section('js')
-    @parent
-    <script src="{{ asset('js/plugins/jquery-ui.min.js') }}"></script>
+@section('custom_scripts')
+    <script src="{{ asset('js/lib/jquery-ui.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#end').attr('disabled', 'true');
@@ -161,8 +94,118 @@
                 dateFormat: 'dd/mm/yy',
             });
             
+            $('#request-form').click(function(){
+                $('.modal-content').html('');
+                $('.modal-content').html(`
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Send a request</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('employee.request.create') }}">
+                    @csrf
 
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="subject"></label>
+                                <select name="name" id="name" class="form-control" required>
+                                    <option value="">Select Request</option>
+                                    @foreach(\App\RequestType::all()->where('user_id', null) as $request)
+                                        <option value="{{$request->id}}">{{$request->name}}</option>
+                                    @endforeach
+                                    @foreach(\App\RequestType::all()->where('user_id', auth()->user()->id) as $request)
+                                        <option value="{{$request->id}}">{{$request->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="start"></label>
+                                <input type="text" class="form-control" name="start_date" id="start" required placeholder="Start Date">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="end"></label>
+                                <input type="text" class="form-control" name="end_date" id="end" required placeholder="End Date">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="title"></label>
+                                <input type="text" class="form-control" name="title" id="title" required placeholder="Title">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="message"></label>
+                                <textarea class="form-control" id="message" name="message" rows="3" placeholder="Reason for request." required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group float-right">
+                                <button type="submit" class="btn btn-primary">Send Request</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                `);
+            });
 
+            $('#message-form').click(function(){
+                $('.modal-content').html('');
+                $('.modal-content').html(`
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Send a message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('employee.message.create') }}">
+                    @csrf
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="subject"></label>
+                                <select name="name" id="name" class="form-control" required>
+                                    <option value="">Choose User</option>
+                                    @foreach(\App\User::all()->where('id', auth()->user()->user->id) as $user)
+                                        <option value="{{$user->id}}">{{$user->firstname}} {{$user->lastname}} ({{$user->role->name}})</option>
+                                    @endforeach
+                                    @foreach(\App\Employee::all()->where('user_id', auth()->user()->user->id)->where('id', '!=', auth()->user()->id) as $user)
+                                        <option value="{{$user->username}}">{{$user->firstname}} {{$user->lastname}} ({{$user->position->name}})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="title"></label>
+                                <input type="text" class="form-control" name="title" id="title" required placeholder="Title">
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                            <div class="form-group">
+                                <label class="control-label sr-only" for="message"></label>
+                                <textarea class="form-control" id="message" name="message" rows="3" placeholder="Message" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group float-right">
+                                <button type="submit" class="btn btn-primary">Send Message</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                `);
+            });
         });
     </script>
 @endsection

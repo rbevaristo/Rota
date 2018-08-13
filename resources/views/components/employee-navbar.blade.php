@@ -52,9 +52,14 @@
                                         <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="media-heading"> {{ $notification->data["messages"]["title"] }} </h4>
+                                        <p class="media-heading"> 
+                                            {{ $notification->data["messages"]["title"] }} 
+                                            <span class="float-right">
+                                                <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
+                                            </span>
+                                        </p>
                                         <p>
-                                            <small>{{ $notification->data["messages"]["body"] }}</small>
+                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
                                         </p>
                                     </div>
                                 </div>
@@ -72,9 +77,14 @@
                                         <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="media-heading"> {{ $notification->data["messages"]["title"] }} </h4>
+                                        <p class="media-heading"> 
+                                            {{ $notification->data["messages"]["title"] }} 
+                                            <span class="float-right">
+                                                <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
+                                            </span>
+                                        </p>
                                         <p>
-                                            <small>{{ $notification->data["messages"]["body"] }}</small>
+                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
                                         </p>
                                     </div>
                                 </div>

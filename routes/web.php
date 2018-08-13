@@ -18,6 +18,7 @@ Route::group([], function() {
     Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');
     Route::get('/dashboard/profile', 'UserController@profile')->name('user.profile');
     Route::get('/dashboard/schedule', 'UserController@schedule')->name('user.schedule');
+    Route::get('/dashboard/messages', 'UserController@messages')->name('user.messages');
     Route::get('/dashboard/employee', 'UserController@employee')->name('user.employee');
     Route::get('/dashboard/attendance', 'UserController@attendance')->name('user.attendance');
     Route::get('/dashboard/performance-evaluation', 'UserController@performance')->name('user.performance');
@@ -35,7 +36,7 @@ Route::group([], function() {
     Route::get('/dashboard/employee/{id}', 'EmployeesController@show');
     Route::post('/dashboard/employee/{id}/evaluation_results', 'EvaluationResultsController@store')->name('user.employee.evaluation');
     Route::get('/dashboard/message/create', 'MessageController@messageToUser');
-    Route::get('/dashboard/notification/markAsRead', 'MessageController@markRead')->name('markRead');
+    Route::get('/dashboard/message/read', 'MessageController@read')->name('user.message.read');
 });
 
 //Admin Routes
@@ -69,8 +70,8 @@ Route::group([
     Route::get('/dashboard/schedule', 'Employee\EmployeeRoutesController@schedule')->name('employee.schedule');
     Route::get('/dashboard/evaluation', 'Employee\EmployeeRoutesController@evaluation')->name('employee.evaluation');
 
-    Route::get('/dashboard/message/create', 'MessageController@messageToUser')->name('employee.message.create');
-    Route::post('/dashboard/requests/create', 'MessageController@requestToUser')->name('employee.request.create');
+    Route::post('/dashboard/message/create', 'Employee\MessageController@messageToUser')->name('employee.message.create');
+    Route::post('/dashboard/requests/create', 'Employee\MessageController@requestToUser')->name('employee.request.create');
 
 
     Route::post('/dashboard/change-password', 'Employee\ChangePasswordController@update')->name('employee.change-password');

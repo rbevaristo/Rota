@@ -770,6 +770,10 @@ input[type='search'] {
     transform: translate(0);
 }
 
+.modal-half {
+    min-width: 60%;
+}
+
 .notice {
     padding: 15px;
     background-color: #fafafa;

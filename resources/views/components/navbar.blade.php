@@ -10,6 +10,9 @@
             <li class="nav-item {{ Request::is('dashboard') ? 'active' : ''}}">
                 <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
             </li>
+            <li class="nav-item {{ Request::is('dashboard/messages') ? 'active' : ''}}">
+                <a href="{{ route('user.messages') }}" class="nav-link">Messages</a>
+            </li>
             <li class="nav-item {{ Request::is('dashboard/attendance') ? 'active' : ''}}">
                 <a href="{{ route('user.attendance') }}" class="nav-link">Attendance</a>
             </li>
@@ -89,17 +92,25 @@
                     <div class="notifications-wrapper">
                         @if(auth()->user()->notifications->count())
                         @foreach(auth()->user()->unreadNotifications as $notification)
-                        <a class="content" href="#">
+                        <a class="content" href="{{route('user.message.read', [
+                            'notification_id' => $notification->id,
+                            'message_id' => $notification->data["messages"]["id"],
+                        ])}}">
                             
-                            <div class="notification-item">
+                            <div class="notification-item" style="background-color: #084c61">
                                 <div class="media">
                                     <div class="media-left">
                                         <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="media-heading"> {{ $notification->data["messages"]["title"] }} </h4>
+                                        <p class="media-heading"> 
+                                            {{ $notification->data["messages"]["title"] }} 
+                                            <span class="float-right">
+                                                <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
+                                            </span>
+                                        </p>
                                         <p>
-                                            <small>{{ $notification->data["messages"]["body"] }}</small>
+                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
                                         </p>
                                     </div>
                                 </div>
@@ -109,7 +120,10 @@
                         @endforeach
                         <li class="divider"></li>
                         @foreach(auth()->user()->readNotifications as $notification)
-                        <a class="content" href="#">
+                        <a class="content" href="{{route('user.message.read', [
+                            'notification_id' => $notification->id,
+                            'message_id' => $notification->data["messages"]["id"],
+                        ])}}">
                             
                             <div class="notification-item">
                                 <div class="media">
@@ -117,8 +131,15 @@
                                         <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="media-heading">Left-aligned </h4>
-                                        <p><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small> </p>
+                                        <p class="media-heading"> 
+                                            {{ $notification->data["messages"]["title"] }} 
+                                            <span class="float-right">
+                                                <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
+                                            </span>
+                                        </p>
+                                        <p>
+                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
+                                        </p>
                                     </div>
                                 </div>
                             </div>

@@ -72,6 +72,13 @@ class UserController extends Controller
         return view('user.attendance');
     }
 
+    public function messages() {
+        if(!auth()->user()->company){
+            return view('user.setup')->with('error', 'Please fill up the form.');
+        }
+        return view('user.messages');
+    }
+
     public function settings() {
         if(!auth()->user()->company){
             return view('user.setup')->with('error', 'Please fill up the form.');
