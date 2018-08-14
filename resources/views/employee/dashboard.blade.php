@@ -57,9 +57,13 @@
         <div class="modal-body">
             <div class="alert" id="alert"></div>
             <form>
-                <div class="form-label-group">
-                    <input type="password" id="current_password" name="current_password" class="form-control{{ $errors->has('current_password') ? ' is-invalid' : '' }}" required placeholder="Current Password">
-                    <label for="current_password" class="text-primary"><i class="fa fa-user-secret"></i> Current Password</label>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-user-secret"></i></div>
+                        </div>
+                        <input type="password" id="current_password" name="current_password" class="form-control{{ $errors->has('current_password') ? ' is-invalid' : '' }}" required placeholder="Current Password">
+                    </div>
                 </div>
             </form>
         </div>
@@ -103,16 +107,26 @@
                                 $('.modal-body').html(`
                                     <form action="{{ route('employee.change-password') }}" method="POST" class="form-signin">
                                         @csrf
-                                        <div class="form-label-group">
-                                            <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="Current Password">
-                                            <label for="password" class="text-primary"><i class="fa fa-user-secret"></i> New Password</label>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fa fa-user-secret"></i></div>
+                                                </div>
+                                                <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="Current Password">
+                                            </div>
                                         </div>
-                                        <div class="form-label-group">
-                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="Confirm Password">
-                                            <label for="password-confirm" class="text-primary"><i class="fa fa-user-secret"></i> Confirm Password</label>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fa fa-user-secret"></i></div>
+                                                </div>
+                                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="Confirm Password">
+                                            </div>
                                         </div>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
                                     </form>
                                 `);
                                 $('.modal-footer').html('');

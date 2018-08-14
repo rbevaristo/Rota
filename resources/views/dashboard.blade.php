@@ -372,7 +372,6 @@
                                                         <div class="col-12">
                                                             <div class="form-label-group">
                                                             <textarea class="form-control noresize" name="qualities" max-length="200" id="qualities" rows="3" placeholder="Best qualities demonstrated"></textarea>
-                                                            <span class="float-right label label-default" id="count_message">200</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -392,7 +391,7 @@
                                                     </div>
                                                     <div class="form-group row text-center">
                                                         <div class="col-md-12">
-                                                            <button type="submit" class="btn btn-primary form-control text-white"">
+                                                            <button type="submit" class="btn btn-primary form-control text-white">
                                                                 {{ __('Save & Print') }}
                                                             </button>
                                                         </div>

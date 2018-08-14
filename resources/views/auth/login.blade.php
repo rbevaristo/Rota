@@ -13,15 +13,23 @@
                 <div class="card-body">
                     @include('components.sessions')
                     @include('components.messages')
-                    <form method="POST" action="{{ route('employee.login') }}" aria-label="{{ __('Login') }}" class="form-signin">
+                    <form method="POST" action="{{ route('employee.login') }}" aria-label="{{ __('Login') }}">
                         @csrf
-                        <div class="form-label-group">
-                            <input type="text" id="username" name="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" value="{{ old('username') }}" required placeholder="Employee ID">
-                            <label for="username" class="text-primary"><i class="fa fa-user"></i> Employee ID</label>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                </div>
+                                <input type="text" id="username" name="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" value="{{ old('username') }}" required placeholder="Employee ID">
+                            </div>
                         </div>
-                        <div class="form-label-group">
-                            <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" value="{{ old('password') }}" required placeholder="Password">
-                            <label for="password" class="text-primary"><i class="fa fa-user-secret"></i> Password</label>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-user-secret"></i></div>
+                                </div>
+                                <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" value="{{ old('password') }}" required placeholder="Password">
+                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-8">

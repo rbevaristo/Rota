@@ -19,9 +19,6 @@ class DataSource extends JsonResource
         return [
             'user' => $this,
             'company' => $this->company,
-            'employee' => Employee::where('id', EvaluationResult::where('user_id', $this->id)->orderBy('created_at', 'desc')->get()->emp_id)->first(),
-            'results' => EvaluationResult::where('user_id', $this->id)->orderBy('created_at', 'desc')->first(),
-            'comments' => EvaluationResult::where('user_id', $this->id)->orderBy('created_at', 'desc')->first()->evaluation_comment,
         ];
     }
 }

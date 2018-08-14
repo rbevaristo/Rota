@@ -28,7 +28,7 @@
                             <label for="location" class="text-primary"><i class="fa fa-map-marker"></i> Location</label>
                         </div>
                         <div class="form-label-group">
-                            <input type="text" id="contact_number" name="contact" class="form-control" placeholder="Contact" required>
+                            <input type="text" id="contact_number" name="contact_number" class="form-control" placeholder="Contact" required>
                             <label for="contact_number" class="text-primary"><i class="fa fa-phone"></i> Contact</label>
                         </div>
                         <div class="form-group row">

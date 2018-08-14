@@ -50,18 +50,36 @@ class EvaluationResultsController extends Controller
         $eval = EvaluationResult::create($request->all());
         
         $comment = EvaluationComments::create([
-            'best_qualities_demonstrated' => $request->qualities,
-            'how_improvements_can_be_made' => $request->improvements,
+            'qualities' => $request->qualities,
+            'improvements' => $request->improvements,
             'comments' => $request->comments,
             'eval_id' => $eval->id
         ]);
         
+        $data = [
+            'user' => auth()->user(),
+            'company' => auth()->user()->company,
+            'employee' => Employee::find($id),
+            'results' => [
+                'Quality of Work' => $eval->Quality_of_Work,
+                'Efficiency of Work' => $eval->Efficiency_of_Work,
+                'Dependability' => $eval->Dependability,
+                'Job Knowledge' => $eval->Job_Knowledge,
+                'Attitude' => $eval->Attitude,
+                'Housekeeping' => $eval->Housekeeping,
+                'Reliability' => $eval->Reliability,
+                'Personal Care' => $eval->Personal_Care,
+                'Judgement' => $eval->Judgement,
+            ],
+            'comments' => $comment
+        ];
         // $data = new DataSource(auth()->user());
-        // $employee = Employee::find($id);
-        // $name = $employee->firstname.'_'.$employee->lastname.'_'.date('mdy').time().'.pdf';
-        // $pdf = PDF::loadView('pdf.evaluation', compact('data'));
-        // return $pdf->download($name);
+        $employee = Employee::find($id);
+        $name = $employee->firstname.'_'.$employee->lastname.'_'.date('mdy').time().'.pdf';
+        $pdf = PDF::loadView('pdf.evaluation', compact('data'));
+        return $pdf->download($name);
         return redirect()->back()->with('success', "Evaluation Success");
+        //return view('pdf.test', compact('data'));
     }
 
     /**

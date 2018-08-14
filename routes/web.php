@@ -41,26 +41,12 @@ Route::group([], function() {
     Route::post('/dashboard/message/approve', 'MessageController@approve')->name('user.request.approve');
 });
 
-//Admin Routes
 
-Route::group([
-    'prefix' => 'admin'
-], function() {
-    Route::get('home', 'AdminController@index')->name('admin.home');
-    Route::get('login', 'Admin\LoginController@showLoginForm')->name('admin.login');
-    Route::post('login', 'Admin\LoginController@login');
-    Route::post('logout', 'Admin\LoginController@logout')->name('admin.logout');
-    Route::post('password/email', 'Admin\ForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
-    Route::get('password/reset', 'Admin\ForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
-    Route::post('password/reset', 'Admin\ResetPasswordController@reset');
-});
-
-
-Route::post('employee/login', 'Employee\LoginController@login')->name('employee.login');
 //Employee Routes
 Route::group([
     'prefix' => 'employee'
 ], function() {
+    Route::post('login', 'Employee\LoginController@login')->name('employee.login');
     Route::get('dashboard', 'Employee\EmployeeController@index')->name('employee.dashboard');
     Route::post('logout', 'Employee\LoginController@logout')->name('employee.logout');
     Route::post('password/email', 'Employee\ForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
@@ -82,6 +68,8 @@ Route::group([
     Route::post('/dashboard/profile/update', 'Employee\UserProfileController@update')->name('employee.profile.update');
     Route::get('/dashboard/message/read', 'Employee\MessageController@read')->name('employee.message.read');
 });
-
+Route::get('test', function(){
+    return view('pdf.test');
+});
 // Route::post('/dashboard/notifications/get', 'MessageController@notification');
 // Route::post('/dashboard/notification/read', 'MessageController@read');
