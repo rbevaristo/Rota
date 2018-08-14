@@ -7,7 +7,7 @@
 
 @section('content')
 <section id="employee-message" style="margin-top:30px">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row" >
             <div class="col-12">
                 @include('components.sessions')
@@ -18,7 +18,7 @@
                     <div class="card-header bg-primary text-white">
                         Inbox
                         <div class="float-right dropdown">
-                            <a id="navbarDropdown2" class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown2" class="btn btn-primary btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Compose
                             </a>
             
@@ -26,31 +26,43 @@
                                 <a class="dropdown-item" id="request-form" href="#myModal" data-toggle="modal" role="button">
                                     <i class="fa fa-file-text"></i> {{ __('Request') }}
                                 </a>
-                                <a class="dropdown-item" id="message-form" href="#myModal" data-toggle="modal" role="button">
+                                {{-- <a class="dropdown-item" id="message-form" href="#myModal" data-toggle="modal" role="button">
                                     <i class="fa fa-envelope"></i> {{ __('Message') }}
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th class="text-center">Body</th>
-                                        <th class="text-right">Date</th>
-                                    </tr>
-                                </thead>
+                                @if(\App\UserRequest::all()->sortByDesc('id')->where('emp_id', auth()->user()->id)->count() > 0)
                                 <tbody>
-                                    @foreach(\App\Message::all()->sortByDesc('id')->where('from', auth()->user()->id) as $message)
+                                    @foreach(auth()->user()->notifications as $notification)
+                                    {{-- @foreach(\App\UserRequest::all()->sortByDesc('id')->where('user_id', auth()->user()->id) as $message) --}}
                                     <tr>
-                                        <td>{{ $message->title }}</td>
-                                        <td class="text-center">{{ Helper::limit_message($message->body, 5)}}</td>
-                                        <td class="text-right">{{ date('F d, Y', strtotime($message->created_at)) }}</td>
+                                        <td><a href="{{route('employee.message.read', [
+                                                'notification_id' => $notification->id,
+                                                'message_id' => $notification->data["messages"]["id"],
+                                            ])}}">
+                                        {{ $notification->data["messages"]["title"] }}</a>
+                                        </td>
+                                        <td class="text-center">{{ Helper::limit_message($notification->data["messages"]["message"], 5)}}</td>
+                                        <td class="text-right">{{ date('F d, Y', strtotime($notification->data["messages"]["created_at"])) }}</td>
+                                        @if(\App\UserRequest::find($notification->data["messages"]["id"])->approved)
+                                            <td class="text-right">Approved</td>
+                                        @else
+                                            @if((strtotime($notification->data["messages"]["from"]) - strtotime(date('Y-m-d'))) / (3600*24) < 7)
+                                            <td class="text-right">Expired</td>
+                                            @else
+                                            <td class="text-right">Pending</td>
+                                            @endif
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                @else
+                                    No message
+                                @endif
                             </table>
                         </div>
                     </div>
@@ -111,13 +123,13 @@
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
                             <div class="form-group">
                                 <label class="control-label sr-only" for="subject"></label>
-                                <select name="name" id="name" class="form-control" required>
+                                <select name="title" id="title" class="form-control" required>
                                     <option value="">Select Request</option>
                                     @foreach(\App\RequestType::all()->where('user_id', null) as $request)
-                                        <option value="{{$request->id}}">{{$request->name}}</option>
+                                        <option value="{{$request->name}}">{{$request->name}}</option>
                                     @endforeach
                                     @foreach(\App\RequestType::all()->where('user_id', auth()->user()->id) as $request)
-                                        <option value="{{$request->id}}">{{$request->name}}</option>
+                                        <option value="{{$request->name}}">{{$request->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -132,12 +144,6 @@
                             <div class="form-group">
                                 <label class="control-label sr-only" for="end"></label>
                                 <input type="text" class="form-control" name="end_date" id="end" required placeholder="End Date">
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
-                            <div class="form-group">
-                                <label class="control-label sr-only" for="title"></label>
-                                <input type="text" class="form-control" name="title" id="title" required placeholder="Title">
                             </div>
                         </div>
                         <div class="col-12">

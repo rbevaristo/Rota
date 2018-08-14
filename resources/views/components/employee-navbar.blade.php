@@ -44,23 +44,24 @@
                     <div class="notifications-wrapper">
                         @if(auth()->user()->notifications->count())
                         @foreach(auth()->user()->unreadNotifications as $notification)
-                        <a class="content" href="#">
+                        <a class="content" href="{{route('employee.message.read', [
+                            'notification_id' => $notification->id,
+                            'message_id' => $notification->data["messages"]["id"],
+                        ])}}">
                             
                             <div class="notification-item">
                                 <div class="media">
                                     <div class="media-left">
                                         <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
-                                    <div class="media-body">
+                                    <div class="media-body" style="padding-left: 5px;">
                                         <p class="media-heading"> 
                                             {{ $notification->data["messages"]["title"] }} 
                                             <span class="float-right">
                                                 <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
                                             </span>
                                         </p>
-                                        <p>
-                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
-                                        </p>
+                                        <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +70,10 @@
                         @endforeach
                         <li class="divider"></li>
                         @foreach(auth()->user()->readNotifications as $notification)
-                        <a class="content" href="#">
+                        <a class="content" href="{{route('employee.message.read', [
+                            'notification_id' => $notification->id,
+                            'message_id' => $notification->data["messages"]["id"],
+                        ])}}">
                             
                             <div class="notification-item">
                                 <div class="media">
@@ -83,9 +87,7 @@
                                                 <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
                                             </span>
                                         </p>
-                                        <p>
-                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
-                                        </p>
+                                            <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
                                     </div>
                                 </div>
                             </div>

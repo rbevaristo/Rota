@@ -1,8 +1,16 @@
 @extends('layouts.user')
-
+@section('custom_styles')
+    <style>
+        @media (max-width: 576px){
+            #users-message{
+                font-size: 10px;
+            }
+        }
+    </style>
+@endsection
 @section('content')
 <section id="users-message" style="margin-top:30px">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row" >
             <div class="col-12">
                 @include('components.sessions')
@@ -16,22 +24,34 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th class="text-center">Body</th>
-                                        <th class="text-right">Date</th>
-                                    </tr>
-                                </thead>
+                                @if(\App\UserRequest::all()->sortByDesc('id')->where('user_id', auth()->user()->id)->count() > 0)
                                 <tbody>
-                                    @foreach(\App\Message::all()->sortByDesc('id')->where('to', auth()->user()->id) as $message)
+                                    @foreach(auth()->user()->notifications as $notification)
+                                    {{-- @foreach(\App\UserRequest::all()->sortByDesc('id')->where('user_id', auth()->user()->id) as $message) --}}
                                     <tr>
-                                        <td><a href="#">{{ $message->title }}</a></td>
-                                        <td class="text-center">{{ Helper::limit_message($message->body, 5)}}</td>
-                                        <td class="text-right">{{ date('F d, Y', strtotime($message->created_at)) }}</td>
+                                        <td><a href="{{route('user.message.read', [
+                                                'notification_id' => $notification->id,
+                                                'message_id' => $notification->data["messages"]["id"],
+                                            ])}}">
+                                        {{ $notification->data["messages"]["title"] }}</a>
+                                        </td>
+                                        <td class="text-center">{{ Helper::limit_message($notification->data["messages"]["message"], 5)}}</td>
+                                        <td class="text-right">{{ date('F d, Y', strtotime($notification->data["messages"]["created_at"])) }}</td>
+                                        @if(\App\UserRequest::find($notification->data["messages"]["id"])->approved)
+                                            <td class="text-right">Approved</td>
+                                        @else
+                                            @if((strtotime($notification->data["messages"]["from"]) - strtotime(date('Y-m-d'))) / (3600*24) < 7)
+                                            <td class="text-right">Expired</td>
+                                            @else
+                                            <td class="text-right">Pending</td>
+                                            @endif
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                @else
+                                    No message
+                                @endif
                             </table>
                         </div>
                     </div>

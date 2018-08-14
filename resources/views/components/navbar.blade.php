@@ -97,7 +97,7 @@
                             'message_id' => $notification->data["messages"]["id"],
                         ])}}">
                             
-                            <div class="notification-item" style="background-color: #084c61">
+                            <div class="notification-item">
                                 <div class="media">
                                     <div class="media-left">
                                         <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
@@ -110,7 +110,7 @@
                                             </span>
                                         </p>
                                         <p>
-                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
+                                            <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
                                         </p>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                                             </span>
                                         </p>
                                         <p>
-                                            <small>{{ Helper::limit_message($notification->data["messages"]["body"], 5) }}</small>
+                                            <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
                                         </p>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                     <li class="divider"></li>
                     <a href="">
                         <div class="notification-footer text-center">
-                            <small class="menu-title">View all</small>
+                            <a href="{{ route('user.messages') }}"><small class="menu-title">View all</small></a>
                         </div>
                     </a>
                 </ul>

@@ -10,6 +10,7 @@ use App\UserRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\MessagesNotification;
+use App\Notifications\RequestsNotification;
 
 class MessageController extends Controller
 {
@@ -43,17 +44,30 @@ class MessageController extends Controller
     public function requestToUser(Request $request)
     {
         $req = new UserRequest;
-        $req->request = $request->name;
-        $req->start_date = Converter::toDate($request->start_date);
-        $req->end_date = Converter::toDate($request->end_date);
+        $req->emp_id = auth()->user()->id;
+        $req->user_id = auth()->user()->user->id;
+        $req->from = Converter::toDate($request->start_date);
+        $req->upto = Converter::toDate($request->end_date);
+        $req->title = $request->title;
         $req->message = $request->message;
-        $req->user = auth()->user()->id;
         $req->save();
 
         if(!$req) {
             return redirect()->back()->with('error', 'There is an error with your request');
         }
 
+        if($user = User::find($req->user_id)){
+            $user->notify(new RequestsNotification(UserRequest::latest('id')->first()));
+        }
+
         return redirect()->back()->with('success', 'Request Sent!');
+    }
+
+    public function read(Request $request)
+    {
+        $notification = auth()->user()->unreadNotifications->where('id',$request->notification_id);
+        $notification->markAsRead();
+        $message = UserRequest::where('id', $request->message_id)->first();
+        return view('employee.message', compact('message'));
     }
 }

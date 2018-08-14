@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Converter;
-use App\Message;
 use App\Employee;
+use App\UserRequest;
 use Illuminate\Http\Request;
 use App\Notifications\NotifyUsers;
 use App\Notifications\MessagesNotification;
+use App\Notifications\RequestsNotification;
 
 class MessageController extends Controller
 {
@@ -20,12 +19,26 @@ class MessageController extends Controller
     public function read(Request $request) {
         $notification = auth()->user()->unreadNotifications->where('id',$request->notification_id);
         $notification->markAsRead();
-        $message = Message::where('id', $request->message_id)->first();
+        $message = UserRequest::where('id', $request->message_id)->first();
         return view('user.message', compact('message'));
     }
 
-    public function markRead(){
-        auth()->user()->unreadNotifications->markAsRead();
-        return redirect()->back();
+    public function approve(Request $request)
+    {
+        $req = UserRequest::where('id', $request->request_id)->first();
+        $req->update([
+            'approved' => true
+        ]);
+
+
+        if($user = Employee::find($req->emp_id)){
+            $user->notify(new RequestsNotification(UserRequest::latest('id')->first()));
+        }
+        
+        if($req) {
+            return redirect()->back()->with('success', 'Request approved.');
+        }
+
+        return redirect()->back()->with('error', 'There is an error processing your requests. Please try again later.');
     }
 }
