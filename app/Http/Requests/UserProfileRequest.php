@@ -28,6 +28,7 @@ class UserProfileRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'gender' => 'nullable|boolean',
+            'contact_number' => 'nullable|regex:/(09)[0-9]{9}/',
             'number' => 'nullable|string|max:255',
             'street' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',

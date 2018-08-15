@@ -34,7 +34,6 @@
                             @endif
                     </span>
                     <span class="d-sm-block d-md-none"> Notifications</span>
-                    
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right notifications" aria-labelledby="navbarDropdown">
                     <div class="notification-heading">

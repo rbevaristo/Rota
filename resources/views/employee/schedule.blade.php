@@ -1,17 +1,20 @@
 @extends('layouts.employee')
 
-@section('styles')
+@section('custom_styles')
     
 @endsection
 
 
 @section('content')
-<div class="row" >
-    <h1>Employee Schedule</h1>
-</div>
+<section style="margin-top: 30px">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Schedule</div>
+        </div>
+    </div>
+</section>
 @endsection
 
-@section('js')
-    @parent
+@section('custom_scripts')
     
 @endsection

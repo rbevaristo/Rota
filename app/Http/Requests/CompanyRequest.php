@@ -27,7 +27,7 @@ class CompanyRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'location' => 'required|string|max:255',
-            'contact' => 'required|string|max:20'
+            'contact_number' => 'required|regex:/(09)[0-9]{9}/',
         ];
     }
 }

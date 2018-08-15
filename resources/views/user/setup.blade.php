@@ -12,24 +12,24 @@
                     <strong>Almost Done</strong> Please fill up the form to complete registration.
                 </div>
                 <div class="card-body">
-                    <form class="form" method="POST" action="{{ route('user.company.create') }}" class="form-signin">
+                    <form class="form" method="POST" action="{{ route('user.company.create') }}">
                         @csrf
-                        
-                        <div class="form-label-group">
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                        <div class="form-group">
                             <label for="name" class="text-primary"><i class="fa fa-building-o"></i> Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
                         </div>
-                        <div class="form-label-group">
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                        <div class="form-group">
                             <label for="email" class="text-primary"><i class="fa fa-envelope"></i> Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
                         </div>
-                        <div class="form-label-group">
-                            <input type="text" id="location" name="location" class="form-control" placeholder="Location" required>
+                        <div class="form-group">
                             <label for="location" class="text-primary"><i class="fa fa-map-marker"></i> Location</label>
+                            <input type="text" id="location" name="location" class="form-control" placeholder="Location" required>
                         </div>
-                        <div class="form-label-group">
-                            <input type="text" id="contact_number" name="contact_number" class="form-control" placeholder="Contact" required>
+                        <div class="form-group">
                             <label for="contact_number" class="text-primary"><i class="fa fa-phone"></i> Contact</label>
+                            <input type="text" id="contact_number" name="contact_number" class="form-control" placeholder="Contact" required>
+                           
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12">

@@ -1,45 +1,31 @@
 @extends('layouts.user')
 
 @section('custom_styles')
-<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link href="{{ asset('css/bootstrap-toggle.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <section id="manage-employees">
     <div class="container-fluid align-items-center">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <h2>
                     Manage Employees
                 </h2>
                 <div class="card box-shadow">
                     <div class="card-header bg-primary text-white">
                         Employees
-                        <a href="#add_employee"><span class="float-right d-md-none d-sm-block"><i class="fa fa-user-plus"></i>Add Employee</span></a>
+                        
+                        <div class="float-right">
+                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                <span><i class="fa fa-user-plus"></i>Add Employee</span>
+                            </a>
+                        </div>
                     </div>
                     
                     <div class="card-body">
                         @include('components.messages')
                         @include('components.sessions')
-                        {{-- @if(count(auth()->user()->employees) > 0)
-                        <div class="row">
-                            @foreach(auth()->user()->employees as $employee)
-                            <div class="col-md-2 col-sm-2 text-center employee-lists">
-                                <p><strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong></p>
-                                <img src="{{ asset('img/default.png') }}" class="rounded" alt="avatar">
-                                <p>{{ $employee->position->name }}</p>
-                                <div>
-                                    <input type="hidden" id="employee_id" value="{{ $employee->id }}">
-                                    <a href="#myModal" class="profile" data-toggle="modal" role="button">
-                                        <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @else
-                            No Employee
-                        @endif --}}
                         <table class="table">
                             <thead>
                                 <tr>
@@ -61,7 +47,22 @@
                                         <strong>{{ Helper::employee_name($employee->firstname, $employee->lastname) }}</strong>
                                     </td>
                                     <td>
-                                        {{ $employee->position->name }}
+                                        <div class="form-group">
+                                            <input type="hidden" value="{{ $employee->id }}">
+                                            <select class="form-control myposition">
+                                            <option value="{{ $employee->position->id }}">{{ $employee->position->name }}</option>
+                                            @foreach(\App\Position::all()->where('user_id', null) as $position)
+                                                @if($employee->position->name != $position->name)
+                                                <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                                @endif
+                                            @endforeach
+                                            @foreach(auth()->user()->positions as $position)
+                                                @if($employee->position->name != $position->name)
+                                                <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                                @endif
+                                            @endforeach
+                                            </select>
+                                        </div>
                                     </td>
                                     <td>
 
@@ -77,8 +78,8 @@
                     </div>                 
                 </div>
             </div>
-            <div class="col-md-3" id="add_employee">
-                <div id="accordion">
+            {{-- <div class="col-md-3" id="add_employee">
+                <div id="accordion"> --}}
                     {{-- <div class="card">
                         <div class="card-header bg-primary" id="headingOne">
                             <h5 class="mb-0">
@@ -111,7 +112,7 @@
                             </div>
                         </div>
                     </div> --}}
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header bg-primary" id="headingTwo">
                             <h5 class="mb-0">
                                 <a class="btn-link collapsed text-white" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -160,16 +161,80 @@
 
                 </div>
 
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>
 
-@include('components.modal')
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url('/dashboard/employee/create') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="username"></label>
+                        <input type="text" id="username" name="username" class="form-control form-control-sm" placeholder="Employee ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emp_position"></label>
+                        <select name="position_id" id="position_id" class="form-control form-control-sm" required>
+                            <option value="">Select Position</option>
+                            @foreach(\App\Position::all()->where('user_id', null) as $position)
+                                <option value="{{ $position->id }}">{{ $position->name }}</option>
+                            @endforeach
+                            @foreach(auth()->user()->positions as $position)
+                                <option value="{{ $position->id }}">{{ $position->name }}</option>
+                            @endforeach
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname"></label>
+                        <input type="text" id="firstname" name="firstname" class="form-control form-control-sm" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname" class="text-primary"></label>
+                        <input type="text" id="lastname" name="lastname" class="form-control form-control-sm" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"></label>
+                        <input type="text" id="email" name="email" class="form-control form-control-sm" placeholder="Email (optional)">
+                    </div>
+                    <div class="form-group float-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>    
+            </div>
+            <div class="text-center"><i>or</i></div>
+            <div class="modal-footer">
+                <form action="{{ route('upload.excel.file') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="excelfile" id="excelfile" accept=".csv">
+                        <label class="custom-file-label" for="excelfile">Choose CSV file</label>
+                    </div>
+                    <div class="form-group float-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('custom_scripts')
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('js/lib/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('js/lib/bootstrap-toggle.min.js') }}"></script>
 <script>
     $(document).ready(function(){
@@ -208,6 +273,54 @@
                     success: function (result) {}
                 });
             }
+        });
+
+        $('#position_id').on('change', function(){
+            var html = $('.modal-content').html();
+            if($(this).val() == "Others"){
+                $('.modal-content').html(
+                `
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add Position</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('user.position.create') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="username"></label>
+                            <input type="text" id="position" name="position" class="form-control" placeholder="Position Name" required>
+                        </div>
+                        <div class="form-group float-right">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                        </form>
+                    </div>
+                `
+                );
+            }
+        });
+
+        $('.myposition').on('change', function() {
+            var url = "{{ url('/dashboard/employee/position/update') }}";
+            var emp_id = $(this).siblings('input').val();
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id : emp_id,
+                    position: $(this).val()
+                },
+                success: function (result) {}
+            });
+        });
+
+        $('.custom-file-input').on('change', function() { 
+            let fileName = $(this).val().split('\\').pop(); 
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
         });
     });
 </script>

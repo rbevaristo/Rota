@@ -5,8 +5,17 @@
 @section('content')
 <section id="user-dashboard">
     <div class="container-fluid">
-        @include('components.messages')
-        @include('components.sessions')
+        @if(session('success'))
+            <div class="alert alert-success notice notice-success notice-sm" role="alert">
+                <strong><span class="fa fa-check"></span></strong>{{ session('success') }}
+                Click <a href="{{ asset('storage/pdf/') }}/{{ App\EvaluationFile::where('user_id', auth()->user()->id)->latest('id')->first()->filename }}" target="_blank"> here </a> to view file.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">
+                        <i class="fa fa-window-close"></i>
+                    </span>
+                </button>
+            </div>
+        @endif
         <div class="row" id="employee-list">
             <div class="col-12">
                 <div class="card">
@@ -15,7 +24,7 @@
                         <span class="float-right" style="position:absolute; right: 50px; top: 5px;">
                             <form>
                                 <div class="input-group">
-                                    <input class="form-control border-secondary py-2" type="search" placeholder="Search...">
+                                    <input class="form-control border-secondary py-2" type="search" id="search" placeholder="Search...">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button">
                                             <i class="fa fa-search text-white"></i>
@@ -57,9 +66,9 @@
                                                         <a href="#myModal" class="profile" data-toggle="modal" role="button">
                                                             <i class="fa fa-eye" data-toggle="tooltip" data-placement="top" title="View Profile"></i>
                                                         </a>
-                                                        <a href="#myModal" class="message" data-toggle="modal" role="button">
+                                                        {{-- <a href="#myModal" class="message" data-toggle="modal" role="button">
                                                             <i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i>
-                                                        </a>
+                                                        </a> --}}
                                                         <a href="#myModal" class="evaluation" data-toggle="modal" role="button">
                                                             <i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i>
                                                         </a>
@@ -124,8 +133,10 @@
 @endsection
 
 @section('custom_scripts')
+
     <script>
         $(document).ready(() => {
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -160,7 +171,6 @@
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
-                        console.log(result);
                         $('.modal .modal-header').html('');
                         $('.modal .modal-body').html('');
                         $('.modal .modal-header').html(`
@@ -186,7 +196,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Personal Information</div>
                                             <div class="card-body">
@@ -233,24 +243,94 @@
                                     <div class="col-md-6">
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Schedules</div>
-                                            <div class="card-body" style="height: 250px; overflow-y: auto;">
+                                            <div class="card-body" style="height: 200px; overflow-y: auto;">
                                                 
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6" id="evaluation_files">
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Evaluation</div>
-                                            <div class="card-body" style="height: 350px; overflow-y: auto;">
+                                            <div class="card-body" style="height: 200px; overflow-y: auto;">
+                                                `+getEvaluation(result.evaluation)+`
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             `
                         );
+                        $('input[type="checkbox"]').on('change', function() {
+                            if ($(this).is(':checked')){ 
+                                var url = "{{ url('/dashboard/evaluation/status/update') }}";
+                                $.ajax({
+                                    url: url,
+                                    type: 'POST',
+                                    data: {
+                                        id : $(this).val(),
+                                        status: 1
+                                    },
+                                    success: function (result) {},
+                                });
+                            } 
+                            else { 
+                                var url = "{{ url('/dashboard/evaluation/status/update') }}";
+                                $.ajax({
+                                    url: url,
+                                    type: 'POST',
+                                    data: {
+                                        id : $(this).val(),
+                                        status: 0
+                                    },
+                                    success: function (result) {}
+                                });
+                            }
+                        });
+
                     },
                 });
             });
+
+
+            function getEvaluation(evaluations){ 
+                var data = '';
+                var keys = Object.keys(evaluations);
+                if(keys.length > 0){
+                    for(var i = 0; i < keys.length; i++){
+                        var d = new Date(evaluations[i].created_at);
+                        var date = (d.getMonth()+1) + '/' + d.getDay() +'/'+ d.getFullYear();
+                        data += `
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="{{ asset('storage/pdf/') }}/`+evaluations[i].filename+`" target="_blank"> 
+                                        `+evaluations[i].filename+`
+                                    </a>
+                                </div>
+                                <div class="col-3">
+                                    `+date+`
+                                </div>`;
+                        if(evaluations[i].active){
+                            data += `
+                                <div class="col-3">
+                                    <input type="checkbox" id="active" value="`+evaluations[i].id+`" checked>
+                                </div>
+                            `;
+                        } else {
+                            data += `
+                                <div class="col-3">
+                                    <input type="checkbox" id="active" value="`+evaluations[i].id+`">
+                                </div>
+                            `;
+                        }
+                                
+                        data += `
+                            </div>
+                        `;
+                    }
+                    return data;
+                }
+
+                return 'No Evaluation';
+            }
 
             $('a.message').on('click', function(){
                 let id = $(this).siblings('input').val();
@@ -264,7 +344,7 @@
                         $('.modal .modal-header').html('');
                         $('.modal .modal-body').html('');
                         $('.modal .modal-header').html(`
-                            Message
+                            Requests
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -371,21 +451,21 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-label-group">
-                                                            <textarea class="form-control noresize" name="qualities" max-length="200" id="qualities" rows="3" placeholder="Best qualities demonstrated"></textarea>
+                                                            <textarea class="form-control noresize" name="qualities" maxlength="200" id="qualities" rows="3" placeholder="Best qualities demonstrated"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-label-group">
-                                                                <textarea class="form-control noresize" name="improvements" id="improvements" rows="3" placeholder="How improvements can be Made"></textarea>
+                                                                <textarea class="form-control noresize" name="improvements" maxlength="200" id="improvements" rows="3" placeholder="How improvements can be Made"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-label-group">
-                                                                <textarea class="form-control noresize" name="comments" id="comments" rows="3" placeholder="Comments"></textarea>
+                                                                <textarea class="form-control noresize" name="comments" maxlength="200" id="comments" rows="3" placeholder="Comments"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -415,6 +495,18 @@
                     return "";
                 return value;
             }
+
+            $('#search').on("keyup", function(e){
+                var value = $(this).val().toLowerCase();
+                var content = $('#carousel').html();
+                if(value == ''){
+                    $('#carousel .carousel-inner').html(content);
+                } else {
+                    $('#carousel .carousel-inner .carousel-item').filter(function(){
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                }
+            });
 
         });
     </script>

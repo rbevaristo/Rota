@@ -54,7 +54,7 @@ class CompanyController extends Controller
         $company->name = $request->name;
         $company->email = $request->email;
         $company->location = $request->location;
-        $company->contact = $request->contact;
+        $company->contact = $request->company_contact;
         $company->save();
 
         if(!$company){

@@ -51,4 +51,8 @@ class Employee extends Authenticatable
         return $this->hasMany('App\EvaluationResult', 'emp_id');
     }
 
+    public function evaluation_files() {
+        return $this->hasMany('App\EvaluationFile', 'emp_id');
+    }
+
 }

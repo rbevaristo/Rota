@@ -15,8 +15,8 @@ class CreateEvaluationCommentsTable extends Migration
     {
         Schema::create('evaluation_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('best_qualities_demonstrated')->nullable();
-            $table->text('how_improvements_can_be_made')->nullable();
+            $table->text('qualities')->nullable();
+            $table->text('improvements')->nullable();
             $table->text('comments')->nullable();
             $table->integer('eval_id')->unsigned();
             $table->foreign('eval_id')->references('id')->on('evaluation_results');

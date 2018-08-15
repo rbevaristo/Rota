@@ -36,7 +36,7 @@
     
                 <h6 class="text-uppercase font-weight-bold">Contact</h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 80px;">
-                <p><i class="fa fa-home mr-3"></i> Angeles City</p>
+                <p><i class="fa fa-map-marker mr-3"></i> Angeles City</p>
                 <p><i class="fa fa-envelope mr-3"></i> rota@gmail.com</p>
                 <p><i class="fa fa-phone mr-3"></i> + 63 917 3208 762</p>
     

@@ -19,7 +19,7 @@ class MessageController extends Controller
     public function read(Request $request) {
         $notification = auth()->user()->unreadNotifications->where('id',$request->notification_id);
         $notification->markAsRead();
-        $message = UserRequest::where('id', $request->message_id)->first();
+        $message = auth()->user()->user_requests->where('id', $request->message_id)->first();
         return view('user.message', compact('message'));
     }
 

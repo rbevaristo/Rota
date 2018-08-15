@@ -23,7 +23,7 @@
                         <div class="author text-center">
                             <a href="#">
                                 <img class="avatar border-gray" src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" alt="Avatar" width="70" height="70">
-                                <h5 class="name">{{ Helper::name() }}</h5>
+                                <h5 class="name"><a href="{{ route('employee.profile') }}">{{ Helper::name() }}</a></h5>
                             </a>
                             <p class="text-black">{{ auth()->user()->email }}</p>
                             <p class="text-black">{{ auth()->user()->position->name}}</p>

@@ -18,50 +18,28 @@ class PositionsController extends Controller
 
     }
 
-    // public function update($id, $value)
-    // {
+    public function store(Request $request)
+    {
+        $position = new Position;
+        $position->name = ucfirst($request->position);
+        $position->user_id = auth()->user()->id;
+        $position->save();
 
-    //     foreach(explode(',', $value) as $pos){
-    //         $p = Position::where('user_id', $id)->where('name', $pos)->first();
-    //         if(!$p){
-    //             Position::create([
-    //                 'name' => $pos,
-    //                 'user_id' => auth()->user()->id
-    //             ]);
-    //         } 
-    //     }
+        if($position){
+            return redirect()->back()->with('success', 'Position Added');
+        }
+        return redirect()->back()->with('error', 'Error');
+    }
 
-    //     $positions = Position::where('user_id', $id)->get();
-    //     $items = []; $array = []; $array2 = [];
-    //     if(count($positions) != count(explode(',', $value))){
-    //         foreach($positions as $position){
-    //             $array[] = $position->name;
-    //         }
-    //         foreach(explode(',', $value) as $position){
-    //             $array2[] = $position;
-    //         }
-    //         $items = array_diff($array, $array2);
-    //         foreach($items as $value){
-    //             Position::where('user_id', auth()->user()->id)->where('name', $value)->delete();
-    //         }
-    //     } 
-        
+    public function update_position(Request $request)
+    {
+        $employee = auth()->user()->employees->where('id', $request->id)->first();
+        $employee->update(['position_id' => $request->position]);
 
-    //     if(!$positions){
-    //         return response()->json(['success' => false, 'message' => 'Error']);
-    //     }
-    //     return response()->json(['success' => true, 'message' => $items]);
-    // }
+        if($employee){
+            return response()->json(['success' => true, 'data' => $employee]);
+        }
+        return response()->json(['success' => false, 'data' => $employee]);
+    }
 
-    // public function destroy($id)
-    // {
-    //     $user = User::find($id);
-    //     foreach($user->positions as $position)
-    //         $position->delete();
-
-    //     if(!$user){
-    //         return response()->json(['success' => false, 'message' => 'Error']);
-    //     }
-    //     return response()->json(['success' => true, 'message' => 'Updated']);
-    // }
 }

@@ -3,8 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
+use Whoops\Exception\ErrorException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,7 +51,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if($exception instanceof HttpException || 
+        $exception instanceof ErrorException || 
+        $exception instanceof MethodNotAllowedHttpException ||
+        $exception instanceof ModelNotFoundException
+        ){
+            return redirect()->route('not.found');
+        } else {
+            //return redirect()->route('not.found');
+            return parent::render($request, $exception);
+        }
+
     }
 
     /**

@@ -1,5 +1,7 @@
 @extends('layouts.user')
 @section('custom_styles')
+<link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
     <style>
         @media (max-width: 576px){
             #users-message{
@@ -23,8 +25,16 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-striped table-bordered text-center">
                                 @if(\App\UserRequest::all()->sortByDesc('id')->where('user_id', auth()->user()->id)->count() > 0)
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Body</th>
+                                        <th>Date Requested</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     @foreach(auth()->user()->notifications as $notification)
                                     {{-- @foreach(\App\UserRequest::all()->sortByDesc('id')->where('user_id', auth()->user()->id) as $message) --}}
@@ -35,15 +45,15 @@
                                             ])}}">
                                         {{ $notification->data["messages"]["title"] }}</a>
                                         </td>
-                                        <td class="text-center">{{ Helper::limit_message($notification->data["messages"]["message"], 5)}}</td>
-                                        <td class="text-right">{{ date('F d, Y', strtotime($notification->data["messages"]["created_at"])) }}</td>
+                                        <td>{{ Helper::limit_message($notification->data["messages"]["message"], 5)}}</td>
+                                        <td>{{ date('F d, Y', strtotime($notification->data["messages"]["created_at"])) }}</td>
                                         @if(\App\UserRequest::find($notification->data["messages"]["id"])->approved)
-                                            <td class="text-right">Approved</td>
+                                            <td>Approved</td>
                                         @else
                                             @if((strtotime($notification->data["messages"]["from"]) - strtotime(date('Y-m-d'))) / (3600*24) < 7)
-                                            <td class="text-right">Expired</td>
+                                            <td>Expired</td>
                                             @else
-                                            <td class="text-right">Pending</td>
+                                            <td>Pending</td>
                                             @endif
                                         @endif
                                     </tr>
@@ -63,5 +73,13 @@
 @endsection
 
 @section('custom_scripts')
-
+<script src="{{ asset('js/lib/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/lib/dataTables.boostrap4.min.js') }}"></script>
+<script>
+        $(document).ready(function(){
+            $('.table').DataTable({
+               
+            });
+        });
+</script>
 @endsection

@@ -81,7 +81,7 @@ class RegisterController extends Controller
         
         if($user) {
             $verify = VerifyUsers::create(['user_id' => $user->id,'token' => str_random(40)]);
-            $setting = UserSetting::create(['user_id' => $user->id]);
+            // $setting = UserSetting::create(['user_id' => $user->id]);
             $profile = Profile::create(['user_id' => $user->id]);
             $address = Address::create(['profile_id' => $profile->id]);
             Mail::to($user->email)->send(new VerifyEmail($user));

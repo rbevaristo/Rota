@@ -100,7 +100,7 @@
                             <div class="notification-item">
                                 <div class="media">
                                     <div class="media-left">
-                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
+                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->employees->where('id',$notification->data["messages"]["emp_id"])->first()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
                                         <p class="media-heading"> 
@@ -128,7 +128,7 @@
                             <div class="notification-item">
                                 <div class="media">
                                     <div class="media-left">
-                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" class="media-object rounded" style="width:60px">
+                                        <img src="{{ asset('storage/avatar/') }}/{{ auth()->user()->employees->where('id',$notification->data["messages"]["emp_id"])->first()->profile->avatar }}" class="media-object rounded" style="width:60px">
                                     </div>
                                     <div class="media-body">
                                         <p class="media-heading"> 
@@ -176,9 +176,9 @@
                     <a class="dropdown-item" href="{{ route('user.profile') }}">
                         <span class="fa fa-user"></span> {{ __('My Profile') }}
                     </a>
-                    <a class="dropdown-item" href="{{ route('user.settings') }}">
+                    {{-- <a class="dropdown-item" href="{{ route('user.settings') }}">
                         <span class="fa fa-gear"></span> {{ __('Settings') }}
-                    </a>
+                    </a> --}}
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">

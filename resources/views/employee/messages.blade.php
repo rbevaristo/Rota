@@ -2,6 +2,7 @@
 
 @section('custom_styles')
 <link rel="stylesheet" href="{{ asset('css/jquery-ui.css')}}">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 @endsection
 
 
@@ -34,8 +35,16 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            @if(\App\UserRequest::all()->sortByDesc('id')->where('emp_id', auth()->user()->id)->count() > 0)
                             <table class="table table-hover">
-                                @if(\App\UserRequest::all()->sortByDesc('id')->where('emp_id', auth()->user()->id)->count() > 0)
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Body</th>
+                                        <th>Date Requested</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     @foreach(auth()->user()->notifications as $notification)
                                     {{-- @foreach(\App\UserRequest::all()->sortByDesc('id')->where('user_id', auth()->user()->id) as $message) --}}
@@ -60,10 +69,11 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
-                                @else
-                                    No message
-                                @endif
+                                
                             </table>
+                            @else
+                                No message
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -83,8 +93,13 @@
 
 @section('custom_scripts')
     <script src="{{ asset('js/lib/jquery-ui.min.js') }}"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('.table').DataTable({
+
+            });
+
             $('#end').attr('disabled', 'true');
             $('#start').datepicker({
                 showAnim: 'drop',

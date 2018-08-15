@@ -14,19 +14,19 @@
         <ul class="navbar-nav ml-auto">
             <!-- Page Links-->
             <li class="nav-item {{ Request::is('/#home') ? 'active' : ''}}">
-                <a href="{{ Request::is('login') || Request::is('register') ? url('/') : '#home' }}" class="nav-link">Home</a>
+                <a href="{{ Request::is('login') || Request::is('register') || Request::is('login/admin') ? url('/') : '#home' }}" class="nav-link">Home</a>
             </li>
             <li class="nav-item {{ Request::is('/#about') ? 'active' : ''}}">
-                <a href="{{ Request::is('login') || Request::is('register') ? url('/#about') : '#about' }}" class="nav-link">About</a>
+                <a href="{{ Request::is('login') || Request::is('register') || Request::is('login/admin') ? url('/#about') : '#about' }}" class="nav-link">About</a>
             </li>
             <li class="nav-item {{ Request::is('/#services') ? 'active' : '' }}">
-                <a href="{{ Request::is('login') || Request::is('register') ? url('/#services') : '#services' }}" class="nav-link">Services</a>
+                <a href="{{ Request::is('login') || Request::is('register') || Request::is('login/admin') ? url('/#services') : '#services' }}" class="nav-link">Services</a>
             </li>
             <li class="nav-item {{ Request::is('/#team') ? 'active' : ''}}">
-                <a href="{{ Request::is('login') || Request::is('register') ? url('/#team') : '#team' }}" class="nav-link">Team</a>
+                <a href="{{ Request::is('login') || Request::is('register') || Request::is('login/admin') ? url('/#team') : '#team' }}" class="nav-link">Team</a>
             </li>
             <li class="nav-item {{ Request::is('/#contact') ? 'active' : ''}}">
-                <a href="{{ Request::is('login') || Request::is('register') ? url('/#contact') : '#contact' }}" class="nav-link">Contact</a>
+                <a href="{{ Request::is('login') || Request::is('register') || Request::is('login/admin') ? url('/#contact') : '#contact' }}" class="nav-link">Contact</a>
             </li>
             @if(auth()->guard('employee') && auth()->guard('employee')->user())
                 <li class="nav-item dropdown">

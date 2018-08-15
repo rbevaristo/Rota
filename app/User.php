@@ -66,4 +66,8 @@ class User extends Authenticatable
     public function evaluation_results(){
         return $this->hasMany('App\EvaluationResult', 'user_id');
     }
+
+    public function evaluation_files(){
+        return $this->hasMany('App\EvaluationFile', 'user_id');
+    }
 }

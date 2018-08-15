@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use PDF;
 use App\Employee;
+use App\EvaluationFile;
 use App\EvaluationResult;
 use App\EvaluationComments;
 use Illuminate\Http\Request;
 use App\Http\Resources\DataSource;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class EvaluationResultsController extends Controller
 {
@@ -73,13 +76,19 @@ class EvaluationResultsController extends Controller
             ],
             'comments' => $comment
         ];
-        // $data = new DataSource(auth()->user());
         $employee = Employee::find($id);
         $name = $employee->firstname.'_'.$employee->lastname.'_'.date('mdy').time().'.pdf';
         $pdf = PDF::loadView('pdf.evaluation', compact('data'));
-        return $pdf->download($name);
-        return redirect()->back()->with('success', "Evaluation Success");
-        //return view('pdf.test', compact('data'));
+        Storage::put('public/pdf/'.$name, $pdf->output());
+        //return $pdf->download($name); 
+        EvaluationFile::create([
+            'filename' => $name,
+            'emp_id' => $id,
+            'user_id' => auth()->user()->id
+        ]);
+        Session::flash('download', $name);
+        return redirect()->back()->with('success', "Evaluation success ");
+        
     }
 
     /**
@@ -113,7 +122,7 @@ class EvaluationResultsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -125,5 +134,17 @@ class EvaluationResultsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function update_status(Request $request)
+    {
+        $update = EvaluationFile::where('id', $request->id)->first();
+        $update->active = $request->status;
+        $update->save();
+
+        if(!$update){
+            return response()->json(['success' => false, 'message' => $update]);
+        }
+        return response()->json(['success' => true, 'message' => $update]);
     }
 }

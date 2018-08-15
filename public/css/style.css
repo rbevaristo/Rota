@@ -434,10 +434,6 @@ a .fa-gear {
     width: 60px;
 }
 
-#evaluation small {
-    font-size: 8px;
-}
-
 
 /* User Profile */
 
@@ -477,6 +473,12 @@ footer a:hover {
 
 #employee-dashboard {
     margin-top: 30px;
+}
+
+#attendance img {
+    height: 60px;
+    width: 60px;
+    border-radius: 50% !important;
 }
 
 @media (max-width: 992px) {
@@ -597,6 +599,36 @@ footer a:hover {
     #employee-message .btn-primary {
         font-size: 8px;
         padding: 5px;
+    }
+    #evaluation_files .table td.fit,
+    #evaluation_files .table th.fit {
+        white-space: nowrap;
+        width: 1%;
+    }
+    #evaluation img {
+        height: 20px;
+        width: 20px;
+    }
+    #evaluation {
+        font-size: 8px;
+    }
+    #attendance {
+        font-size: 8px;
+    }
+    #attendance img {
+        height: 20px;
+        width: 20px;
+    }
+    #manage-employees img {
+        height: 20px;
+        width: 20px;
+    }
+    #manage-employees {
+        font-size: 8px
+    }
+    #manage-employees select {
+        padding: 0;
+        font-size: 8px;
     }
 }
 
