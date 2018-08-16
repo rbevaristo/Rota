@@ -26,7 +26,7 @@ Route::group([], function() {
     Route::get('/dashboard/profile', 'UserController@profile')->name('user.profile');
     Route::get('/dashboard/employee/{id}', 'EmployeesController@show');
     Route::get('/dashboard/view/pdf', 'FilesController@evaluation')->name('evaluation.pdf');
-
+    Route::get('/dashboard/scheduler/settings', 'UserController@settings')->name('user.settings');
     //Create
     Route::post('/dashboard/employee/create', 'UserController@store');
     Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');

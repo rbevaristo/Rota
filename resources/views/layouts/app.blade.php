@@ -16,12 +16,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/core/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/floating-labels.css') }}">
     @yield('custom_styles')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
+
     <div id="app">
         @include('components.navigation')
         <main>
@@ -29,8 +30,12 @@
         </main>
         @include('components.footer')
     </div>
+    
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+    <script src="{{ asset('js/core/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/core/popper.min.js') }}"></script>
+    <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/offcanvas.js')}}"></script>
     @yield('custom_scripts')
 </body>

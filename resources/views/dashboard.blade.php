@@ -38,7 +38,7 @@
                                 <i class="fa fa-gear"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('user.manage') }}">Manage</a>
+                                <a class="dropdown-item" href="{{ route('user.manage') }}">Manage Employees</a>
                             </div>
                         </span>
                     </div>
@@ -115,7 +115,7 @@
                                 <i class="fa fa-gear"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('user.manage') }}">Manage</a>
+                                <a class="dropdown-item" href="{{ route('user.settings') }}">Scheduler Settings</a>
                             </div>
                         </span>
                     </div>

@@ -15,9 +15,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/core/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/floating-labels.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     @yield('custom_styles')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
@@ -27,10 +26,11 @@
         <main>
             @yield('content')
         </main>
-        {{-- @include('components.footer') --}}
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/core/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/core/popper.min.js') }}"></script>
+    <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/offcanvas.js')}}"></script>
     <script src="{{ asset('js/rota.js') }}"></script>
     @yield('custom_scripts')

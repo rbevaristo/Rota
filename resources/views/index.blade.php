@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('custom_styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-@endsection
-
 @section('content')
 {{-- Home --}}
 <section id="home" class="animated fadeIn">
@@ -182,20 +178,27 @@
         <div class="container d-flex justify-content-center">
             <div class="row">
                 <div class="box col-md-12">
-                    <form action="#" method="post" role="form" class="form-signin">
-                        <div class="form-label-group">
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
-                            <label for="name"><i class="fa fa-user"></i> Name</label>
+                    <form action="#" method="post" role="form">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                </div>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                            </div>
                         </div>
-                        <div class="form-label-group">
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
-                            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-envelope"></i></div>
+                                </div>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                            </div>
                         </div>
-
-                        <div class="form-label-group">
+                        <div class="form-group">
                             <textarea class="form-control" name="name" rows="4" cols="80" placeholder="Type a message..."></textarea>
                         </div>
-                        <div class="form-label-group">
+                        <div class="form-group">
                             <a href="#" class="btn btn-primary btn-round btn-block btn-lg">Send Message</a>
                         </div>
                     </form>
@@ -209,7 +212,7 @@
 {{-- Scripts appended at the bottom of the page --}}
 @section('custom_scripts')
     <script src="{{ asset('js/lib/smooth-scroll.js') }}"></script>
-    <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+    {{-- <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
     <script>
         window.sr = ScrollReveal();
         sr.reveal('#home', { duration: 2000 }, 50);
@@ -217,5 +220,5 @@
         sr.reveal('#services', { duration: 2000 }, 50);
         sr.reveal('#team', { duration: 2000 }, 50);
         sr.reveal('#contact', { duration: 2000 }, 50);
-    </script>
+    </script> --}}
 @endsection
