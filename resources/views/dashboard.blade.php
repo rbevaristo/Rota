@@ -47,7 +47,7 @@
                             <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="0">
 
                                 <div class="carousel-inner row no-gutters w-100 mx-auto" role="listbox">
-                                    @if(count(auth()->user()->employees) > 0)
+                                    @if(count(auth()->user()->employees->where('status', 1)) > 0)
                                     @php
                                         $count = 0;
                                     @endphp
@@ -110,16 +110,18 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         <strong>Schedule</strong>
+                        
                         <span class="float-right dropdown">
                             <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-gear"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ route('user.schedule.generate') }}">Generate Schedule</a>
                                 <a class="dropdown-item" href="{{ route('user.settings') }}">Scheduler Settings</a>
                             </div>
                         </span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="height:400px;">
                         
                     </div>
                 </div>
@@ -205,11 +207,7 @@
                                                         <tr>
                                                             <td>Gender</td>
                                                             <td>
-                                                                @if(`+result.data.profile.gender+`)
-                                                                    Male
-                                                                @else
-                                                                    Female
-                                                                @endif
+                                                                `+checkGender(result.data.profile.gender)+`
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -438,10 +436,10 @@
                                                         <div class="col-3">
                                                             <select class="form-control" name="{{ $eval->factor }}" id="eval">
                                                                 <option value="0">0 - Not Applicable</option>
-                                                                <option value="1">1 - Above Average</option>
-                                                                <option value="2">2 - Average</option>
-                                                                <option value="3">3 - Below Average</option>
-                                                                <option value="4">4 - Unsatisfactory</option>
+                                                                <option value="1">1 - Unsatisfactory</option>
+                                                                <option value="2">2 - Below Average</option>
+                                                                <option value="3">3 - Average</option>
+                                                                <option value="4">4 - Above Average</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -494,6 +492,12 @@
                 if(value == null)
                     return "";
                 return value;
+            }
+
+            function checkGender(value){
+                if(value == null)
+                    return "";
+                return (value == 1) ? "Male" : "Female";
             }
 
             $('#search').on("keyup", function(e){

@@ -30,9 +30,19 @@
                         Message: <p style="text-indent:60px;"> <strong>{{ $message->message }}</strong></p>
                     </div>
                     <div class="card-footer text-right">
+                        @if($message->approved)
                         <small>
                             Approved {{ date('F d, Y', strtotime($message->updated_at)) }}
                         </small>
+                        @else
+                        <small>
+                            @if((strtotime($message->from) - strtotime(date('Y-m-d'))) / (3600*24) < 7)
+                                Expired
+                            @else
+                                Pending
+                            @endif
+                        </small>
+                        @endif
                     </div>
                 </div>
             </div>

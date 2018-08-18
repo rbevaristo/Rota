@@ -43,7 +43,7 @@ class User extends Authenticatable
         return $this->hasOne('App\Profile', 'user_id');
     }
 
-    public function user_setting() {
+    public function setting() {
         return $this->hasOne('App\UserSetting');
     }
 
@@ -69,5 +69,17 @@ class User extends Authenticatable
 
     public function evaluation_files(){
         return $this->hasMany('App\EvaluationFile', 'user_id');
+    }
+
+    public function criteria(){
+        return $this->hasOne('App\Criteria');
+    }
+
+    public function shifts(){
+        return $this->hasMany('App\Shift');
+    }
+
+    public function required_shifts(){
+        return $this->hasMany('App\RequiredShift', 'user_id');
     }
 }

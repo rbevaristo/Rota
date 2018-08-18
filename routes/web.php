@@ -28,12 +28,15 @@ Route::group([], function() {
     Route::get('/dashboard/view/pdf', 'FilesController@evaluation')->name('evaluation.pdf');
     Route::get('/dashboard/scheduler/settings', 'UserController@settings')->name('user.settings');
     //Create
-    Route::post('/dashboard/employee/create', 'UserController@store');
+    Route::post('/dashboard/employee/create', 'EmployeesController@store');
     Route::post('/dashboard/setup/company/create', 'CompanyController@store')->name('user.company.create');
     Route::get('/dashboard/message/create', 'MessageController@messageToUser');
     Route::post('/dashboard/employee/{id}/evaluation_results', 'EvaluationResultsController@store')->name('user.employee.evaluation');
     Route::post('/dashboard/position/create', 'PositionsController@store')->name('user.position.create');
     Route::post('/dashboard/employee/upload/file', 'EmployeesController@upload')->name('upload.excel.file');
+    Route::post('/dashboard/setting/shift/create', 'SettingsController@create_shift');
+    Route::post('/dashboard/setting/shift/required/create', 'SettingsController@create_required_shift')->name('user.required.shift');
+    Route::get('/dashboard/scheduler/generate', 'SchedulerController@schedule')->name('user.schedule.generate');
     // Updates
     Route::post('/dashboard/profile/update', 'UserProfileController@update')->name('user.profile.update');
     Route::post('/dashboard/company/update', 'CompanyController@update')->name('user.company.update');
@@ -42,12 +45,12 @@ Route::group([], function() {
     Route::post('/dashboard/manage/status/update', 'EmployeesController@update_status');
     Route::post('/dashboard/evaluation/status/update', 'EvaluationResultsController@update_status');
     Route::post('/dashboard/employee/position/update', 'PositionsController@update_position');
-    //Route::get('/dashboard/settings', 'UserController@settings')->name('user.settings');
-    //Route::post('/dashboard/settings/update-setting/{id}/{setting}/{value}', 'SettingsController@update');
-    //Route::post('/dashboard/positions/update-position/{id}/{positions}', 'PositionsController@update');
-    //Route::delete('/dashboard/positions/delete-position/{id}', 'PositionsController@destroy');
-    //Route::post('/dashboard/requests/update-request/{id}/{request}', 'RequestsController@update');
-    //Route::delete('/dashboard/requests/delete-request/{id}', 'RequestsController@destroy');
+    Route::post('/dashboard/setting/update', 'SettingsController@update');
+    Route::post('/dashboard/setting/shift/update', 'SettingsController@update_shift');
+    Route::post('/dashboard/setting/shift/activate', 'SettingsController@activate_shift');
+    Route::post('/dashboard/setting/shift/delete', 'SettingsController@delete_shift');
+    Route::post('/dashboard/setting/criteria/update', 'SettingsController@update_criteria');
+   
 });
 
 
@@ -76,7 +79,9 @@ Route::group([
     Route::post('/dashboard/password-check/{password}', 'Employee\ChangePasswordController@check')->name('employee.password-check');
 
     Route::post('/dashboard/profile/update', 'Employee\UserProfileController@update')->name('employee.profile.update');
+    Route::get('/dashboard/message', 'Employee\MessageController@view')->name('employee.message.view');
     Route::get('/dashboard/message/read', 'Employee\MessageController@read')->name('employee.message.read');
+    Route::get('/dashboard/evaluation/read', 'Employee\EvaluationController@read')->name('employee.evaluation.read');
 });
 Route::get('test', function(){
     return view('pdf.test');

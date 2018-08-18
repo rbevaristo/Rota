@@ -17,4 +17,8 @@ class Position extends Model
     public function employees() {
         return $this->hasMany('App\Employee');
     }
+
+    public function required_shifts(){
+        return $this->hasMany('App\RequiredShift');
+    }
 }

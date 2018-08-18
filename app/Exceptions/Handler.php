@@ -51,16 +51,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof HttpException || 
-        $exception instanceof ErrorException || 
-        $exception instanceof MethodNotAllowedHttpException ||
-        $exception instanceof ModelNotFoundException
-        ){
-            return redirect()->route('not.found');
-        } else {
+        // if($exception instanceof HttpException || 
+        // $exception instanceof ErrorException || 
+        // $exception instanceof MethodNotAllowedHttpException ||
+        // $exception instanceof ModelNotFoundException
+        // ){
+        //     return redirect()->route('not.found');
+        // } else {
             //return redirect()->route('not.found');
             return parent::render($request, $exception);
-        }
+        //}
 
     }
 

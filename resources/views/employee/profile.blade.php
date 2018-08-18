@@ -17,7 +17,7 @@
                             <img class="avatar border-gray" src="{{ asset('storage/avatar/') }}/{{ auth()->user()->profile->avatar }}" alt="Avatar">
                             <h5 class="text-primary">{{ Helper::name() }}</h5>
                             <p> <small>{{ auth()->user()->email }} </small></p>
-                            <p> <strong>{{ auth()->user()->role->name}} </strong></p>
+                            <p> <strong>{{ auth()->user()->position->name}} </strong></p>
                         </div>
                     </div>
                 </div>
@@ -47,14 +47,22 @@
                         <div class="row">
                             <div class="col-md-6 px-1">
                                 <div class="form-group">
-                                    <input type="text" id="firstname" name="firstname" class="form-control{{ $errors->has('firstname') ? ' is-invalid' : '' }}" value="{{ auth()->user()->firstname }}" required placeholder="First Name">
-                                    <label for="firstname" class="text-primary"> First Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                        </div>
+                                        <input type="text" id="firstname" name="firstname" class="form-control{{ $errors->has('firstname') ? ' is-invalid' : '' }}" value="{{ auth()->user()->firstname }}" required placeholder="First Name">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6 px-1">
                                 <div class="form-group">
-                                    <input type="text" id="lastname" name="lastname" class="form-control{{ $errors->has('lastname') ? ' is-invalid' : '' }}" value="{{ auth()->user()->lastname }}" required placeholder="Last Name">
-                                    <label for="firstname" class="text-primary"> Last Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                        </div>
+                                        <input type="text" id="lastname" name="lastname" class="form-control{{ $errors->has('lastname') ? ' is-invalid' : '' }}" value="{{ auth()->user()->lastname }}" required placeholder="Last Name">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -62,20 +70,24 @@
                         <div class="row">
                             <div class="col-md-6 px-1">
                                 <div class="form-group">
-                                    <input type="email" id="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ auth()->user()->email }}" placeholder="Email">
-                                    <label for="email" class="text-primary"> Email</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-envelope"></i></div>
+                                        </div>
+                                        <input type="email" id="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ auth()->user()->email }}" placeholder="Email">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6 px-1" style="padding:5px;">
                                 <div class="radio">
-                                    <label for="gender">Gender </label>
+                                    <label for="gender"> Gender </label>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="male" name="gender" class="custom-control-input" {{ auth()->user()->profile->gender && auth()->user()->profile->gender != null ? 'checked': '' }} value="1">
-                                    <label class="custom-control-label" for="male">Male</label>
+                                        <input type="radio" id="male" name="gender" class="custom-control-input" {{ auth()->user()->profile->gender == null ? '': auth()->user()->profile->gender == 1 ? 'checked' : '' }} value="1">
+                                        <label class="custom-control-label" for="male"> <i class="fa fa-male"></i> Male </label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="female" name="gender" class="custom-control-input" {{ auth()->user()->profile->gender && auth()->user()->profile->gender != null ? '': 'checked' }} value="0">
-                                    <label class="custom-control-label" for="female">Female</label>
+                                        <input type="radio" id="female" name="gender" class="custom-control-input"  {{ auth()->user()->profile->gender == null ? '': auth()->user()->profile->gender == 0 ? 'checked' : '' }} value="0">
+                                        <label class="custom-control-label" for="female"> <i class="fa fa-female"></i> Female</label>
                                     </div>
                                 </div>
                             </div>
@@ -84,14 +96,22 @@
                         <div class="row">
                             <div class="col-md-6 px-1">
                                 <div class="form-group">
-                                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{ auth()->user()->profile->birthdate }}" placeholder="Birthdate">
-                                    <label for="birthdate">Birthday</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-birthday-cake"></i></div>
+                                        </div>
+                                        <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{ auth()->user()->profile->birthdate }}" placeholder="Birthdate">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6 px-1">
                                 <div class="form-group">
-                                    <input type="number" class="form-control" id="contact_number" name="contact_number" value="{{ auth()->user()->profile->birthdate }}" placeholder="09*********">
-                                    <label for="contact_number">Contact</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-phone"></i></div>
+                                        </div>
+                                        <input type="number" class="form-control" id="contact_number" name="contact_number" value="{{ auth()->user()->profile->contact }}" placeholder="Contact Number">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -104,40 +124,64 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" id="number" name="number" class="form-control{{ $errors->has('number') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->number }}" placeholder="House Number">
-                                    <label for="number" class="text-primary"> House Number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-hashtag"></i></div>
+                                        </div>
+                                        <input type="text" id="number" name="number" class="form-control{{ $errors->has('number') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->number }}" placeholder="House Number">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" id="street" name="street" class="form-control{{ $errors->has('street') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->street }}" placeholder="Street">
-                                    <label for="street" class="text-primary"> Street</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-road"></i></div>
+                                        </div>
+                                        <input type="text" id="street" name="street" class="form-control{{ $errors->has('street') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->street }}" placeholder="Street">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" id="city" name="city" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->city }}" placeholder="City">
-                                    <label for="city" class="text-primary"> City</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-building"></i></div>
+                                        </div>
+                                        <input type="text" id="city" name="city" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->city }}" placeholder="City">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" id="state" name="state" class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->state }}" placeholder="State">
-                                    <label for="state" class="text-primary"> State</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-map-marker"></i></div>
+                                        </div>
+                                        <input type="text" id="state" name="state" class="form-control{{ $errors->has('state') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->state }}" placeholder="State">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" id="zip" name="zip" class="form-control{{ $errors->has('zip') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->zip }}" placeholder="Zip Code">
-                                    <label for="zip" class="text-primary"> Zip Code</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-map-pin"></i></div>
+                                        </div>
+                                        <input type="text" id="zip" name="zip" class="form-control{{ $errors->has('zip') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->zip }}" placeholder="Zip Code">
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" id="country" name="country" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->country }}" placeholder="Country">
-                                    <label for="country" class="text-primary"> Country</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"><i class="fa fa-flag"></i></div>
+                                        </div>
+                                        <input type="text" id="country" name="country" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->country }}" placeholder="Country">
+                                    </div>
                                 </div>
                             </div>
                         </div>

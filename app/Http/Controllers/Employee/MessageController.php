@@ -70,4 +70,10 @@ class MessageController extends Controller
         $message = UserRequest::where('id', $request->message_id)->first();
         return view('employee.message', compact('message'));
     }
+
+    public function view(Request $request)
+    {
+        $message = UserRequest::where('id', $request->id)->first();
+        return view('employee.message', compact('message'));
+    }
 }

@@ -1,7 +1,8 @@
 @extends('layouts.employee')
 
 @section('custom_styles')
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}">
 @endsection
 
 
@@ -13,6 +14,7 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white">Evaluation</div>
                     <div class="card-body">
+                        @if(count(auth()->user()->evaluation_files->where('active', 1)) > 0)
                         <table class="table">
                             <thead>
                                 <tr>
@@ -21,7 +23,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(count(auth()->user()->evaluation_files->where('active', 1)) > 0)
+                                
                                 @foreach(auth()->user()->evaluation_files->where('active', 1)->sortByDesc('id') as $files)
                                 <tr>
                                     <td>
@@ -32,11 +34,12 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                @else
-                                    No files.
-                                @endif 
+                                
                             </tbody>
                         </table>
+                        @else
+                            No files.
+                        @endif 
                     </div>
                 </div>
             </div>
@@ -46,7 +49,8 @@
 @endsection
 
 @section('custom_scripts')
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('js/lib/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/lib/dataTables.bootstrap4.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             $('.table').DataTable({

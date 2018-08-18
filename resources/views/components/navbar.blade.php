@@ -12,7 +12,7 @@
                 <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
             </li>
             <li class="nav-item {{ Request::is('dashboard/messages') ? 'active' : ''}}">
-                <a href="{{ route('user.messages') }}" class="nav-link">Messages</a>
+                <a href="{{ route('user.messages') }}" class="nav-link">Inbox</a>
             </li>
             <li class="nav-item {{ Request::is('dashboard/attendance') ? 'active' : ''}}">
                 <a href="{{ route('user.attendance') }}" class="nav-link">Attendance</a>

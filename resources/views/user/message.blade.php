@@ -39,9 +39,13 @@
                                 </div>
                             </form>
                         @else
-                            <small>
-                                Approved {{ date('F d, Y', strtotime($message->updated_at)) }}
-                            </small>
+                            @if((strtotime($message->from) - strtotime(date('Y-m-d'))) / (3600*24) < 7)
+                                Expired
+                            @else
+                                <small>
+                                    Approved {{ date('F d, Y', strtotime($message->updated_at)) }}
+                                </small>
+                            @endif
                         @endif
                     </div>
                 </div>

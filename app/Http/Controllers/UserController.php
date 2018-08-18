@@ -54,34 +54,4 @@ class UserController extends Controller
         }
         return view('user.settings');
     }
-
-    /**
-     * Method that handles request for storing Employee.
-     * @param \Http\Requests\EmployeeRequest $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(EmployeeRequest $request) {
-
-        $employee = new Employee;
-        $employee->firstname = $request->firstname;
-        $employee->lastname = $request->lastname;
-        $employee->username = $request->username;
-        $employee->email = $request->email;
-        $pwd = new PasswordMaker;
-        $employee->password = $pwd->makePassword($request->firstname, $request->lastname, $request->username);
-        $employee->position_id = $request->position_id;
-        $employee->user_id = auth()->user()->id;
-        $employee->save();
-        
-        if($employee) {
-            $profile = Profile::create(['emp_id' => $employee->id]);
-            $address = Address::create(['profile_id' => $profile->id]);
-            
-            return redirect()->back()->with('success', 'Employee Added');
-        }
-
-        return redirect()->back()->with('error', 'Error Adding');
-        
-    }
-
 }

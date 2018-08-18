@@ -15,21 +15,36 @@
                     <form class="form" method="POST" action="{{ route('user.company.create') }}">
                         @csrf
                         <div class="form-group">
-                            <label for="name" class="text-primary"><i class="fa fa-building-o"></i> Name</label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                            <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-building-o"></i></div>
+                                    </div>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="text-primary"><i class="fa fa-envelope"></i> Email</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-envelope"></i></div>
+                                </div>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="location" class="text-primary"><i class="fa fa-map-marker"></i> Location</label>
-                            <input type="text" id="location" name="location" class="form-control" placeholder="Location" required>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-map-marker"></i></div>
+                                </div>
+                                <input type="text" id="location" name="location" class="form-control" placeholder="Location" required>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="contact_number" class="text-primary"><i class="fa fa-phone"></i> Contact</label>
-                            <input type="text" id="contact_number" name="contact_number" class="form-control" placeholder="Contact" required>
-                           
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="fa fa-phone"></i></div>
+                                </div>
+                                <input type="text" id="contact_number" name="contact_number" class="form-control" placeholder="09*********" required>
+                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12">

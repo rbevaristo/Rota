@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserSetting extends Model
+class Schedule extends Model
 {
     protected $fillable = [
-        'sharing', 'dayoff', 'shift', 'shuffle', 'user_id'
+        'user_id', 'filename', 'data'
     ];
 
-    public function user() {
+    public function user(){
         return $this->belongsTo('App\User');
     }
 }

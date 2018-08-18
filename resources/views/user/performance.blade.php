@@ -8,11 +8,12 @@
 <section id="evaluation">
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header">
-                Files
+            <div class="card-header bg-primary text-white">
+                Performance Evaluation
             </div>
             <div class="card-body">
                 <div class="table-responsive">
+                    @if(count(auth()->user()->evaluation_files) > 0)
                     <table class="table w-100 d-block d-md-table text-center">
                         <thead>
                             <tr>
@@ -35,11 +36,16 @@
                                 <td>
                                     <a href="{{ asset('storage/pdf/') }}/{{ $files->filename }}" target="_blank"> {{ substr($files->filename, 0, 10) }}... </a></td>
                                 <td>{{ date('F d, Y', strtotime($files->created_at)) }}</td>
-                                <td><input type="checkbox" data-toggle="toggle" id="status" value="{{ $files->id }}" {{ ($files->active) ? 'checked' : '' }}></td>
+                                <td>
+                                    <input type="checkbox" data-toggle="toggle" id="status" value="{{ $files->id }}" {{ ($files->active) ? 'checked' : '' }}>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    @else
+                        No files
+                    @endif
                 </div>
             </div>
         </div>

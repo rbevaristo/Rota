@@ -18,35 +18,34 @@ class EmployeesController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
+     /**
+     * Method that handles request for storing Employee.
+     * @param \Http\Requests\EmployeeRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    public function store(EmployeeRequest $request) {
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $employee = new Employee;
+        $employee->firstname = $request->firstname;
+        $employee->lastname = $request->lastname;
+        $employee->username = $request->username;
+        $employee->email = $request->email;
+        $pwd = new PasswordMaker;
+        $employee->password = $pwd->makePassword($request->firstname, $request->lastname, $request->username);
+        $employee->position_id = $request->position_id;
+        $employee->user_id = auth()->user()->id;
+        $employee->save();
+        
+        if($employee) {
+            $profile = Profile::create(['emp_id' => $employee->id]);
+            $address = Address::create(['profile_id' => $profile->id]);
+
+            return redirect()->back()->with('success', 'Employee Added');
+        }
+
+        return redirect()->back()->with('error', 'Error Adding');
+        
     }
 
     /**
@@ -70,40 +69,6 @@ class EmployeesController extends Controller
             'success' => false,
             'data' => "Cant retrieve information try again."
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function update_status(Request $request)
@@ -148,7 +113,7 @@ class EmployeesController extends Controller
             $firstname=$data['firstname'];
             $lastname=$data['lastname'];
             $position=$data['position'];
-            $email=($data['email'] == '') ? null : $data['email'];
+            $email=(isset($data['email']) == '') ? null : $data['email'];
 
             $d = Employee::firstOrNew(['username'=>$id]);
             $d->username = $id;
@@ -174,4 +139,6 @@ class EmployeesController extends Controller
 
         return redirect()->back()->with('success', 'Employees Added');
     }
+
+
 }

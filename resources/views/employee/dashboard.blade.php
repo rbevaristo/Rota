@@ -112,7 +112,7 @@
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text"><i class="fa fa-user-secret"></i></div>
                                                 </div>
-                                                <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="Current Password">
+                                                <input type="password" id="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="New Password">
                                             </div>
                                         </div>
                                         <div class="form-group">
