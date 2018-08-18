@@ -14,7 +14,7 @@ class Shift extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function required_shift(){
+    public function required_shifts(){
         return $this->hasMany('App\RequiredShift', 'shift_id');
     }
 }

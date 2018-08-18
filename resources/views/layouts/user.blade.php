@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 </head>
-<body>
+<body id="badi">
 
     <div id="app">
         @include('components.navbar')

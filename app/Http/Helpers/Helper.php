@@ -27,4 +27,8 @@ class Helper
     static function change_to_icon($text) {
         return substr(substr($string, 0, 1));
     }
+
+    static function get_shift($shift){
+        return $shift->start . ' - ' . $shift->end;
+    }
 }

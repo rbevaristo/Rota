@@ -19,6 +19,6 @@ class RequiredShift extends Model
     }
 
     public function shift(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Shift');
     }
 }

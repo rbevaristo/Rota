@@ -148,6 +148,9 @@ class SettingsController extends Controller
             $shift->save();
 
             if($shift){
+                if($shift->min == 0 && $shift->max == 0){
+                    $shift->delete();
+                }
                 return response()->json([
                     'success' => true,
                     'data' => $shift
