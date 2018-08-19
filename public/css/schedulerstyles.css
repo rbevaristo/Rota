@@ -42,12 +42,11 @@
 
 #ManagerWindowWrapper{
 	text-align: center;
-	padding-left:30px;
-	padding-right:30px;
+	margin-left:-1px;
+	margin-right:-1px;
 }
 .managerwindow{
 	display: inline-block;
-	max-width:1080px;
 	width:100%;
 	min-width:360px;
 }
@@ -68,7 +67,6 @@
 	background-color:rgb(245,245,245);
 	border:1px solid;
     border-color:rgb(225,225,225);
-    margin-top:10px;
     max-height:380px;
     position:relative;
     text-align:left;
@@ -189,14 +187,20 @@
 }
 #roleLabel1{
 	float:left;
-	font-size:36px;
-	font-family:"Helvetica";
+	font-size:0.9rem;
+	font-family:"Montserrat";
 	margin:0;
 	height:42px;
 	width:120px;
 	text-align:left;
 	padding-left: 5px;
-	color:rgb(45,45,45);
+	color:rgb(255,255,255);
+}
+#monthLeft,#monthRight,#monthViewLabel{
+	color:rgb(255,255,255) !important;
+}
+#monthViewLabel{
+	text-align:center;
 }
 #timeLabel{
 	float:center;
@@ -206,6 +210,7 @@
 	height:80px;
 }
 #monthContainer{
+	vertical-align:top;
 	float:right;
 	width:200px;
 	height:42px;
@@ -375,7 +380,6 @@
 	padding-right:10px;
 	cursor:pointer;
 	display:inline-block;
-	vertical-align:top;
 	background-color:rgb(230,230,230);
 	color:rgb(80,80,80);
 	border:0;
@@ -386,35 +390,16 @@
 	position:relative;
 	z-index:1;
 }
-.managerTab .contentdiv .tabBtns button:nth-of-type(1){
-	border-left:1px solid rgb(210,210,210);
-}
 .managerTab .contentdiv .tabBtns button:hover{background-color:rgb(215,215,215);}
 .managerTab .contentdiv .tabBtns button:focus {outline:0;}
 
 .managerTab .contentdiv .tabBtns button.active {
-	background-color:rgba(205,205,205,0);
-	border:0;
-	border-top: 30px solid rgb(212,212,212);
-	border-left: 15px solid transparent;
-	border-right: 15px solid transparent;
 	margin-top:0px;
-	margin-left:-15px;
-	margin-right:-15px;
-	height: 0;
-	width: 170px;
+	background-color:rgb(220,220,220);
 	z-index:4;
 }
 
-.managerTab .contentdiv .tabBtns button.active p{
-	position:absolute;
-	width:100%;
-	height:30px;
-	left:0;
-	top:-30px;
-	line-height:30px;
-	margin:0;
-}
+
 
 .managerTab .contentdiv .contenttabs {
 	height:calc(100% - 30px);

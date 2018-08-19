@@ -105,6 +105,8 @@ class Employee{
 		this.timeAvoidance = [];
 		this.preferredDayoff = -1; // 0-6
 		this.assignments = []; // [0,0] roleid0 shiftid0
+		this.Age = 0;
+		this.Gender = "";
 	}
 	//
 	assignShift(shift){
