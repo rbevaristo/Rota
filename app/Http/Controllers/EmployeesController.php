@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Position;
+use App\Address;
+use App\Profile;
 use PasswordMaker;
 use App\EvaluationFile;
 use App\EvaluationResult;
 use Illuminate\Http\Request;
 use App\Charts\PerformanceChart;
+use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\EvaluationCollection;
 
