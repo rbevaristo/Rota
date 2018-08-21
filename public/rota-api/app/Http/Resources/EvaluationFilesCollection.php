@@ -16,7 +16,8 @@ class EvaluationFilesCollection extends Resource
     {
         return [
             'id' => $this->id,
-            'filename' => 'http://locahost:8000/storage/pdf/'.$this->filename
+            'filename' => $this->filename, 
+            'url' => 'http://locahost:8000/storage/pdf/'.$this->filename
         ];
     }
 }

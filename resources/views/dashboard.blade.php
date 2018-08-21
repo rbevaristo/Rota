@@ -382,6 +382,7 @@
 @endsection
 
 @section('custom_scripts')
+    <script src="{{ asset('js/lzjs.js') }}"></script>
     <script src="{{ asset('js/scheduler.js') }}"></script>
     <script src="{{ asset('js/schedulerUI.js') }}"></script>
     <script>
@@ -393,60 +394,28 @@
         
         var scheduler = new ScheduleManager();
         var schedulerUI = new ScheduleManagerHTML(document,scheduler);
+        scheduler.ui = schedulerUI;
         schedulerUI.Initialize();
 
-        /*scheduler.addEmployee("Lisa","King","Cook");
-        scheduler.addEmployee("Dan","Poe","Cook");
-        scheduler.addEmployee("Beth","Poe","Cook");
-        scheduler.addEmployee("Elsa","Rye","Cook");
-        scheduler.addEmployee("Amy","Fox","Cook");
-        scheduler.employees[scheduler.employees.length-1].preferenceLevel = 1;
-        scheduler.addEmployee("Chad","Green","Cook");
-        scheduler.addEmployee("Lisa","Fox","Cook");
-        scheduler.addEmployee("Amy","King","Cook");
-        scheduler.addEmployee("Lisa","Jones","Cook");
-        scheduler.addEmployee("Elsa","Jones","Cook");*/
-
-
-        // scheduler.addEmployee("Arrianne","","sample").preferredDayoff = 1;
-        // scheduler.addEmployee("Sherwin","","testx").preferredDayoff = 5;
-        // scheduler.addEmployee("Kimberly","","testx").preferredDayoff = 6;
-        // scheduler.addEmployee("Amy","","testx").preferredDayoff = 4;
-        // scheduler.addEmployee("Kaye","","testx").preferredDayoff = 0;
-        // scheduler.addEmployee("Juner","","testx").preferredDayoff = 2;
-        // scheduler.addEmployee("Marvin","","testx").preferredDayoff = 3;
-
-        //for (var i=1;i<=15;i++){
-        //	scheduler.addEmployee("Person #"+i,"","testx").preferredDayoff = (i)%7;
-        //}
-
-        //scheduler.addEmployee("Dixie","","testx");
 
         let employees = {!! $employs !!}
-        for (var index = 0; index < employees.length; index++) {
-            scheduler.addEmployee(employees[index].firstname,employees[index].lastname,employees[index].position);            
-        }
+        let settings = {!! $settings !!}; 
+        let criteria = {!! $criteria !!}; 
+        let shifts = {!! $shifts !!}; 
+        let required_shifts = {!! $required_shifts !!}; 
 
         for (var index = 0; index < employees.length; index++) {
-            console.log(employees[index].position);         
+            var trueEmp = employees[index];
+            var emp = scheduler.addEmployee(trueEmp.firstname,trueEmp.lastname,trueEmp.position);        
+            emp.trueId = trueEmp.id;
         }
 
-        let settings = {!! $settings !!}; console.log(settings);
-        let criteria = {!! $criteria !!}; console.log(criteria);
-        let shifts = {!! $shifts !!}; console.log(shifts);
-        let required_shifts = {!! $required_shifts !!}; console.log(required_shifts);
-        let leave = {!! $leave !!}; console.log(leave);
+        scheduler.injectDB(employees,shifts,required_shifts,settings,criteria);
+
+        console.log("byo",employees);
+
         
-        /*
-        todo:
-        employee manager
-            employee list
-            employee info
-            add employee
-        role manager
-        */
-        
-        var role = scheduler.addRole("Clerk");
+        var role = scheduler.getRole("Clerk");
         role.addShift("07:00","15:00",1,2);
         role.addShift("10:00","18:00",1,2);
         role.addShift("13:00","21:00",1,2);
@@ -476,7 +445,8 @@
         //var d = new DateCalc(Date.now());//new DateCalc(DateCalc.resetDay(Date.now()));
         //d.resetDay();
         //document.getElementById("timeLabel").innerHTML = (d.Month+1)+" "+d.Date+" "+d.Year+"<br>"+d.Hour +":"+d.Minutes+":"+d.Seconds;
-
+        
+        
         
         // --------------------------- SAUCE ^^^^
     </script>
@@ -861,11 +831,7 @@
         //========================================================================================================================================================================
         //========================================================================================================================================================================
         //========================================================================================================================================================================
-        console.log("- 1 -");
-        var updateEmpList = function(){
-            scheduler.updateEmpList({!! auth()->user()->employees; !!});
-        }
-        console.log("- 2 -");
+
         //========================================================================================================================================================================
         //========================================================================================================================================================================
         //========================================================================================================================================================================

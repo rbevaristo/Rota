@@ -49,8 +49,8 @@ class HomeController extends Controller
         ];
 
         $leave = auth()->user()->user_requests->where('approved', 1);
+        
 
-       
         return view('dashboard', [
             'employs' => json_encode($employs),
             'shifts' => $shifts,

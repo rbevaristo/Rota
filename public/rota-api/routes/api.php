@@ -13,8 +13,8 @@ Route::group([
 
     Route::post('send', 'ContactUsController@send');
     Route::get('employees', 'UserController@employees');
-    Route::get('evaluations/{id}', 'EvaluationFilesController@eval');
-
+    Route::get('evaluations/{id}', 'EvaluationController@eval');
+    Route::get('evaluationform', 'EvaluationController@form');
 });
 
 Route::group([
