@@ -17,6 +17,11 @@ class ScheduleManager {
 		this.employees = []; // Employee class
 		this.currentDate = new DateCalc(Date.now());
 		this.currentDate.setStartOfDay();
+		this.dbsettings = null;
+		this.dbcriteria = null;
+		this.dbemploys = null;
+		this.dbshifts = null;
+		this.dbrequiredshifts = null;
 		//this.updateScheduleHistory();
 		//
 		console.log("Loaded Scheduler.");
@@ -29,6 +34,14 @@ class ScheduleManager {
 	//
 	static toNum(ss){
 		return Number(ss.substring(0,2))*60+Number(ss.substring(3,5));
+	}
+	//
+	injectDB(dbemploys,dbshifts,dbrequiredshifts,dbsettings,dbcriteria){
+		this.dbemploys = dbemploys;
+		this.dbshifts = dbshifts;
+		this.dbrequiredshifts = dbrequiredshifts;
+		this.dbsettings = dbsettings;
+		this.dbcriteria = dbcriteria;
 	}
 	//
 	updateScheduleHistory(){
@@ -352,8 +365,8 @@ class Role{
 		this.generations = [];
 		this.shiftType = "Normal"; //
 		this.shiftDistHrs = 8;
-		this.shuffleGenerate = 0;
-		this.dayoffSetting = 1; // 0 off 1 on
+		this.shuffleGenerate = 0;             // DB
+		this.dayoffSetting = 1; // 0 off 1 on    DB
 	}
 	//
 	generate(startDate,days,daybefore){ // y,m,d

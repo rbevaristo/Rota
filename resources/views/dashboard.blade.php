@@ -423,7 +423,8 @@
 
         //scheduler.addEmployee("Dixie","","testx");
 
-        let employees = {!! $employs !!}
+        var employees = {!! $employs !!};
+        scheduler.injectDB(employees,{!! $shifts !!},{!! $required_shifts !!},{!! $settings !!},{!! $criteria !!}){
         for (var index = 0; index < employees.length; index++) {
             scheduler.addEmployee(employees[index].firstname,employees[index].lastname,employees[index].position);            
         }
@@ -437,7 +438,7 @@
         role manager
         */
         
-        var role = scheduler.addRole("Clerk");
+        var role = scheduler.getRole("Clerk");
         role.addShift("07:00","15:00",1,2);
         role.addShift("10:00","18:00",1,2);
         role.addShift("13:00","21:00",1,2);
