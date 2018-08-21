@@ -1,24 +1,43 @@
 @extends('layouts.user')
-
+@section('custom_styles')
+    <style>
+    </style>
+@endsection
 @section('content')
 <section style="margin-top: 30px">
-    <div class="container">
-        <table class="table">
+    <div class="container-fluid">
+        <table class="table text-center">
             <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <td></td>
+                    @for($i = 0; $i < auth()->user()->setting->num_days; $i++)
+                    <td>
+                        {{ date('F d, Y', strtotime($date . ' +'.$i.' day')) }} <br>
+                        {{ date('D', strtotime($date . ' +'.$i.' day'))}}
+                    </td>
+                    @endfor
                 </tr>
             </thead>
             <tbody>
-                @for($i = 0; $i < sizeof($data); $i++)
+                @foreach(auth()->user()->employees->where('status', 1)->sortBy('position_id') as $employee)
                 <tr>
-                    <td>{{ $data[$i]['day'] }}</td>
-                    <td>{{ $data[$i]['shift'][0]['start'] }}</td>
-                    <td>{{ $data[$i]['shift'][0]['end'] }}</td>
+                    <td>
+                        {{ $employee->firstname }} {{ $employee->lastname }} <br>
+                        {{ $employee->position->name }}
+                    </td>
+                    @foreach($data as $d)
+                    <td>
+                        @foreach($d['employees'] as $emp)
+                            @if($emp['firstname'] == $employee->firstname)
+                            {{ $d['shift'] }}
+                            @else
+                            
+                            @endif
+                        @endforeach
+                    </td>
+                    @endforeach
                 </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
         

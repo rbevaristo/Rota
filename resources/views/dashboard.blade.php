@@ -387,78 +387,82 @@
 
 
 
-var scheduler = new ScheduleManager();
-var schedulerUI = new ScheduleManagerHTML(document,scheduler);
-schedulerUI.Initialize();
+        var scheduler = new ScheduleManager();
+        var schedulerUI = new ScheduleManagerHTML(document,scheduler);
+        schedulerUI.Initialize();
 
-/*scheduler.addEmployee("Lisa","King","Cook");
-scheduler.addEmployee("Dan","Poe","Cook");
-scheduler.addEmployee("Beth","Poe","Cook");
-scheduler.addEmployee("Elsa","Rye","Cook");
-scheduler.addEmployee("Amy","Fox","Cook");
-scheduler.employees[scheduler.employees.length-1].preferenceLevel = 1;
-scheduler.addEmployee("Chad","Green","Cook");
-scheduler.addEmployee("Lisa","Fox","Cook");
-scheduler.addEmployee("Amy","King","Cook");
-scheduler.addEmployee("Lisa","Jones","Cook");
-scheduler.addEmployee("Elsa","Jones","Cook");*/
-
-
-scheduler.addEmployee("Arrianne","","testx").preferredDayoff = 1;
-scheduler.addEmployee("Sherwin","","testx").preferredDayoff = 5;
-scheduler.addEmployee("Kimberly","","testx").preferredDayoff = 6;
-scheduler.addEmployee("Amy","","testx").preferredDayoff = 4;
-scheduler.addEmployee("Kaye","","testx").preferredDayoff = 0;
-scheduler.addEmployee("Juner","","testx").preferredDayoff = 2;
-scheduler.addEmployee("Marvin","","testx").preferredDayoff = 3;
-
-//for (var i=1;i<=15;i++){
-//	scheduler.addEmployee("Person #"+i,"","testx").preferredDayoff = (i)%7;
-//}
-
-//scheduler.addEmployee("Dixie","","testx");
+        /*scheduler.addEmployee("Lisa","King","Cook");
+        scheduler.addEmployee("Dan","Poe","Cook");
+        scheduler.addEmployee("Beth","Poe","Cook");
+        scheduler.addEmployee("Elsa","Rye","Cook");
+        scheduler.addEmployee("Amy","Fox","Cook");
+        scheduler.employees[scheduler.employees.length-1].preferenceLevel = 1;
+        scheduler.addEmployee("Chad","Green","Cook");
+        scheduler.addEmployee("Lisa","Fox","Cook");
+        scheduler.addEmployee("Amy","King","Cook");
+        scheduler.addEmployee("Lisa","Jones","Cook");
+        scheduler.addEmployee("Elsa","Jones","Cook");*/
 
 
-/*
-todo:
-employee manager
-    employee list
-    employee info
-    add employee
-role manager
-*/
+        // scheduler.addEmployee("Arrianne","","sample").preferredDayoff = 1;
+        // scheduler.addEmployee("Sherwin","","testx").preferredDayoff = 5;
+        // scheduler.addEmployee("Kimberly","","testx").preferredDayoff = 6;
+        // scheduler.addEmployee("Amy","","testx").preferredDayoff = 4;
+        // scheduler.addEmployee("Kaye","","testx").preferredDayoff = 0;
+        // scheduler.addEmployee("Juner","","testx").preferredDayoff = 2;
+        // scheduler.addEmployee("Marvin","","testx").preferredDayoff = 3;
 
-scheduler.addRole("Cashier");
-role = scheduler.addRole("testx");
-role.addShift("07:00","15:00",1,2);
-role.addShift("10:00","18:00",1,2);
-role.addShift("13:00","21:00",1,2);
-role.addShift("15:00","23:00",1,2);
-role.addShift("21:00","05:00",1,2);
-role.addShift("23:00","07:00",1,2);
-role.setScheduleRefresh("1W",0);
-//role.disableDay(0);
+        //for (var i=1;i<=15;i++){
+        //	scheduler.addEmployee("Person #"+i,"","testx").preferredDayoff = (i)%7;
+        //}
+
+        //scheduler.addEmployee("Dixie","","testx");
+
+        let employees = {!! $employs !!}
+        for (var index = 0; index < employees.length; index++) {
+            scheduler.addEmployee(employees[index].firstname,employees[index].lastname,employees[index].position);            
+        }
+
+        /*
+        todo:
+        employee manager
+            employee list
+            employee info
+            add employee
+        role manager
+        */
+        
+        role = scheduler.addRole("Clerk");
+        role.addShift("07:00","15:00",1,2);
+        role.addShift("10:00","18:00",1,2);
+        role.addShift("13:00","21:00",1,2);
+        role.addShift("15:00","23:00",1,2);
+        role.addShift("21:00","05:00",1,2);
+        role.addShift("23:00","07:00",1,2);
+        role.setScheduleRefresh("1W",0);
+        //role.disableDay(0);
 
 
-role.generate(scheduler.currentDate.getDateAfterDays(1).toArrayMMDDYYY(),7);
-//role.generate(scheduler.currentDate.getDateAfterDays(7).toArrayMMDDYYY(),7);
-for (var i=0;i<scheduler.employees.length;i++){
-    var e = scheduler.employees[i];
-    //console.log(e.fname +" "+e.lname+" assigns : "+e.assignments.length);
-}
-//console.log("hrs : "+scheduler.employees[0].getTotalHoursWorked());
+        role.generate(scheduler.currentDate.getDateAfterDays(1).toArrayMMDDYYY(),7);
+        //role.generate(scheduler.currentDate.getDateAfterDays(7).toArrayMMDDYYY(),7);
+        for (var i=0;i<scheduler.employees.length;i++){
+            var e = scheduler.employees[i];
+            //console.log(e.fname +" "+e.lname+" assigns : "+e.assignments.length);
+        }
+        //console.log("hrs : "+scheduler.employees[0].getTotalHoursWorked());
 
 
-schedulerUI.changeRoleView("testx");
-//schedulerUI.loadRoleMonthly();
-console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
+        schedulerUI.changeRoleView("Manager");
+        //schedulerUI.loadRoleMonthly();
+        console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
 
 
-//var d = new DateCalc(Date.now());//new DateCalc(DateCalc.resetDay(Date.now()));
-//d.resetDay();
-//document.getElementById("timeLabel").innerHTML = (d.Month+1)+" "+d.Date+" "+d.Year+"<br>"+d.Hour +":"+d.Minutes+":"+d.Seconds;
+        //var d = new DateCalc(Date.now());//new DateCalc(DateCalc.resetDay(Date.now()));
+        //d.resetDay();
+        //document.getElementById("timeLabel").innerHTML = (d.Month+1)+" "+d.Date+" "+d.Year+"<br>"+d.Hour +":"+d.Minutes+":"+d.Seconds;
 
-// --------------------------- SAUCE ^^^^
+        
+        // --------------------------- SAUCE ^^^^
     </script>
     <script>
         $(document).ready(() => {
@@ -709,7 +713,7 @@ console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.cur
                         $('.modal .modal-header').html('');
                         $('.modal .modal-body').html('');
                         $('.modal .modal-header').html(`
-                            Evaluation
+                            Performance Evaluation form
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -720,7 +724,7 @@ console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.cur
                                 <div class="row" id="evaluation-form">
                                     <div class="col-12">
                                         <div class="card">
-                                            <div class="card-header bg-primary text-white">Performance Evaluation Form</div>
+                                            
                                             <div class="card-body">
                                                 <form method="POST" action="{{ url('/dashboard/employee/`+id+`/evaluation_results') }}">
                                                 @csrf

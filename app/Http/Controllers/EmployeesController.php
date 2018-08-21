@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
-use App\Position;
 use App\Address;
 use App\Profile;
+use App\Employee;
+use App\Position;
 use PasswordMaker;
 use App\EvaluationFile;
 use App\EvaluationResult;
@@ -142,6 +142,13 @@ class EmployeesController extends Controller
         }
 
         return redirect()->back()->with('success', 'Employees Added');
+    }
+
+    public function get_job(Request $request)
+    {
+        return response()->json([
+            'data' => Position::where('id', $request->id)->first()->name
+        ]);
     }
 
 

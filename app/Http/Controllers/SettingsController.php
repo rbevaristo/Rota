@@ -99,6 +99,9 @@ class SettingsController extends Controller
     public function delete_shift(Request $request)
     {
         $shift = Shift::where('id', $request->id)->first();
+        foreach(auth()->user()->required_shifts->where('shift_id', $request->id) as $s){
+            $s->delete();
+        }
         $shift->delete();
         return response()->json(['success' => true]);
     }

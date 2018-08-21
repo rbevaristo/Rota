@@ -11,7 +11,8 @@
         "fx3costa/laravelchartjs": "^2.5",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
-        "pusher/pusher-php-server": "^3.1"
+        "pusher/pusher-php-server": "^3.1",
+        "tymon/jwt-auth": "^1.0.0-rc.2"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
@@ -31,7 +32,8 @@
         "files": [
             "app/Http/Helpers/PasswordMaker.php",
             "app/Http/Helpers/Converter.php",
-            "app/Http/Helpers/Helper.php"
+            "app/Http/Helpers/Helper.php",
+            "app/Http/Helpers/Scheduler.php"
         ]
     },
     "autoload-dev": {
