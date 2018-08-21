@@ -443,6 +443,9 @@
         //schedulerUI.loadRoleMonthly();
         console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
 
+        if (schedule_string){
+            scheduler.loadJSON(schedule_string);
+        }
 
         //var d = new DateCalc(Date.now());//new DateCalc(DateCalc.resetDay(Date.now()));
         //d.resetDay();
@@ -598,7 +601,6 @@
                                 });
                             }
                         });
-
                     },
                 });
             });
@@ -825,6 +827,21 @@
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
                 }
+            });
+
+            $('#saveBtn').click(function() {
+                console.log("lol");
+                var url = "{{ url('/dashboard/scheduler/create') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        schedule : scheduler.toJSON()
+                    },
+                    success: function (result) {
+                        alert("Saved");
+                    },
+                });
             });
 
         });

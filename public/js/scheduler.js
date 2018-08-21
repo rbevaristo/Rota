@@ -45,8 +45,11 @@ class ScheduleManager {
 			employeeId:this.employeeId,
 			roleId:this.roleId,
 			employees:[],
-			roles:[]
+			roles:[],
 		};
+		if (this.ui && this.ui.currentRoleView){
+			tab.v = this.ui.currentRoleView;
+		}
 		for (var i=0;i<this.employees.length;i++){
 			var emp = this.employees[i];
 			tab.employees.push({
@@ -240,7 +243,10 @@ class ScheduleManager {
 		this.employeeId = tab.employeeId;
 		this.roleId = tab.employeeId;
 		this.shiftDataId = tab.shiftDataId;
-		if (this.roles.length>0){
+		if (tab.v != null && typeof tab.v == "string"){
+			this.ui.changeRoleView(tab.v);
+		}
+		else if (tab.v == null && this.roles.length>=0){
 			this.ui.changeRoleView(this.roles[0].name);
 		}
 		console.log("loaded");
