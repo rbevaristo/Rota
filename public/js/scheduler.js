@@ -10,7 +10,6 @@ class ScheduleManager {
 		ScheduleManager.dateFormat = this.dateFormat;
 		ScheduleManager.Instance = this;
 		//data
-		this.name = null;
 		this.roles = []; // Role class
 		this.employeeId = 0;
 		this.roleId = 0;
@@ -36,12 +35,102 @@ class ScheduleManager {
 		return Number(ss.substring(0,2))*60+Number(ss.substring(3,5));
 	}
 	//
+	t(){
+		console.log(this.toJSON());
+	}
+	//
+	toJSON(){
+		var tab = {
+			employeeId:this.employeeId,
+			roleId:this.roleId,
+			employees:[],
+			roles:[]
+		};
+		for (var i=0;i<this.employees.length;i++){
+			var emp = this.employees[i];
+			tab.employees.push({
+				id : emp.id,
+				trueId : emp.trueId,
+				fname : emp.fname,
+				lname : emp.lname,
+				active : emp.active,
+				role : emp.role,
+				preferredDayoff : emp.preferredDayoff,
+				assignments : emp.assignments,
+				Age : emp.Age,
+				Gender : emp.Gender
+			});
+		}
+		for (var i=0;i<this.roles.length;i++){
+			var role = this.roles[i];
+			tab.roles.push({
+				id : role.id,
+				dayId : role.dayId,
+				generationId : role.generationId,
+				name : role.name,
+				shifts : role.shifts,
+				scheduledDays : [],
+				disabledDays : role.disabledDays,
+				generations : [],
+				shiftType : role.shiftType, 
+				shiftDistHrs : role.shiftDistHrs
+			});
+		}
+		return JSON.stringify(tab);
+	}
+	//
+	loadJSON(str){
+		var tab = JSON.parse(str);
+		this.employeeId = 0;
+		this.roleId = 0;
+
+		this.employees = [];
+		for (var i=0;i<tab.employees.length;i++){
+			var emp2 = tab.employees[i];
+			var emp = this.addEmployee(emp2.fname,emp2.lname,emp2.role);
+			emp.id = emp2.id;
+			emp.trueId = emp2.trueId;
+			emp.active = emp2.active;
+			emp.preferredDayoff = emp2.preferredDayoff;
+			emp.assignments = emp2.assignments;
+			emp.Age = emp2.Age;
+			emp.Gender = emp2.Gender;
+		}
+
+		this.roles = [];
+		for (var i=0;i<tab.roles.length;i++){
+			var role2 = tab.roles[i];
+			var role = this.addRole(role2.name);
+			role.id = role2.id;
+			role.dayId = role2.dayId;
+			role.generationId = role2.generationId;
+			role.shifts = role2.shifts; // 
+			for (var ii in role2.shifts) {
+				role.addShift(role2.shifts[ii].start,role2.shifts[ii].end,role2.shifts[ii].defaultMinAssign,role2.shifts[ii].defaultMaxAssign);
+			}
+			role.scheduledDays = []; //
+			role.disabledDays = role2.disableDays;
+			role.generations = []; // 
+			role.shiftType = role2.shiftType;
+			role.shiftDistHrs = role2.shiftDistHrs;
+		}
+
+		this.employeeId = tab.employeeId;
+		this.roleId = tab.employeeId;
+	}
+	//
 	injectDB(dbemploys,dbshifts,dbrequiredshifts,dbsettings,dbcriteria){
 		this.dbemploys = dbemploys;
 		this.dbshifts = dbshifts;
 		this.dbrequiredshifts = dbrequiredshifts;
 		this.dbsettings = dbsettings;
 		this.dbcriteria = dbcriteria;
+		console.log("nice",dbsettings);
+		for (var i=0;i<this.roles.length;i++){
+			var role = this.roles[i];
+			role.dayoffSetting = dbsettings.dayoff;
+			console.log("asd",role.dayoffSetting);
+		}
 	}
 	//
 	updateScheduleHistory(){
@@ -365,8 +454,9 @@ class Role{
 		this.generations = [];
 		this.shiftType = "Normal"; //
 		this.shiftDistHrs = 8;
-		this.shuffleGenerate = 0;             // DB
+		this.shuffleGenerate = 0;             // untouched
 		this.dayoffSetting = 1; // 0 off 1 on    DB
+		this.maxdayoff = 1; // DB
 	}
 	//
 	generate(startDate,days,daybefore){ // y,m,d
@@ -655,7 +745,7 @@ class Role{
 			emps = this.shuffleArray(emps);
 		}
 		var dayoffs = [0,0,0,0,0,0,0];
-		var maxdayoff = Math.floor((emps.length+6)/7);
+		var maxdayoff = this.maxdayoff; //Math.floor((emps.length+6)/7);
 		for (var i=0;i<emps.length;i++){
 			var emp = emps[i];
 			var dayoff = null;

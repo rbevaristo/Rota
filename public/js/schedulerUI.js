@@ -895,7 +895,7 @@ class ScheduleManagerHTML{
 				var cellonclick = function(p){
 					diz.schedcellclick(p);
 				}
-				row.push({txt:txt,objs:objs,onclick:cellonclick,clickParam:{i:d,e:e,d:d,scheduledDay:scheduledDay}});
+				row.push({txt:txt,objs:objs,onclick:cellonclick,clickParam:{i:d,e:e,d:d,emp:data.rows[e],scheduledDay:scheduledDay}});
 			}
 			xy.push(row);
 		}
@@ -911,7 +911,7 @@ class ScheduleManagerHTML{
 		var diz = this;
 		var doc = this.doc;
 		var scheduler = this.scheduler;
-		var emp = scheduler.employees[p.e]; 
+		var emp = p.emp; 
 		var role = scheduler.getRole(diz.currentRoleView);
 		var scheduledDay = p.scheduledDay;
 		var generation = scheduledDay.notexist?null:(role.getGenerationGroupYMD(p.scheduledDay.year,p.scheduledDay.month,p.scheduledDay.date));
