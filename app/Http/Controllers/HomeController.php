@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\EmployeesCollection;
 
 class HomeController extends Controller
 {
@@ -26,7 +28,9 @@ class HomeController extends Controller
         if(!auth()->user()->company){
             return view('user.setup')->with('error', 'Please fill up the form.');
         }
-        return view('dashboard');
+        $employs = EmployeesCollection::collection(auth()->user()->employees);
+        $employs = json_encode($employs);
+        return view('dashboard', compact('employs'));
     }
 
     public function setup() {

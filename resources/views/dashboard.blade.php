@@ -1,8 +1,198 @@
 @extends('layouts.user')
 @section('custom_styles')
-
+<link rel="stylesheet" href="{{ asset('css/schedulerstyles.css') }}">
 @endsection
 @section('content')
+<div style="background-color:rgba(0,0,0,0);height:100%;width:100%;position:relative;top:0;left:0;z-index:9999;">
+    <div id="managerInfo" class=" ishidden">
+        <div id="shadowBG">
+        </div>
+        <div id="EmployeeManagerTab" class="managerTab">
+            <div class="titlecover">
+                <button id = "emClose" class="closeBtn">&times;</button>
+                <p>Employee Manager</p>
+            </div>
+            <div class="contentdiv">
+                <div class = "tabBtns">
+                    <button id="empListBtn">Employee List</button>
+                    <button id="empInfoBtn">Employee Info</button>
+                    <button id="empAddBtn">Add Employee</button>
+                </div>
+                <div class="contenttabs">
+                    <div id="empList">
+                        <div id="empList_emps"  class="managerTab2 listTab">
+                        </div>
+                        <div id="empList_right" class="managerTab2">
+                            <p class="mth1">Choose an Employee in the list to view and edit.</p>
+                            <div id="empList_search_container" class="labelinput" style="display:block;">
+                                <p>Search Employee</p>
+                                <input id="empList_search">
+                                <p>&#8981;</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="empInfo">
+                        <div class="managerTab2">
+                            <p class="mth1">Employee Name</p>
+                            <!--<p id="empInfo_noselect" class="mth2">Choose an Employee in the Employee list to view Info.</p>-->
+                            <div class="labelinput" style="">
+                                <p>Last Name</p>
+                                <input id="empInfo_lname">
+                            </div>
+                            <div class="labelinput">
+                                <p>First Name</p>
+                                <input id="empInfo_fname">
+                            </div>
+                            <div class="labelinput">
+                                <p>Role</p>
+                                <input id="empInfo_role">
+                            </div>
+                            <button id="empInfo_updatename" class="middleBtn2">Update Name</button>
+                        </div>
+                        <div class="managerTab2">
+                            <p class="mth1">Employee Settings</p>
+                            <div class="labelcheckbox">
+                                <input id="empInfo_activeButton" type="checkbox">
+                                <p>Employed (Scheduling in effect.)</p>
+                            </div>
+                            <p class="mth1">Preferred Day-off</p>
+                            <select id="empInfo_preferredDayoff" style="width:140px;margin-left:12px;margin-top:0">
+                                <option value="-1" selected>Any</option>
+                                <option value="0">Sunday</option>
+                                <option value="1">Monday</option>
+                                <option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option>
+                                <option value="4">Thursday</option>
+                                <option value="5">Friday</option>
+                                <option value="6">Saturday</option>
+                            </select>
+                                <!--<button id="empInfo_deleteButton" class="middleBtn1">Remove Employee</button>-->
+                        </div>
+                    </div>
+                    <div id="empAdd">
+                        <div class="managerTab2">
+                            <p class="mth1">Add new Employee</p>
+                            <div class="labelinput" style="">
+                                <p>Last Name</p>
+                                <input id="empAdd_lname">
+                            </div>
+                            <div class="labelinput">
+                                <p>First Name</p>
+                                <input id="empAdd_fname">
+                            </div>
+                            <div class="labelinput">
+                                <p>Role</p>
+                                <input id="empAdd_role">
+                            </div>
+                            <br>
+                            <button id="empAdd_add" class="middleBtn1">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="RoleManagerTab" class="managerTab">
+            <div class="titlecover">
+                <button id = "rmClose" class="closeBtn">&times;</button>
+                <p>Role Manager</p>
+            </div>
+            <div  class="contentdiv">
+                <div class = "tabBtns">
+                    <button id="roleListBtn">Role List</button>
+                    <button id="roleInfoBtn">Role Info</button>
+                    <button id="roleAddBtn">Add Role</button>
+                </div>
+                <div class="contenttabs">
+                    <div id="roleList">
+                        <div id="roleList_roles"  class="managerTab2 listTab">
+                        </div>
+                    </div>
+                    <div id="roleInfo">
+                        <div class="managerTab2">
+                            <p id="roleInfo_roletitle" class="mth1" style="font-size:28px;">Role Name</p>
+                            <p class="mth1">Schedule Generation Configuration</p>
+                            <div id="roleInfo_dayofftoggle">
+                                <div class="container1">
+                                    <!--<div class="labelcheckbox">
+                                        <input id="roleInfo_fixedButton" type="checkbox">
+                                        <p>Fixed Day off Schedule</p>
+                                    </div>-->
+                                    <p class="mth2 tooltip" style="margin-bottom:4px;">Working Days<span class="tooltiptext">days which scheduling is in effect</span></p>
+                                    <div class="blockedDayDiv">
+                                        <button id="roleInfo_toggle0">SUN</button>
+                                        <button id="roleInfo_toggle1">MON</button>
+                                        <button id="roleInfo_toggle2">TUE</button>
+                                        <button id="roleInfo_toggle3">WED</button>
+                                        <button id="roleInfo_toggle4">THU</button>
+                                        <button id="roleInfo_toggle5">FRI</button>
+                                        <button id="roleInfo_toggle6">SAT</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mth1">Add Shift</p>
+                            <div class="container1">
+                                <p class="p1 tooltip">From<span class="tooltiptext">start time of shift</span></p>
+                                <input id="roleInfo_addShiftFrom" class="inputtime" type="time">
+                                <p class="p1 tooltip">To<span class="tooltiptext">end time of shift</span></p>
+                                <input id="roleInfo_addShiftTo" class="inputtime" type="time">
+                                <br>
+                                <p class="p1 tooltip">Assignments : Min <span class="tooltiptext">minimum employees needed</span></p>
+                                <input id="roleInfo_addShiftMin" class="inputnumber" type="number" min="0">
+                                <p class="p1 tooltip">Max<span class="tooltiptext">maximum employees needed</span></p>
+                                <input id="roleInfo_addShiftMax" class="inputnumber" type="number" min="0">
+                                <button id="roleInfo_addShiftButton" class="middleBtn2">Add Shift</button>
+                            </div>
+                            <p class="mth1">Shift Generation</p>
+                            <div id="roleInfo_shiftscontainer" class="container1" style="padding:12px;margin-bottom:12px;">
+                                <div id="roleInfo_shiftlistheader" class="shiftlistcontainer">
+                                    <p class="shiftlistheader" style="width:100px;">From</p>
+                                    <p class="shiftlistheader" style="width:100px;">To</p>
+                                    <p class="shiftlistheader" style="width:40px;">Min</p>
+                                    <p class="shiftlistheader" style="width:40px;">Max</p>
+                                </div>
+                                <div class="shiftlistcontainer">
+                                    <input type="time" class="shiftlistheader" style="width:100px;">
+                                    <input type="time" class="shiftlistheader" style="width:100px;">
+                                    <input type="number" class="shiftlistheader" style="width:40px;">
+                                    <input type="number" class="shiftlistheader" style="width:40px;">
+                                </div>
+                            </div>
+                            <button id="roleInfo_updateShiftButton" class="middleBtn2">Update Shifts</button>
+                            <p class="mth1">Generate Schedule</p>
+                            <div class="container1">
+                                <p class="p1 tooltip">Date<span class="tooltiptext">start day of sched</span></p>
+                                <input type="date" id="roleInfo_generateDate" class="inputtime" style="width:140px;">
+                                <br>
+                                <p class="p1 tooltip">Days<span class="tooltiptext">number of days</span></p>
+                                <input type="number" id="roleInfo_generateDays" class="inputtime" value="7" min="1" max="31" style="width:60px;">
+                                <!--<p class="p1 tooltip">Day offs<span class="tooltiptext">number of day offs</span></p>
+                                <input type="number" id="roleInfo_generateDayoffs" class="inputtime" value="1" min="1" max="30" style="width:60px;">-->
+                                <button id="roleInfo_generateScheduleButton" class="middleBtn2" style="width:240px;font-size:24px;">Generate Schedule</button>
+                            </div>
+                        </div>
+                        <div class="managerTab2">
+                            <!--<p class="mth1">Default Settings</p>-->
+
+                        </div>
+                    </div>
+                    <div id="roleAdd">
+                        <div class="managerTab2">
+                            <p class="mth1">Add new Role</p>
+                            <div class="labelinput" style="">
+                                <p>Role Name</p>
+                                <input id="roleAdd_name">
+                            </div>
+                            <button id="roleAdd_add" class="middleBtn1">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <section id="user-dashboard">
     <div class="container-fluid">
         @if(session('success'))
@@ -109,20 +299,72 @@
             <div class="col-md-12" id="schedule">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <strong>Schedule</strong>
-                        <span>{{ date('F d, Y') }} - {{ date('H:i:s') }}</span>
-                        <span class="float-right dropdown">
-                            <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-gear"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('user.schedule.generate') }}">Generate Schedule</a>
-                                <a class="dropdown-item" href="{{ route('user.settings') }}">Scheduler Settings</a>
-                            </div>
-                        </span>
+                        <p style="float:left;"><strong>Schedule -</strong></p>
+                        <p id ="roleLabel1"><strong>Cook</strong></p>
+                        <div style="float:right;">
+                            <span class="float-right dropdown">
+                                <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-gear"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('user.schedule.generate') }}">Generate Schedule</a>
+                                    <a class="dropdown-item" href="{{ route('user.settings') }}">Scheduler Settings</a>
+                                </div>
+                            </span>
+                        </div>
+                        <div id="monthContainer">
+                            <button id ="monthLeft">&#171;</button>
+                            <p id = "monthViewLabel">2018<br>September</p>
+                            <button id ="monthRight">&#187;</button>
+                        </div>
                     </div>
-                    <div class="card-body" style="height:400px;" >
-                           
+                    <div class="card-body" style="margin:0;padding:0;">
+                        <div id="ManagerWindowWrapper">
+                            <div class="managerwindow">
+                                <div id="ManagerTable">
+                                    <div id="LeftTableWrap">
+                                        <table id="LeftTable">
+                                        </table>
+                                    </div>
+                                    <div id="RightTableWrap">
+                                        <div id="TopTableWrap">
+                                            <table id="TopTable">
+                                            </table>
+                                        </div>
+                                        <div id="BottomTableWrap">
+                                            <table id="RightTable">
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="headerWindow" class=" ishidden">
+                                        <div id="headerWindow1" class="hwwrap">
+                                            <div id="headerWindowInfo">Day aa<br>Generation: aug 1 to aug 7</div>
+                                            <button id="headerWindowDeleteDaily" class="headerBtn1">Clear all shifts from this day</button>
+                                            <button id="headerWindowDeleteGenerated" class="headerBtn1">Delete Generated Schedule</button>
+                                            <button id="headerWindowCopyGenerated" class="headerBtn1">Copy Generated Schedule</button>
+                                            <button id="headerWindowPasteGenerated" class="headerBtn1">Paste Generated Schedule</button>
+                                            <button id="headerWindowGenerate7" class="headerBtn1">Generate New Schedule (7 Days)</button>
+                                            <button id="headerWindowGenerate7S" class="headerBtn1">Generate Shuffled Schedule (7 Days)</button>
+                                            <button id="headerWindowGenerate7S2" class="headerBtn1">Generate Shuffled Schedule (7 Days,Rested)</button>
+                                        </div>
+                                        <div id="headerWindow2" class="hwwrap">
+                                            <div id="headerWindow2Info">aimer<br>friday<br>aug 6</div>
+                                            <button id="headerWindow2DeleteShift" class="headerBtn1">Remove Shift</button>
+                                            <button id="headerWindow2EditShift" class="headerBtn1">Edit Shift</button>
+                                            <button id="headerWindow2AddShift" class="headerBtn1">Add Shift</button>
+                                            <button id="headerWindow2SwapShift" class="headerBtn1">Swap Shift</button>
+                                            <button id="headerWindow2SwapSchedule" class="headerBtn1">Swap Schedule</button>
+                                        </div>
+                                        <button id="headerWindowClose" class="closeBtn">&times;</button>
+                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="managerwindow" style="margin-top:20px">
+                                <button id="empManagerBtn" class = "managerBtn1">Manage Employees</button>
+                                <button id="roleManagerBtn" class = "managerBtn1">Manage Roles</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,7 +377,93 @@
 @endsection
 
 @section('custom_scripts')
+    <script src="{{ asset('js/scheduler.js') }}"></script>
+    <script src="{{ asset('js/schedulerUI.js') }}"></script>
+    <script>
+    // --------------------------- SAUCE VVVV
+    document.getElementsByTagName("html")[0].style.height = "100%";
+    document.getElementsByTagName("body")[0].style.height = "100%";
+	//document.getElementById('badi').setAttribute("style","background-color:rgb(255,255,255)");
 
+
+
+        var scheduler = new ScheduleManager();
+        var schedulerUI = new ScheduleManagerHTML(document,scheduler);
+        schedulerUI.Initialize();
+
+        /*scheduler.addEmployee("Lisa","King","Cook");
+        scheduler.addEmployee("Dan","Poe","Cook");
+        scheduler.addEmployee("Beth","Poe","Cook");
+        scheduler.addEmployee("Elsa","Rye","Cook");
+        scheduler.addEmployee("Amy","Fox","Cook");
+        scheduler.employees[scheduler.employees.length-1].preferenceLevel = 1;
+        scheduler.addEmployee("Chad","Green","Cook");
+        scheduler.addEmployee("Lisa","Fox","Cook");
+        scheduler.addEmployee("Amy","King","Cook");
+        scheduler.addEmployee("Lisa","Jones","Cook");
+        scheduler.addEmployee("Elsa","Jones","Cook");*/
+
+
+        // scheduler.addEmployee("Arrianne","","sample").preferredDayoff = 1;
+        // scheduler.addEmployee("Sherwin","","testx").preferredDayoff = 5;
+        // scheduler.addEmployee("Kimberly","","testx").preferredDayoff = 6;
+        // scheduler.addEmployee("Amy","","testx").preferredDayoff = 4;
+        // scheduler.addEmployee("Kaye","","testx").preferredDayoff = 0;
+        // scheduler.addEmployee("Juner","","testx").preferredDayoff = 2;
+        // scheduler.addEmployee("Marvin","","testx").preferredDayoff = 3;
+
+        //for (var i=1;i<=15;i++){
+        //	scheduler.addEmployee("Person #"+i,"","testx").preferredDayoff = (i)%7;
+        //}
+
+        //scheduler.addEmployee("Dixie","","testx");
+
+        let employees = {!! $employs !!}
+        for (var index = 0; index < employees.length; index++) {
+            scheduler.addEmployee(employees[index].firstname,employees[index].lastname,employees[index].position);            
+        }
+
+        /*
+        todo:
+        employee manager
+            employee list
+            employee info
+            add employee
+        role manager
+        */
+        
+        role = scheduler.addRole("Clerk");
+        role.addShift("07:00","15:00",1,2);
+        role.addShift("10:00","18:00",1,2);
+        role.addShift("13:00","21:00",1,2);
+        role.addShift("15:00","23:00",1,2);
+        role.addShift("21:00","05:00",1,2);
+        role.addShift("23:00","07:00",1,2);
+        role.setScheduleRefresh("1W",0);
+        //role.disableDay(0);
+
+
+        role.generate(scheduler.currentDate.getDateAfterDays(1).toArrayMMDDYYY(),7);
+        //role.generate(scheduler.currentDate.getDateAfterDays(7).toArrayMMDDYYY(),7);
+        for (var i=0;i<scheduler.employees.length;i++){
+            var e = scheduler.employees[i];
+            //console.log(e.fname +" "+e.lname+" assigns : "+e.assignments.length);
+        }
+        //console.log("hrs : "+scheduler.employees[0].getTotalHoursWorked());
+
+
+        schedulerUI.changeRoleView("Manager");
+        //schedulerUI.loadRoleMonthly();
+        console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
+
+
+        //var d = new DateCalc(Date.now());//new DateCalc(DateCalc.resetDay(Date.now()));
+        //d.resetDay();
+        //document.getElementById("timeLabel").innerHTML = (d.Month+1)+" "+d.Date+" "+d.Year+"<br>"+d.Hour +":"+d.Minutes+":"+d.Seconds;
+
+        
+        // --------------------------- SAUCE ^^^^
+    </script>
     <script>
         $(document).ready(() => {
 

@@ -32,7 +32,8 @@
         "files": [
             "app/Http/Helpers/PasswordMaker.php",
             "app/Http/Helpers/Converter.php",
-            "app/Http/Helpers/Helper.php"
+            "app/Http/Helpers/Helper.php",
+            "app/Http/Helpers/Scheduler.php"
         ]
     },
     "autoload-dev": {

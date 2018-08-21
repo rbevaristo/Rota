@@ -19,53 +19,25 @@
                 </tr>
             </thead>
             <tbody>
-                
-                @for($i = 0; $i < sizeof($data); $i++)
-                    <tr>
-                        <td>{{ $data[$i]['schedule']['name'] }} <br> {{ $data[$i]['schedule']['position'] }}</td>
-                        @for($j = 0; $j < sizeof($data[$i]['schedule']['shifts']); $j++)
-                            <td>
-                                @php
-                                    $dayoff = $data[$i]['schedule']['shifts'][$j]['day'.($j+1)];
-                                @endphp
-                            @for($k = 0; $k < sizeof($data[$i]['dayoff']); $k++)
-                                @if($data[$i]['dayoff'][$k]['dayoff'.($k+1)] == $j)
-                                    @php
-                                        $dayoff = 'dayoff';
-                                    @endphp
-                                @endif
-                            @endfor
-                                {{ $dayoff }}
-                                
-                            </td>
-
-                        @endfor
-
-                    </tr>
-                @endfor
-                
-
-                  
-                
-
-                {{-- @foreach($employees as $employee)
+                @foreach(auth()->user()->employees->where('status', 1)->sortBy('position_id') as $employee)
                 <tr>
-                   
-                    
-                    <td class="fix-column">
+                    <td>
                         {{ $employee->firstname }} {{ $employee->lastname }} <br>
                         {{ $employee->position->name }}
                     </td>
-                    @for($i = 0; $i < $data['days']; $i++)
-                        @php
-                            $shift = $shifts->random();
-                        @endphp
-                        <td class="flexible">{{ $shift->start }} - {{ $shift->end }}</td>
-                    @endfor
-
-
+                    @foreach($data as $d)
+                    <td>
+                        @foreach($d['employees'] as $emp)
+                            @if($emp['firstname'] == $employee->firstname)
+                            {{ $d['shift'] }}
+                            @else
+                            
+                            @endif
+                        @endforeach
+                    </td>
+                    @endforeach
                 </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
         
