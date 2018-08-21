@@ -42,6 +42,9 @@ class ScheduleManager {
 		emp.fname = fname;
 		emp.lname = lname;
 		emp.role = rool;
+		if (this.getRole(rool) == null){
+			this.addRole(rool);
+		}
 		this.employeeId = this.employeeId + 1;
 		this.employees.push(emp);
 		return emp;
@@ -55,7 +58,7 @@ class ScheduleManager {
 		for (var i=0;i<this.roles.length;i++) {
 			if (this.roles[i].name.toLowerCase() == name.toLowerCase()) {
 				ScheduleManager.info("There is already a role named '"+name+"'.");
-				return null;
+				return this.roles[i];
 			}
 		}
 		var role = new Role();
@@ -260,6 +263,7 @@ class SchedGeneration{
 		this.startDate = startDate
 		this.days = days;
 		this.role = role;
+		this.locked = false;
 		this.scheduledDays=null;
 		this.employees = [];
 	}

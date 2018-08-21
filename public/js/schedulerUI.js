@@ -44,6 +44,8 @@ class ScheduleManagerHTML{
 		//buttons
 		var monthLeft = doc.getElementById("monthLeft");
 		var monthRight = doc.getElementById("monthRight");
+		var roleLeft = doc.getElementById("roleLeft");
+		var roleRight = doc.getElementById("roleRight");
 		var empManagerBtn = doc.getElementById("empManagerBtn");
 		var roleManagerBtn = doc.getElementById("roleManagerBtn");
 		(['rmClose','emClose']).forEach(function(item,index){
@@ -92,12 +94,33 @@ class ScheduleManagerHTML{
 		//object.addEventListener("click", myScript);
 		monthLeft.onclick  = function(){diz.adjustMonthView(-1);};
 		monthRight.onclick = function(){diz.adjustMonthView( 1);};
+		roleLeft.onclick  = function(){diz.viewPrevRole();};
+		roleRight.onclick = function(){diz.viewNextRole();};
 		empManagerBtn.onclick = function(){diz.showManager("EmployeeManagerTab");
 		diz.showManagerTab( empManagerBtns[ diz.empLastTab], empManagerDivs[ diz.empLastTab], empManagerBtns, empManagerDivs, empManagerLoads[ diz.empLastTab]);};
 		roleManagerBtn.onclick = function(){diz.showManager("RoleManagerTab");   
 		diz.showManagerTab(roleManagerBtns[diz.roleLastTab],roleManagerDivs[diz.roleLastTab],roleManagerBtns,roleManagerDivs,roleManagerLoads[diz.roleLastTab]);};
 		//animations :/
 		this.inputAnims();
+	}
+	//
+	viewPrevRole(){
+		var sc = this.scheduler;
+		var rul = sc.getRole(this.currentRoleView);
+		var i = sc.roles.indexOf(rul)-1;
+		if (i==-1){
+			i = sc.roles.length-1;
+		}
+		this.changeRoleView(sc.roles[i].name);
+	}
+	viewNextRole(){
+		var sc = this.scheduler;
+		var rul = sc.getRole(this.currentRoleView);
+		var i = sc.roles.indexOf(rul)+1;
+		if (i==sc.roles.length){
+			i = 0;
+		}
+		this.changeRoleView(sc.roles[i].name);
 	}
 	//
 	loadempList(){
@@ -733,6 +756,7 @@ class ScheduleManagerHTML{
 	changeRoleView(rolename){
 		this.currentRoleView = rolename;
 		this.generationcopy = null;
+		this.doc.getElementById("roleViewLabel").innerHTML = rolename;
 		this.loadRoleMonthly(this.doc.getElementById("BottomTableWrap").scrollLeft);
 	}
 	//

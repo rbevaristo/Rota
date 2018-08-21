@@ -299,8 +299,13 @@
             <div class="col-md-12" id="schedule">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <p style="float:left;"><strong>Schedule -</strong></p>
-                        <p id ="roleLabel1"><strong>Cook</strong></p>
+                        <p style="float:left;"><strong>Schedule</strong></p>
+                        <!--<p id ="roleLabel1"><strong>Cook</strong></p>-->
+                        <div id="roleContainer">
+                            <button id ="roleLeft">&#171;</button>
+                            <p id = "roleViewLabel">Cook</p>
+                            <button id ="roleRight">&#187;</button>
+                        </div>
                         <div style="float:right;">
                             <span class="float-right dropdown">
                                 <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -432,7 +437,7 @@
         role manager
         */
         
-        role = scheduler.addRole("Clerk");
+        var role = scheduler.addRole("Clerk");
         role.addShift("07:00","15:00",1,2);
         role.addShift("10:00","18:00",1,2);
         role.addShift("13:00","21:00",1,2);
@@ -443,7 +448,9 @@
         //role.disableDay(0);
 
 
-        role.generate(scheduler.currentDate.getDateAfterDays(1).toArrayMMDDYYY(),7);
+        //role.generate(scheduler.currentDate.getDateAfterDays(1).toArrayMMDDYYY(),7);
+        
+        
         //role.generate(scheduler.currentDate.getDateAfterDays(7).toArrayMMDDYYY(),7);
         for (var i=0;i<scheduler.employees.length;i++){
             var e = scheduler.employees[i];
@@ -452,7 +459,7 @@
         //console.log("hrs : "+scheduler.employees[0].getTotalHoursWorked());
 
 
-        schedulerUI.changeRoleView("Manager");
+        schedulerUI.changeRoleView("Clerk");
         //schedulerUI.loadRoleMonthly();
         console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
 
