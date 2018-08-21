@@ -385,8 +385,7 @@
     document.getElementsByTagName("body")[0].style.height = "100%";
 	//document.getElementById('badi').setAttribute("style","background-color:rgb(255,255,255)");
 
-
-
+        
         var scheduler = new ScheduleManager();
         var schedulerUI = new ScheduleManagerHTML(document,scheduler);
         schedulerUI.Initialize();
@@ -423,6 +422,15 @@
             scheduler.addEmployee(employees[index].firstname,employees[index].lastname,employees[index].position);            
         }
 
+        for (var index = 0; index < employees.length; index++) {
+            console.log(employees[index].position);         
+        }
+
+        let settings = {!! $settings !!}; console.log(settings);
+        let criteria = {!! $criteria !!}; console.log(criteria);
+        let shifts = {!! $shifts !!}; console.log(shifts);
+        let required_shifts = {!! $required_shifts !!}; console.log(required_shifts);
+        
         /*
         todo:
         employee manager
@@ -452,7 +460,7 @@
         //console.log("hrs : "+scheduler.employees[0].getTotalHoursWorked());
 
 
-        schedulerUI.changeRoleView("Manager");
+        schedulerUI.changeRoleView("Clerk");
         //schedulerUI.loadRoleMonthly();
         console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
 
