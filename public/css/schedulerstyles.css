@@ -196,10 +196,10 @@
 	padding-left: 5px;
 	color:rgb(255,255,255);
 }
-#monthLeft,#monthRight,#monthViewLabel{
+#monthLeft,#monthRight,#monthViewLabel,#roleLeft,#roleRight,#roleViewLabel{
 	color:rgb(255,255,255) !important;
 }
-#monthViewLabel{
+#monthViewLabel,#roleViewLabel{
 	text-align:center;
 }
 #timeLabel{
@@ -209,7 +209,7 @@
 	margin:0;
 	height:80px;
 }
-#monthContainer{
+#monthContainer,#roleContainer{
 	vertical-align:top;
 	float:right;
 	width:200px;
@@ -217,7 +217,12 @@
 	margin-right:20px;
 	color:rgb(45,45,45);
 }
-#monthContainer button{
+#roleContainer{
+	float:left;
+	width:160px;
+	margin-left:24px;
+}
+#monthContainer button,#roleContainer button{
 	float:left;
 	font-family:Helvetica;
 	font-size:32px;
@@ -230,17 +235,28 @@
 	background-color:rgba(0,0,0,0);
 	color:rgb(45,45,45);
 }
+#roleContainer button{
+	font-size:24px;
+	line-height:0;
+	height:18px;
+}
 #monthContainer button:hover{
 	font-size:38px;
 }
-#monthContainer button:focus {outline:0;}
-#monthContainer p{
+#monthContainer button:focus ,#roleContainer button:focus{outline:0;}
+#monthContainer p,#roleContainer p{
 	margin:0;
 	float:left;
 	width:calc(100% - 60px);
 	height:42px;
 	font-family:Helvetica;
 	font-size:24px;
+}
+#roleContainer p{
+	font-family:"Montserrat";
+	height:18px;
+	font-size:0.9rem;
+	font-weight:bold;
 }
 #monthContainer p::first-line{
 	font-size:12px;
