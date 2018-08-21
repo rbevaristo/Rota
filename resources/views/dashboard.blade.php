@@ -382,6 +382,7 @@
 @endsection
 
 @section('custom_scripts')
+    <script src="{{ asset('js/lzjs.js') }}"></script>
     <script src="{{ asset('js/scheduler.js') }}"></script>
     <script src="{{ asset('js/schedulerUI.js') }}"></script>
     <script>
@@ -393,6 +394,7 @@
         
         var scheduler = new ScheduleManager();
         var schedulerUI = new ScheduleManagerHTML(document,scheduler);
+        scheduler.ui = schedulerUI;
         schedulerUI.Initialize();
 
 
