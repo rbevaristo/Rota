@@ -194,7 +194,6 @@ class ScheduleManager {
 				var ss = [];
 				for (var ii2=0;ii2<sd2.shifts.length;ii2++){
 					var sh2 = sd2.shifts[ii2];
-					console.log("x-x",sh2.shift,role.getShiftDataById(sh2.shift));
 					var sh = new Shift(sd,role.getShiftDataById(sh2.shift));
 					sh.start = sh2.start;
 					sh.end = sh2.end;
@@ -225,7 +224,6 @@ class ScheduleManager {
 				gen.employees = [];
 				for (var i3=0;i3<g.employees.length;i3++){
 					gen.employees.push(this.getEmpById(g.employees[i3]));
-					console.log(g.employees[i3],"w");
 				}
 				role.generations.push(gen);
 				//

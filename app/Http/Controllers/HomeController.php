@@ -39,6 +39,10 @@ class HomeController extends Controller
             'dayoffs' => auth()->user()->setting->num_dayoff // integer | default is 1 it is base from the ratio 7days:1dayoff
         ];
 
+        $schedule_string = auth()->user()->scheduler; //->schedule;
+        $schedule_string = $schedule_string?$schedule_string->schedule:null;
+
+
         $criteria = [
             'age' => auth()->user()->criteria->age, // boolean | default is 0 meaning it is off
             'age_value' => auth()->user()->criteria->age_value, // integer the condition will be greater than the value
@@ -54,7 +58,8 @@ class HomeController extends Controller
             'shifts' => $shifts,
             'required_shifts' => $required_shifts,
             'settings' => json_encode($settings),
-            'criteria' => json_encode($criteria)
+            'criteria' => json_encode($criteria),
+            'schedule_string' => json_encode($schedule_string)
         ]);
     }
 

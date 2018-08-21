@@ -368,6 +368,7 @@
                             <div class="managerwindow" style="margin-top:20px">
                                 <button id="empManagerBtn" class = "managerBtn1">Manage Employees</button>
                                 <button id="roleManagerBtn" class = "managerBtn1">Manage Roles</button>
+                                <button id="saveBtn" class = "managerBtn1">Save Schedule</button>
                             </div>
                         </div>
                     </div>
@@ -403,6 +404,7 @@
         let criteria = {!! $criteria !!}; 
         let shifts = {!! $shifts !!}; 
         let required_shifts = {!! $required_shifts !!}; 
+        let schedule_string = {!! $schedule_string !!};
 
         for (var index = 0; index < employees.length; index++) {
             var trueEmp = employees[index];

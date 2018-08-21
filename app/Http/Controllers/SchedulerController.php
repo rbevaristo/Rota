@@ -15,6 +15,18 @@ class SchedulerController extends Controller
         $this->middleware('auth');
     }
 
+    public function create(Request $request){
+        $scheduler = Scheduler::create([
+            'data' => $request->schedule
+        ]);
+        if ($scheduler){
+            return response()->json(['message'=>'Success']);
+        }
+        return response()->json([
+            'message'=>'Error'
+        ]);
+    }
+
     public function schedule()
     {
         
