@@ -435,6 +435,7 @@
         let criteria = {!! $criteria !!}; console.log(criteria);
         let shifts = {!! $shifts !!}; console.log(shifts);
         let required_shifts = {!! $required_shifts !!}; console.log(required_shifts);
+        let leave = {!! $leave !!}; console.log(leave);
         
         /*
         todo:

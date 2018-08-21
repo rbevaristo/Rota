@@ -48,13 +48,16 @@ class HomeController extends Controller
             'name_value' => auth()->user()->criteria->name_value, // boolean sort by firstname is 0 sortb by lastname is 1
         ];
 
+        $leave = auth()->user()->user_requests->where('approved', 1);
+
        
         return view('dashboard', [
             'employs' => json_encode($employs),
             'shifts' => $shifts,
             'required_shifts' => $required_shifts,
             'settings' => json_encode($settings),
-            'criteria' => json_encode($criteria)
+            'criteria' => json_encode($criteria),
+            'leave' => $leave
         ]);
     }
 

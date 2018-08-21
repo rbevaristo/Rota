@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-6">
                     <h1>ROTA </h1>
-                    <h2>Supporting businesses small to medium with <span>tasks and decisions </span> in scheduling and monitoring workers.</h2>
+                    <h2>Support <span>tasks and decisions </span> in scheduling workers.</h2>
                     <div>
                         <a href="#about" class="btn btn-primary">Learn More</a>
                         <a href="{{ route('auth.admin') }}" class="btn btn-primary">Get Started</a>
@@ -57,7 +57,7 @@
                 <div class="col-lg-6">
                     <div class="box animated fadeIn">
                     <div class="icon"><i class="fa fa-calendar"></i></div>
-                    <h4 class="title"><a href="#">Staff Scheduling</a></h4>
+                    <h4 class="title">Staff Scheduling</h4>
                     <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident etiro rabeta lingo.</p>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="col-lg-6">
                     <div class="box animated fadeIn">
                     <div class="icon"><i class="fa fa-desktop"></i></div>
-                    <h4 class="title"><a href="#">Attendance Monitoring</a></h4>
+                    <h4 class="title">Attendance Monitoring</h4>
                     <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata nodera clas.</p>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="col-lg-6">
                     <div class="box animated fadeIn" data-wow-delay="0.2s">
                     <div class="icon"><i class="fa fa-bar-chart"></i></div>
-                    <h4 class="title"><a href="#">Performance Evaluation</a></h4>
+                    <h4 class="title">Performance Evaluation</h4>
                     <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur trinige zareta lobur trade.</p>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="col-lg-6">
                     <div class="box animated fadeIn" data-wow-delay="0.2s">
                     <div class="icon"><i class="fa fa-file"></i></div>
-                    <h4 class="title"><a href="#">Report Generation</a></h4>
+                    <h4 class="title">Report Generation</h4>
                     <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum rideta zanox satirente madera</p>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="box team-player">
-                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/chard.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Richard Evaristo</h5>
                         <p class="category">Programmer</p>
                         <p class="description">
@@ -124,7 +124,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="box team-player">
-                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/kennet.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Kennet Mallari</h5>
                         <p class="category">Researcher</p>
                         <p class="description">
@@ -136,7 +136,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="box team-player">
-                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/luc.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Luc Racca</h5>
                         <p class="category">Researcher</p>
                         <p class="description">
@@ -178,7 +178,9 @@
         <div class="container d-flex justify-content-center">
             <div class="row">
                 <div class="box col-md-12">
-                    <form action="#" method="post" role="form">
+                    @include('components.sessions')
+                    <form action="{{ route('message.send') }}" method="post" role="form">
+                        @csrf
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -196,10 +198,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" name="name" rows="4" cols="80" placeholder="Type a message..."></textarea>
+                            <textarea class="form-control" name="message" rows="4" cols="80" placeholder="Type a message..." required></textarea>
                         </div>
                         <div class="form-group">
-                            <a href="#" class="btn btn-primary btn-round btn-block btn-lg">Send Message</a>
+                            <button type="submit" class="btn btn-primary btn-round btn-block btn-lg">Send Message</button>
                         </div>
                     </form>
                 </div>

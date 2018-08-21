@@ -52,7 +52,7 @@ class User extends Authenticatable
     }
 
     public function user_requests() {
-        return $this->hasMany('App\UserRequest');
+        return $this->hasMany('App\UserRequest', 'user_id');
     }
 
     public function role() {

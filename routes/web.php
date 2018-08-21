@@ -37,6 +37,7 @@ Route::group([], function() {
     Route::post('/dashboard/setting/shift/create', 'SettingsController@create_shift');
     Route::post('/dashboard/setting/shift/required/create', 'SettingsController@create_required_shift')->name('user.required.shift');
     Route::get('/dashboard/scheduler/generate', 'SchedulerController@schedule')->name('user.schedule.generate');
+    Route::post('/send', 'ContactUsController@send')->name('message.send');
     // Updates
     Route::post('/dashboard/profile/update', 'UserProfileController@update')->name('user.profile.update');
     Route::post('/dashboard/company/update', 'CompanyController@update')->name('user.company.update');
