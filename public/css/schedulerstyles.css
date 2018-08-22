@@ -1,9 +1,9 @@
-.tooltip {
+.tooltipX {
     position: relative;
     display: inline-block;
 }
 
-.tooltip .tooltiptext {
+.tooltipX .tooltiptextX {
     visibility: hidden;
     width: 120px;
     background-color: rgb(215,215,215);
@@ -20,7 +20,7 @@
     margin-left: -60px;
 }
 
-.tooltip .tooltiptext::after {
+.tooltipX .tooltiptextX::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -31,7 +31,7 @@
     border-color: rgb(215,215,215) transparent transparent transparent;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltipX:hover .tooltiptextX {
     visibility: visible;
 }
 

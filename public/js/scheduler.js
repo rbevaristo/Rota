@@ -160,6 +160,7 @@ class ScheduleManager {
 		this.roleId = 0;
 
 		this.employees = [];
+		console.log(tab.employees);
 		for (var i=0;i<tab.employees.length;i++){
 			var emp2 = tab.employees[i];
 			var emp = this.addEmployee(emp2.fname,emp2.lname,emp2.role);
@@ -242,7 +243,7 @@ class ScheduleManager {
 
 		this.employeeId = tab.employeeId;
 		this.roleId = tab.employeeId;
-		this.shiftDataId = tab.shiftDataId;
+		this.applyDB();
 		if (tab.v != null && typeof tab.v == "string"){
 			this.ui.changeRoleView(tab.v);
 		}
@@ -261,12 +262,25 @@ class ScheduleManager {
 		this.dbrequiredshifts = dbrequiredshifts;
 		this.dbsettings = dbsettings;
 		this.dbcriteria = dbcriteria;
-		console.log("nice",dbsettings);
+		this.applyDB();
+	}
+	//
+	applyDB(){
 		for (var i=0;i<this.roles.length;i++){
 			var role = this.roles[i];
-			role.dayoffSetting = dbsettings.dayoff;
+			role.dayoffSetting = this.dbsettings.dayoff;
 			console.log("asd",role.dayoffSetting);
 		}
+		for (var index = 0; index < this.dbemploys.length; index++) {
+			var trueEmp = this.dbemploys[index];
+			var fnd = scheduler.getEmpByTrueId(trueEmp.id);
+            var emp = fnd?fnd:scheduler.addEmployee(trueEmp.firstname,trueEmp.lastname,trueEmp.position);        
+			emp.trueId = trueEmp.id;
+			emp.fname = trueEmp.firstname;
+			emp.lname = trueEmp.lastname;
+			emp.role = trueEmp.position;
+			console.log("aw",trueEmp.position);
+        }
 	}
 	//
 	updateScheduleHistory(){
@@ -332,6 +346,14 @@ class ScheduleManager {
 		return null;
 	}
 	//
+	getEmpByTrueId(id){
+		for (var i=0;i<this.employees.length;i++){
+			if (this.employees[i].trueId==id){
+				return this.employees[i];
+			}
+		}
+		return null;
+	}
 	//
 }
 //
