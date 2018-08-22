@@ -30,5 +30,10 @@ Route::group([
     Route::post('logout', 'AuthEmployeeController@logout');
     Route::post('refresh', 'AuthEmployeeController@refresh');
     Route::post('me', 'AuthEmployeeController@me');
+
+    Route::get('profile', 'Employee\ProfileController@profile');
+    Route::post('profile/update', 'Employee\ProfileController@update');
+    Route::get('evaluation/files', 'Employee\EvaluationController@evaluation');
+    Route::post('request/leave', 'Employee\UserRequestController@send');
     
 });

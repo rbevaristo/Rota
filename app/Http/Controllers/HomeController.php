@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         if(!auth()->user()->company){
-            return view('user.setup')->with('error', 'Please fill up the form.');
+            return redirect('/dashboard/setup')->with('error', 'Please fill up the form.');
         }
         $employs = EmployeesCollection::collection(auth()->user()->employees->where('status', 1));
         $shifts = auth()->user()->shifts;
@@ -66,16 +66,10 @@ class HomeController extends Controller
     }
 
     public function setup() {
-        if(auth()->user()->company){
-            return view('user.manage');
-        }
         return view('user.setup');
     }
 
     public function manage(){
-        if(!auth()->user()->company){
-            return view('user.setup')->with('error', 'Please fill up the form.');
-        } 
         return view('user.manage');
     }
 

@@ -38,7 +38,7 @@ class CompanyController extends Controller
             return redirect()->back()->with('error', 'Invalid Data');
         }
 
-        return view('user.manage');
+        return redirect('/dashboard/manage');
     }
 
     /**
