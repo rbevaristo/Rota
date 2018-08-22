@@ -12,7 +12,7 @@
                     <strong>Almost Done</strong> Please fill up the form to complete registration.
                 </div>
                 <div class="card-body">
-                    <form class="form" method="POST" action="{{ route('user.company.create') }}">
+                    <form method="POST" action="{{ route('user.company.create') }}">
                         @csrf
                         <div class="form-group">
                             <div class="input-group">

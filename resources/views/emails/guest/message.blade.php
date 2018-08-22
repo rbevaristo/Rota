@@ -1,6 +1,6 @@
 @component('mail::message')
-
-# From {{ $user->name }},
+# {{ $user->email }}
+# From {{ $user->name }}, <br>
 
 {{ $user->message }}
 

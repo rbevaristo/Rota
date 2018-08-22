@@ -15,10 +15,21 @@
                 <div class="card box-shadow">
                     <div class="card-header bg-primary text-white">
                         Employees
-                        
+                        <span class="float-right" style="position:absolute; right: 80px; top: 7px;">
+                            <form>
+                                <div class="input-group">
+                                    <input class="form-control border-secondary py-2" type="search" id="search" placeholder="Search...">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fa fa-search text-white"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </span>
                         <div class="float-right">
                             <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                <span><i class="fa fa-user-plus"></i>Add Employee</span>
+                                <span><i class="fa fa-user-plus"></i>Add</span>
                             </a>
                         </div>
                     </div>
@@ -38,7 +49,7 @@
                             </thead>
                             <tbody>
                                 
-                                @foreach(auth()->user()->employees->sortByDesc('username') as $employee)
+                                @foreach(auth()->user()->employees->sortBy('position_id') as $employee)
                                 <tr>
                                     <td>
                                         {{ $employee->username }}
@@ -87,8 +98,10 @@
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add Employee</h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    <small>added employees will be provided an account automatically. Employee ID as Username and the password is the <strong class="text-primary">1ST</strong> letter of their firstname plus the <strong class="text-primary">COMPLETE</strong> lastname plus the last <strong class="text-primary">TWO</strong> characters of their Employee ID. They will be given the option to change their password once they logged in.</small>
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -175,9 +188,9 @@
 <script src="{{ asset('js/lib/bootstrap-toggle.min.js') }}"></script>
 <script>
     $(document).ready(function(){
-        $('.table').DataTable({
+        // $('.table').DataTable({
 
-        });
+        // });
 
         $.ajaxSetup({
             headers: {
@@ -258,6 +271,18 @@
         $('.custom-file-input').on('change', function() { 
             let fileName = $(this).val().split('\\').pop(); 
             $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+
+         $('#search').on("keyup", function(e){
+            var value = $(this).val().toLowerCase();
+            var content = $('#carousel').html();
+            if(value == ''){
+                $('tbody').html(content);
+            } else {
+                $('tbody tr').filter(function(){
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            }
         });
     });
 </script>

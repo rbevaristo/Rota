@@ -28,7 +28,6 @@ class UserProfileController extends Controller
         $profile->gender = $request->gender;
         $profile->birthdate = $request->birthdate;
         $profile->contact = $request->contact_number;
-        $profile->gender = $request->gender;
         $profile->save();
 
         // Update User's Address

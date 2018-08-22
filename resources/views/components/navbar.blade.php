@@ -14,9 +14,9 @@
             <li class="nav-item {{ Request::is('dashboard/messages') ? 'active' : ''}}">
                 <a href="{{ route('user.messages') }}" class="nav-link">Inbox</a>
             </li>
-            <li class="nav-item {{ Request::is('dashboard/attendance') ? 'active' : ''}}">
+            {{-- <li class="nav-item {{ Request::is('dashboard/attendance') ? 'active' : ''}}">
                 <a href="{{ route('user.attendance') }}" class="nav-link">Attendance</a>
-            </li>
+            </li> --}}
             <li class="nav-item {{ Request::is('dashboard/performance-evaluation') ? 'active' : ''}}">
                 <a href="{{ route('user.performance') }}" class="nav-link">Performance Evaluation</a>
             </li>

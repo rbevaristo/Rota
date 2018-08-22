@@ -49,7 +49,9 @@
 
             <div class="col-md-3">
               <div class="card">
-                <div class="card-header">Schedule</div>
+                <div class="card-header">
+                 <strong>Schedule</strong> <small> Number of days and dayoff has a 7:1 ratio</small>
+                </div>
                 <div class="card-body">
                   <div class="row padding">
                     <div class="col-md-12">
@@ -81,7 +83,9 @@
 
             <div class="col-md-3">
               <div class="card">
-                <div class="card-header">Criteria</div>
+                <div class="card-header">
+                 <strong> Criteria </strong> <small> This options may affect the generation of schedule</small>
+                </div>
                 <div class="card-body">
                   <div class="row padding">
                     <div class="col-8">
@@ -158,7 +162,7 @@
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">
-                  Preferences
+                <strong> Preferences </strong>
                 </div>
                 <div class="card-body">
                   
@@ -189,14 +193,14 @@
                     </div>
                   </div>
 
-                  <div class="row padding">
+                  {{-- <div class="row padding">
                     <div class="col-8">
                       Shuffle
                     </div>
                     <div class="col-4">
                       <input type="checkbox" data-toggle="toggle" class="settings" value="{{ auth()->user()->setting->id }}" id="shuffle" name="shuffle" {{ (auth()->user()->setting->shuffle == 0) ? '' : 'checked' }}>
                     </div>
-                  </div>
+                  </div> --}}
 
                 </div>
               </div>
@@ -205,7 +209,7 @@
             <div class="col-md-6" id="shifts">
               <div class="card">
                 <div class="card-header">
-                  Shifts
+                <strong> Shifts </strong><small>(max:6) | To recreate shift do delete all first</small>
                 </div>
                 <div class="card-body">
                   
@@ -217,7 +221,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Number of Shifts </div>
                             </div>
-                            <input type="number" name="nos" id="nos" min="1" max="3"> 
+                            <input type="number" name="nos" id="nos" min="1" max="6"> 
                             <button type="button" class="btn btn-default" id="nosBtn" data-toggle="modal" data-target="#modal" disabled>Go</button>
                           </div>
                       </div>
@@ -253,7 +257,7 @@
             <div class="col-md-12" id="required">
               <div class="card">
                 <div class="card-header">
-                  Required Per Position and Shift
+                 <strong>Required Per Position and Shift</strong>
                 </div>
                 <div class="card-body text-center">
 

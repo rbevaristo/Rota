@@ -29,8 +29,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 ml-auto mr-auto text-center">
-                    <h2 class="title">About Rota</h2>
-                    <h5 class="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa natus ab dolor sequi possimus quas laudantium atque mollitia at! Nobis sint, at exercitationem, necessitatibus error inventore, odio perspiciatis vero mollitia explicabo labore? Itaque mollitia nisi veritatis, est repellendus praesentium accusamus at ut, fuga labore aperiam excepturi maiores hic vel impedit!</h5>
+                    <h2 class="title">About Routa</h2>
+                    <h5 class="description">ROUTA is a web-based and mobile-based application with an employee scheduling, performance evaluation, and attendance monitoring system.<br>
+                        ROUTA aims to save time and make their work easier by reducing the chance of human error and producing consistent results through the automatic scheduling done by the application.
+                        </h5>
                 </div>
             </div>
         </div>
@@ -45,7 +47,7 @@
                 <div class="row">
                     <div class="col-md-8 ml-auto mr-auto text-center">
                         <h2 class="title">Services</h2>
-                        <h5 class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur unde soluta modi illum, praesentium harum porro! Et commodi eum perferendis quia minus recusandae odit ipsum doloremque libero neque, tempora quos?</p>
+                        <h5 class="description">Objectives can’t be met without implementing solutions. That’s why the ROUTA provides your managerial needs through the use of the following:</p>
                     </div>
                 </div>
             <div class="separator separator-primary"></div>
@@ -54,35 +56,35 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="box animated fadeIn">
                     <div class="icon"><i class="fa fa-calendar"></i></div>
                     <h4 class="title">Staff Scheduling</h4>
-                    <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident etiro rabeta lingo.</p>
+                    <p class="description">The app produces a schedule for your employees based on your demands. Freely adjust the factors that you want to affect the generation of your staffs’ schedule.</p>
                     </div>
                 </div>
         
-                <div class="col-lg-6">
+                {{-- <div class="col-lg-6">
                     <div class="box animated fadeIn">
                     <div class="icon"><i class="fa fa-desktop"></i></div>
                     <h4 class="title">Attendance Monitoring</h4>
-                    <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata nodera clas.</p>
+                    <p class="description">Employees can login to the system for their attendance, and also file a leave of absence in the app. All of these can be easily monitored by the manager.</p>
                     </div>
-                </div>
+                </div> --}}
         
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="box animated fadeIn" data-wow-delay="0.2s">
                     <div class="icon"><i class="fa fa-bar-chart"></i></div>
                     <h4 class="title">Performance Evaluation</h4>
-                    <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur trinige zareta lobur trade.</p>
+                    <p class="description">Managers can continuously record their employees’ performance in the app. It allows them to see the progress of their staff’s performance over time which can aid in their professional decision making. </p>
                     </div>
                 </div>
         
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="box animated fadeIn" data-wow-delay="0.2s">
                     <div class="icon"><i class="fa fa-file"></i></div>
                     <h4 class="title">Report Generation</h4>
-                    <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum rideta zanox satirente madera</p>
+                    <p class="description">Data regarding the employees’ schedule, and evaluated performance, easily accessible by the manager through the use of the app.</p>
                     </div>
                 </div>
               
@@ -106,8 +108,8 @@
                         <p class="description"> 
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, error?
                         </p>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        {{-- <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a> --}}
+                        <a href="https://www.facebook.com/jaspherdingal" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -118,8 +120,8 @@
                         <p class="description">
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur.
                         </p>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        {{-- <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a> --}}
+                        <a href="https://www.facebook.com/richardbarbosaevaristo" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -130,8 +132,8 @@
                         <p class="description">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, nisi.
                         </p>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        {{-- <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a> --}}
+                        <a href="https://www.facebook.com/kennetgotswag" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -142,20 +144,20 @@
                         <p class="description">
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, modi.
                         </p>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        {{-- <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a> --}}
+                        <a href="https://www.facebook.com/luc.racca" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="box team-player">
-                        <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
+                        <img src="{{ asset('img/renz.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Renz Tolentino</h5>
                         <p class="category">Researcher</p>
                         <p class="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, soluta.
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, modi.                            
                         </p>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a>
-                        <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
+                        {{-- <a href="#" class="btn btn-default btn-icon btn-round"><i class="fa fa-google-plus"></i></a> --}}
+                        <a href="https://www.facebook.com/renzctolentino" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
             </div>

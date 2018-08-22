@@ -51,6 +51,18 @@ class SettingsController extends Controller
             $shift = Shift::create(['start' => $request->start_shift3, 'end' => $request->end_shift3, 'user_id' => auth()->user()->id]);
         }
 
+        if(isset($request->start_shift4) && isset($request->end_shift4) && $this->isShiftExist($request->start_shift4, $request->end_shift1)){
+            $shift = Shift::create(['start' => $request->start_shift4, 'end' => $request->end_shift4, 'user_id' => auth()->user()->id]);
+        }
+
+        if(isset($request->start_shift5) && isset($request->end_shift5) && $this->isShiftExist($request->start_shift5, $request->end_shift2)){
+            $shift = Shift::create(['start' => $request->start_shift5, 'end' => $request->end_shift5, 'user_id' => auth()->user()->id]);
+        }
+
+        if(isset($request->start_shift6) && isset($request->end_shift6) && $this->isShiftExist($request->start_shift6, $request->end_shift3)){
+            $shift = Shift::create(['start' => $request->start_shift6, 'end' => $request->end_shift6, 'user_id' => auth()->user()->id]);
+        }
+
         return redirect()->back()->with('success', 'Shifts Created!');
     }
 

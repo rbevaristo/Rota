@@ -312,7 +312,6 @@
                                     <i class="fa fa-gear"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ route('user.schedule.generate') }}">Generate Schedule</a>
                                     <a class="dropdown-item" href="{{ route('user.settings') }}">Scheduler Settings</a>
                                 </div>
                             </span>
@@ -569,6 +568,10 @@
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Evaluation</div>
                                             <div class="card-body" style="height: 200px; overflow-y: auto;">
+                                                <div class="row text-center">
+                                                    <p>Evaluations are inactive to the employees, click the checkbox to activate and it will be visible to the employees.</p>    
+                                                </div>
+                                                <hr>
                                                 `+getEvaluation(result.evaluation)+`
                                             </div>
                                         </div>
