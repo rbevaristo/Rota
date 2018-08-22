@@ -45,8 +45,11 @@ class ScheduleManager {
 			employeeId:this.employeeId,
 			roleId:this.roleId,
 			employees:[],
-			roles:[]
+			roles:[],
 		};
+		if (this.ui && this.ui.currentRoleView){
+			tab.v = this.ui.currentRoleView;
+		}
 		for (var i=0;i<this.employees.length;i++){
 			var emp = this.employees[i];
 			tab.employees.push({
@@ -194,7 +197,6 @@ class ScheduleManager {
 				var ss = [];
 				for (var ii2=0;ii2<sd2.shifts.length;ii2++){
 					var sh2 = sd2.shifts[ii2];
-					console.log("x-x",sh2.shift,role.getShiftDataById(sh2.shift));
 					var sh = new Shift(sd,role.getShiftDataById(sh2.shift));
 					sh.start = sh2.start;
 					sh.end = sh2.end;
@@ -225,7 +227,6 @@ class ScheduleManager {
 				gen.employees = [];
 				for (var i3=0;i3<g.employees.length;i3++){
 					gen.employees.push(this.getEmpById(g.employees[i3]));
-					console.log(g.employees[i3],"w");
 				}
 				role.generations.push(gen);
 				//
@@ -242,7 +243,10 @@ class ScheduleManager {
 		this.employeeId = tab.employeeId;
 		this.roleId = tab.employeeId;
 		this.shiftDataId = tab.shiftDataId;
-		if (this.roles.length>0){
+		if (tab.v != null && typeof tab.v == "string"){
+			this.ui.changeRoleView(tab.v);
+		}
+		else if (tab.v == null && this.roles.length>=0){
 			this.ui.changeRoleView(this.roles[0].name);
 		}
 		console.log("loaded");

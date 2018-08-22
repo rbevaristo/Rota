@@ -15,6 +15,9 @@ Route::group([
     Route::get('employees', 'UserController@employees');
     Route::get('evaluations/{id}', 'EvaluationController@eval');
     Route::get('evaluationform', 'EvaluationController@form');
+    Route::post('evaluate', 'EvaluationController@evaluate');
+    Route::get('profile', 'ProfileController@profile');
+    Route::post('profile/update', 'ProfileController@update');
 });
 
 Route::group([

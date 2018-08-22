@@ -368,6 +368,7 @@
                             <div class="managerwindow" style="margin-top:20px">
                                 <button id="empManagerBtn" class = "managerBtn1">Manage Employees</button>
                                 <button id="roleManagerBtn" class = "managerBtn1">Manage Roles</button>
+                                <button id="saveBtn" class = "managerBtn1">Save Schedule</button>
                             </div>
                         </div>
                     </div>
@@ -403,6 +404,7 @@
         let criteria = {!! $criteria !!}; 
         let shifts = {!! $shifts !!}; 
         let required_shifts = {!! $required_shifts !!}; 
+        let schedule_string = {!! $schedule_string !!};
 
         for (var index = 0; index < employees.length; index++) {
             var trueEmp = employees[index];
@@ -441,6 +443,9 @@
         //schedulerUI.loadRoleMonthly();
         console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
 
+        if (schedule_string){
+            scheduler.loadJSON(schedule_string);
+        }
 
         //var d = new DateCalc(Date.now());//new DateCalc(DateCalc.resetDay(Date.now()));
         //d.resetDay();
@@ -597,7 +602,6 @@
                                 });
                             }
                         });
-
                     },
                 });
             });
@@ -824,6 +828,21 @@
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
                 }
+            });
+
+            $('#saveBtn').click(function() {
+                console.log("lol");
+                var url = "{{ url('/dashboard/scheduler/create') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        schedule : scheduler.toJSON()
+                    },
+                    success: function (result) {
+                        alert("Saved");
+                    },
+                });
             });
 
         });

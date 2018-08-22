@@ -83,4 +83,8 @@ class User extends Authenticatable
         return $this->hasMany('App\RequiredShift', 'user_id');
     }
 
+    public function scheduler(){
+        return $this->hasOne('App\Scheduler');
+    }
+
 }

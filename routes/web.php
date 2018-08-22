@@ -51,6 +51,8 @@ Route::group([], function() {
     Route::post('/dashboard/setting/shift/activate', 'SettingsController@activate_shift');
     Route::post('/dashboard/setting/shift/delete', 'SettingsController@delete_shift');
     Route::post('/dashboard/setting/criteria/update', 'SettingsController@update_criteria');
+    Route::post('/dashboard/scheduler/create', 'SchedulerController@create');
+
    
 });
 
