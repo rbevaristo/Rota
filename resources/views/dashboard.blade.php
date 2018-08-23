@@ -404,12 +404,13 @@
         let shifts = {!! $shifts !!}; 
         let required_shifts = {!! $required_shifts !!}; 
         let schedule_string = {!! $schedule_string !!};
+        let position_ids = {!! $position_ids !!};
+        let shift_ids = {!! $shift_ids !!};
 
 
 
-        scheduler.injectDB(employees,shifts,required_shifts,settings,criteria);
+        scheduler.injectDB(employees,shifts,required_shifts,settings,criteria,position_ids,shifts);
 
-        console.log("byo",employees);
 
         /*
         var role = scheduler.getRole("Clerk");
@@ -425,21 +426,14 @@
 
         //role.generate(scheduler.currentDate.getDateAfterDays(1).toArrayMMDDYYY(),7);
         
-        
-        //role.generate(scheduler.currentDate.getDateAfterDays(7).toArrayMMDDYYY(),7);
-        for (var i=0;i<scheduler.employees.length;i++){
-            var e = scheduler.employees[i];
-            //console.log(e.fname +" "+e.lname+" assigns : "+e.assignments.length);
-        }
-        //console.log("hrs : "+scheduler.employees[0].getTotalHoursWorked());
 
-
-        schedulerUI.changeRoleView("Clerk");
-        //schedulerUI.loadRoleMonthly();
-        console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
+        //console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
 
         if (schedule_string){
             scheduler.loadJSON(schedule_string);
+        }
+        else{
+            scheduler.ui.changeRoleView(scheduler.roles[0].name);
         }
 
         //var d = new DateCalc(Date.now());//new DateCalc(DateCalc.resetDay(Date.now()));
@@ -841,7 +835,10 @@
                         if (yes){alert("Saved");}
                     },
                 });
+                console.log("saved sched");
             }
+
+
 
             $('#saveBtn').click(function() {
                 saveSchedule(true);
@@ -854,6 +851,20 @@
 
 
         });
+        function sa2(yes){
+                var url = "{{ url('/dashboard/scheduler/create') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        schedule : "penis"
+                    },
+                    success: function (result) {
+                        if (yes){alert("Savsed");}
+                    },
+                });
+                console.log("saved sched");
+            }
         //========================================================================================================================================================================
         //========================================================================================================================================================================
         //========================================================================================================================================================================

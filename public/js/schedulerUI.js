@@ -776,7 +776,7 @@ class ScheduleManagerHTML{
 		while (headerTable.firstChild) {
     		headerTable.removeChild(headerTable.firstChild);
 		}
-		role = scheduler.getRole(rolename);
+		var role = scheduler.getRole(rolename);
 		var data = role.getTable(datefrom,dateto);
 		//consolle.log(data.data);
 

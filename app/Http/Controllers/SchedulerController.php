@@ -14,7 +14,7 @@ class SchedulerController extends Controller
 
     public function create(Request $request){
         $scheduler = auth()->user()->scheduler;
-        $scheduler = $scheduler?$scheduler->first():null;
+        $scheduler = $scheduler?$scheduler:null;
 
         //check if existing
         if($scheduler){
