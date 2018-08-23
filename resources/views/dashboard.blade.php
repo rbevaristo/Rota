@@ -411,7 +411,7 @@
 
         console.log("byo",employees);
 
-        
+        /*
         var role = scheduler.getRole("Clerk");
         role.addShift("07:00","15:00",1,2);
         role.addShift("10:00","18:00",1,2);
@@ -421,7 +421,7 @@
         role.addShift("23:00","07:00",1,2);
         role.setScheduleRefresh("1W",0);
         //role.disableDay(0);
-
+        */
 
         //role.generate(scheduler.currentDate.getDateAfterDays(1).toArrayMMDDYYY(),7);
         

@@ -279,7 +279,6 @@ class ScheduleManager {
 			emp.fname = trueEmp.firstname;
 			emp.lname = trueEmp.lastname;
 			emp.role = trueEmp.position;
-			console.log("aw",trueEmp.position);
         }
 	}
 	//
