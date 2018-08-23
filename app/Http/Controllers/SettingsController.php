@@ -51,15 +51,15 @@ class SettingsController extends Controller
             $shift = Shift::create(['start' => $request->start_shift3, 'end' => $request->end_shift3, 'user_id' => auth()->user()->id]);
         }
 
-        if(isset($request->start_shift4) && isset($request->end_shift4) && $this->isShiftExist($request->start_shift4, $request->end_shift1)){
+        if(isset($request->start_shift4) && isset($request->end_shift4) && $this->isShiftExist($request->start_shift4, $request->end_shift4)){
             $shift = Shift::create(['start' => $request->start_shift4, 'end' => $request->end_shift4, 'user_id' => auth()->user()->id]);
         }
 
-        if(isset($request->start_shift5) && isset($request->end_shift5) && $this->isShiftExist($request->start_shift5, $request->end_shift2)){
+        if(isset($request->start_shift5) && isset($request->end_shift5) && $this->isShiftExist($request->start_shift5, $request->end_shift5)){
             $shift = Shift::create(['start' => $request->start_shift5, 'end' => $request->end_shift5, 'user_id' => auth()->user()->id]);
         }
 
-        if(isset($request->start_shift6) && isset($request->end_shift6) && $this->isShiftExist($request->start_shift6, $request->end_shift3)){
+        if(isset($request->start_shift6) && isset($request->end_shift6) && $this->isShiftExist($request->start_shift6, $request->end_shift6)){
             $shift = Shift::create(['start' => $request->start_shift6, 'end' => $request->end_shift6, 'user_id' => auth()->user()->id]);
         }
 
@@ -67,7 +67,7 @@ class SettingsController extends Controller
     }
 
     public function isShiftExist($start, $end){
-        $shift = Shift::where('start', $start)->where('end', $end)->first();
+        $shift = auth()->user()->shifts->where('start', $start)->where('end', $end)->first();
         if(!$shift)
             return true;
         return false;

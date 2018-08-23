@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Shift;
+use App\Position;
 use Illuminate\Http\Request;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\EmployeesCollection;
@@ -41,7 +43,9 @@ class HomeController extends Controller
 
         $schedule_string = auth()->user()->scheduler; //->schedule;
         $schedule_string = $schedule_string?$schedule_string->schedule:null;
-
+        
+        $position_ids = Position::all();
+        $shift_ids = Shift::all();
 
         $criteria = [
             'age' => auth()->user()->criteria->age, // boolean | default is 0 meaning it is off
@@ -61,7 +65,9 @@ class HomeController extends Controller
             'required_shifts' => $required_shifts,
             'settings' => json_encode($settings),
             'criteria' => json_encode($criteria),
-            'schedule_string' => json_encode($schedule_string)
+            'schedule_string' => json_encode($schedule_string),
+            'position_ids' => json_encode($position_ids),
+            'shift_ids' => json_encode($shift_ids)
         ]);
     }
 

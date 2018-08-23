@@ -22,6 +22,8 @@ class ScheduleManager {
 		this.dbemploys = null;
 		this.dbshifts = null;
 		this.dbrequiredshifts = null;
+		this.dbposition_ids = null;
+		this.dbshifts = null;
 		//this.updateScheduleHistory();
 		//
 		console.log("Loaded Scheduler.");
@@ -155,7 +157,8 @@ class ScheduleManager {
 	//==========================================================================================================================================================================
 	//==========================================================================================================================================================================
 	loadJSON(str){
-		var tab = JSON.parse(lzjs.decompress(str));
+		var str2 = lzjs.decompress(str);
+		var tab = JSON.parse(str2);
 		this.employeeId = 0;
 		this.roleId = 0;
 
@@ -244,6 +247,7 @@ class ScheduleManager {
 		this.employeeId = tab.employeeId;
 		this.roleId = tab.employeeId;
 		this.applyDB();
+		console.log("yes");
 		if (tab.v != null && typeof tab.v == "string"){
 			this.ui.changeRoleView(tab.v);
 		}
@@ -256,12 +260,14 @@ class ScheduleManager {
 	//
 	//
 	//
-	injectDB(dbemploys,dbshifts,dbrequiredshifts,dbsettings,dbcriteria){
+	injectDB(dbemploys,dbshifts,dbrequiredshifts,dbsettings,dbcriteria,dbposition_ids,dbshift_ids){
 		this.dbemploys = dbemploys;
 		this.dbshifts = dbshifts;
 		this.dbrequiredshifts = dbrequiredshifts;
 		this.dbsettings = dbsettings;
 		this.dbcriteria = dbcriteria;
+		this.dbposition_ids = dbposition_ids
+		this.dbshift_ids = dbshifts
 		this.applyDB();
 	}
 	//
@@ -269,7 +275,42 @@ class ScheduleManager {
 		for (var i=0;i<this.roles.length;i++){
 			var role = this.roles[i];
 			role.dayoffSetting = this.dbsettings.dayoff;
-			console.log("asd",role.dayoffSetting);
+			/*
+				//role.addShift(role2.shifts[ii].start,role2.shifts[ii].end,role2.shifts[ii].defaultMinAssign,role2.shifts[ii].defaultMaxAssign);
+				var sa2 = role2.shifts[ii];
+				var sa = new ShiftData(sa2.start,sa2.end); 
+				sa.id = sa2.id;
+				sa.defaultMaxAssign = sa2.defaultMaxAssign;
+				sa.defaultMinAssign = sa2.defaultMinAssign;
+				role.shifts.push(sa);
+			}
+			*/
+			var ii = null;
+			role.shifts = []; // ?
+			for (var i2=0;i2<this.dbposition_ids.length;i2++){
+				if (this.dbposition_ids[i2].name == role.name){
+					ii = this.dbposition_ids[i2].id;
+					break;
+				}
+			}
+			for (var i2=0;i2<this.dbrequiredshifts.length;i2++){
+				var st = this.dbrequiredshifts[i2];
+				if (st.position_id == ii){
+					var sh = null;
+					for (var i3=0;i3<this.dbshift_ids.length;i3++){
+						if (this.dbshift_ids[i3].id == st.shift_id){
+							sh = this.dbshift_ids[i3];
+							break;
+						}
+					}
+					if (sh){
+						role.addShift(sh.start.substring(0,5),sh.end.substring(0,5),st.min,st.max);
+					}
+					else{
+						console.log("?? applydb shift unknown");
+					}
+				}
+			}
 		}
 		for (var index = 0; index < this.dbemploys.length; index++) {
 			var trueEmp = this.dbemploys[index];
@@ -279,7 +320,6 @@ class ScheduleManager {
 			emp.fname = trueEmp.firstname;
 			emp.lname = trueEmp.lastname;
 			emp.role = trueEmp.position;
-			console.log("aw",trueEmp.position);
         }
 	}
 	//
@@ -947,8 +987,13 @@ class Role{
 				}
 				if (!this.disabledDays.includes(theDay) && dayoff!=theDay){
 					var shiftI = this.getBestShiftSlot(scheduledDay.shifts,fixrest!=null?shiftY:null,d,emp);
-					var shift = scheduledDay.shifts[shiftI];
-					this.assignEmp(emp,shift);
+						if (shiftI == null){
+							console.log("no more vacancy");
+						}
+						else{
+							var shift = scheduledDay.shifts[shiftI];
+							this.assignEmp(emp,shift);
+						}
 				}
 			}
 		}
@@ -988,6 +1033,9 @@ class Role{
 				console.log(emp.fname,"AAAAAAAAAA");
 			}
 			choose = chosens[ii]?chosens[ii].i:0;
+		}
+		if (ss[choose] == null){
+			return null;
 		}
 		return ss[choose].i;
 	}
@@ -1116,6 +1164,17 @@ class Role{
 		if (s1 > 24 || e1 > 24 || s2 > 60 || e2 > 60){
 			ScheduleManager.info("Format mismatch.");
 			return;
+		}
+		for (var i=0;i<this.shifts.length;i++){
+			var st = this.shifts[i];
+			if (st.start==start && st.end==end){
+				console.log("shift copy detected");
+				if (min && max){
+					st.defaultMinAssign = min;
+					st.defaultMaxAssign = max;
+				}
+				return;
+			}
 		}
 		/*
 		// OVERLAP FEATURE ??
