@@ -117,7 +117,7 @@
                                         <input id="roleInfo_fixedButton" type="checkbox">
                                         <p>Fixed Day off Schedule</p>
                                     </div>-->
-                                    <p class="mth2 tooltip" style="margin-bottom:4px;">Working Days<span class="tooltiptext">days which scheduling is in effect</span></p>
+                                    <p class="mth2 tooltipX" style="margin-bottom:4px;">Working Days<span class="tooltiptextX">days which scheduling is in effect</span></p>
                                     <div class="blockedDayDiv">
                                         <button id="roleInfo_toggle0">SUN</button>
                                         <button id="roleInfo_toggle1">MON</button>
@@ -131,14 +131,14 @@
                             </div>
                             <p class="mth1">Add Shift</p>
                             <div class="container1">
-                                <p class="p1 tooltip">From<span class="tooltiptext">start time of shift</span></p>
+                                <p class="p1 tooltipX">From<span class="tooltiptextX">start time of shift</span></p>
                                 <input id="roleInfo_addShiftFrom" class="inputtime" type="time">
-                                <p class="p1 tooltip">To<span class="tooltiptext">end time of shift</span></p>
+                                <p class="p1 tooltipX">To<span class="tooltiptextX">end time of shift</span></p>
                                 <input id="roleInfo_addShiftTo" class="inputtime" type="time">
                                 <br>
-                                <p class="p1 tooltip">Assignments : Min <span class="tooltiptext">minimum employees needed</span></p>
+                                <p class="p1 tooltipX">Assignments : Min <span class="tooltiptextX">minimum employees needed</span></p>
                                 <input id="roleInfo_addShiftMin" class="inputnumber" type="number" min="0">
-                                <p class="p1 tooltip">Max<span class="tooltiptext">maximum employees needed</span></p>
+                                <p class="p1 tooltipX">Max<span class="tooltiptextX">maximum employees needed</span></p>
                                 <input id="roleInfo_addShiftMax" class="inputnumber" type="number" min="0">
                                 <button id="roleInfo_addShiftButton" class="middleBtn2">Add Shift</button>
                             </div>
@@ -160,12 +160,12 @@
                             <button id="roleInfo_updateShiftButton" class="middleBtn2">Update Shifts</button>
                             <p class="mth1">Generate Schedule</p>
                             <div class="container1">
-                                <p class="p1 tooltip">Date<span class="tooltiptext">start day of sched</span></p>
+                                <p class="p1 tooltipX">Date<span class="tooltiptextX">start day of sched</span></p>
                                 <input type="date" id="roleInfo_generateDate" class="inputtime" style="width:140px;">
                                 <br>
-                                <p class="p1 tooltip">Days<span class="tooltiptext">number of days</span></p>
+                                <p class="p1 tooltipX">Days<span class="tooltiptextX">number of days</span></p>
                                 <input type="number" id="roleInfo_generateDays" class="inputtime" value="7" min="1" max="31" style="width:60px;">
-                                <!--<p class="p1 tooltip">Day offs<span class="tooltiptext">number of day offs</span></p>
+                                <!--<p class="p1 tooltipX">Day offs<span class="tooltiptextX">number of day offs</span></p>
                                 <input type="number" id="roleInfo_generateDayoffs" class="inputtime" value="1" min="1" max="30" style="width:60px;">-->
                                 <button id="roleInfo_generateScheduleButton" class="middleBtn2" style="width:240px;font-size:24px;">Generate Schedule</button>
                             </div>
@@ -308,7 +308,7 @@
                         </div>
                         <div style="float:right;">
                             <span class="float-right dropdown">
-                                <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a  id="scheduler-settings-icon"  href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-gear"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
@@ -405,11 +405,7 @@
         let required_shifts = {!! $required_shifts !!}; 
         let schedule_string = {!! $schedule_string !!};
 
-        for (var index = 0; index < employees.length; index++) {
-            var trueEmp = employees[index];
-            var emp = scheduler.addEmployee(trueEmp.firstname,trueEmp.lastname,trueEmp.position);        
-            emp.trueId = trueEmp.id;
-        }
+
 
         scheduler.injectDB(employees,shifts,required_shifts,settings,criteria);
 
@@ -832,9 +828,8 @@
                     });
                 }
             });
-
-            $('#saveBtn').click(function() {
-                console.log("lol");
+            
+            function saveSchedule(yes){
                 var url = "{{ url('/dashboard/scheduler/create') }}";
                 $.ajax({
                     url: url,
@@ -843,10 +838,20 @@
                         schedule : scheduler.toJSON()
                     },
                     success: function (result) {
-                        alert("Saved");
+                        if (yes){alert("Saved");}
                     },
                 });
+            }
+
+            $('#saveBtn').click(function() {
+                saveSchedule(true);
             });
+
+            $('#scheduler-settings-icon').on("click",function() {
+                saveSchedule(false);
+            });
+
+
 
         });
         //========================================================================================================================================================================
