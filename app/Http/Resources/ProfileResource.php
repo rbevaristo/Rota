@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmployeesCollection extends Resource
+class ProfileResource extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -20,12 +20,16 @@ class EmployeesCollection extends Resource
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email' => $this->email,
-            'position' => $this->position->name,
-            'avatar' => 'http://localhost/rota/public/storage/avatar/'.$this->profile->avatar,
+            'avatar' => 'http://localhost:8000/storage/avatar/'.$this->profile->avatar,
             'gender' => $this->gender($this->profile->gender),
             'birthdate' => $this->profile->birthdate,
-            'contact' => $this->profile->contact,
-            'address' => $this->profile->address->number . ', ' . $this->profile->address->street . ', ' . $this->profile->address->city . ', ' . $this->profile->address->state . ', ' . $this->profile->address->zip . ', ' . $this->profile->address->country,
+            'mobile' => $this->profile->contact,
+            'number' => $this->profile->address->number,
+            'street' => $this->profile->address->street,
+            'city' => $this->profile->address->city,
+            'state' => $this->profile->address->state,
+            'zip' => $this->profile->address->zip,
+            'country' => $this->profile->address->country,
         ];
     }
 
