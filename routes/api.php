@@ -1,10 +1,10 @@
 <?php
 
 Route::group([
-
+    'middleware' => 'CORS',
     'prefix' => 'v1'
 
-], function () {
+], function ($router) {
 
     Route::post('login', 'Api\AuthController@login');
     Route::post('logout', 'Api\AuthController@logout');
@@ -21,10 +21,10 @@ Route::group([
 });
 
 Route::group([
-
+    'middleware' => 'CORS',
     'prefix' => 'v1/employee'
 
-], function () {
+], function ($router) {
 
     Route::post('login', 'Api\AuthEmployeeController@login');
     Route::post('logout', 'Api\AuthEmployeeController@logout');
@@ -36,8 +36,4 @@ Route::group([
     Route::get('evaluation/files', 'Api\Employee\EvaluationController@evaluation');
     Route::post('request/leave', 'Api\Employee\UserRequestController@send');
     
-});
-
-Route::get('/', function(){
-    return 'Hello';
 });

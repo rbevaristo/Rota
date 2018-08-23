@@ -6,8 +6,8 @@
     <div class="content d-flex justify-content-center align-items-center">
         <div class="container ">
             <div class="row">
-                <div class="col-6">
-                    <h1>ROTA </h1>
+                <div class="col-md-6">
+                    <img id="rota-logo" src="{{ asset('img/Rota-13.png') }}" alt="">
                     <h2>Support <span>tasks and decisions </span> in scheduling workers.</h2>
                     <div>
                         <a href="#about" class="btn btn-primary">Learn More</a>
@@ -15,8 +15,8 @@
                     </div>
                     
                 </div>
-                <div class="col-6">
-                    <img src="{{ asset('img/screens.png') }}" alt="https://pixabay.com/p-815644/?no_redirect">
+                <div class="col-md-6">
+                    <img id="screens" src="{{ asset('img/screens.png') }}" alt="https://pixabay.com/p-815644/?no_redirect">
                 </div>
             </div>
         </div>
@@ -100,7 +100,7 @@
         <h2 class="title">The Team</h2>
         <div class="team">
             <div class="row d-flex justify-content-center">
-                <div class="col-md-2">
+                <div class="col-lg-2">
                     <div class="box team-player">
                         <img src="{{ asset('img/default.png') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Jaspher Dingal</h5>
@@ -112,7 +112,7 @@
                         <a href="https://www.facebook.com/jaspherdingal" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-lg-2">
                     <div class="box team-player">
                         <img src="{{ asset('img/chard.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Richard Evaristo</h5>
@@ -124,7 +124,7 @@
                         <a href="https://www.facebook.com/richardbarbosaevaristo" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-lg-2">
                     <div class="box team-player">
                         <img src="{{ asset('img/kennet.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Kennet Mallari</h5>
@@ -136,7 +136,7 @@
                         <a href="https://www.facebook.com/kennetgotswag" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-lg-2">
                     <div class="box team-player">
                         <img src="{{ asset('img/luc.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Luc Racca</h5>
@@ -148,7 +148,7 @@
                         <a href="https://www.facebook.com/luc.racca" class="btn btn-default btn-icon btn-round"><i class="fa fa-facebook-square"></i></a>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-lg-2">
                     <div class="box team-player">
                         <img src="{{ asset('img/renz.jpg') }}" alt="profile picture" class="rounded-circle img-fluid img-raised">
                         <h5 class="team-name text-primary">Renz Tolentino</h5>

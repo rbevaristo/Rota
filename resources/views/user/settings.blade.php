@@ -221,7 +221,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Number of Shifts </div>
                             </div>
-                            <input type="number" name="nos" id="nos" min="1" max="6"> 
+                            <input type="number" name="nos" id="nos" value="0" min="1" max="6"> 
                             <button type="button" class="btn btn-default" id="nosBtn" data-toggle="modal" data-target="#modal" disabled>Go</button>
                           </div>
                       </div>
