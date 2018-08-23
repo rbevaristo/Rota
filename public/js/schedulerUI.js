@@ -28,6 +28,7 @@ class ScheduleManagerHTML{
 		this.headerCurrent = null;
 		this.headerCurrentDayBefore = null;
 		this.headerType = 1;
+		this.empCurrent = null;
 	}
 	//
 	Initialize(){
@@ -930,7 +931,31 @@ class ScheduleManagerHTML{
 		this.moveHeaderWindow(this.headerWindowSL - this.doc.getElementById("BottomTableWrap").scrollLeft,null,true);
 		doc.getElementById("headerWindow2Info").innerHTML = emp.fname + "<br>" + ScheduleManager.daysName[scheduledDay.dayN]+", "+ScheduleManager.monthsName[scheduledDay.month]+
 		" " + scheduledDay.date + ", "+scheduledDay.year;
-		this.changeClass(doc.getElementById("headerWindow2DeleteShift"),"ishidden",p.scheduledDay==null);
+		var shiftExists = null;
+		var shift = null;
+		if (!scheduledDay.notexist){
+			for (var i=0;i<scheduledDay.shifts.length;i++){
+				if (scheduledDay.shifts[i].assigned.indexOf(emp) != -1){
+					shiftExists = i;
+					shift = scheduledDay.shifts[i];
+					break;
+				}
+			}
+		}
+		this.changeClass(doc.getElementById("headerWindow2DeleteShift"),"ishidden",shiftExists==null);
+		this.changeClass(doc.getElementById("headerWindow2EditShift"),"ishidden",shiftExists==null);
+		this.changeClass(doc.getElementById("headerWindow2SwapShift"),"ishidden",shiftExists==null);
+		this.changeClass(doc.getElementById("headerWindow2SwapSchedule"),"ishidden",shiftExists==null);
+		//this.changeClass(doc.getElementById("headerWindow2AddShift"),"ishidden",shiftExists!=null);
+		this.empCurrent = {
+			emp:emp,
+			role:role,
+			scheduledDay:scheduledDay,
+			shiftsSel:shiftsSel,
+			shift:shift,
+			shiftI:shiftExists,
+			generation:generation
+		};
 
 
 	}
@@ -938,6 +963,20 @@ class ScheduleManagerHTML{
 	managerTableEventAttachments(){
 		var diz = this;
 		var doc = this.doc;
+		//
+		doc.getElementById("headerWindow2DeleteShift").onclick = function(){
+			var e = diz.empCurrent;
+			if (confirm("aaaa")){
+				console.log(e)
+				e.shift.deleteAssign(e.shift.assigned.indexOf(e.emp));
+			}
+			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
+		}
+
+		//=================================================================================================================================================================
+		//=================================================================================================================================================================
+		//=================================================================================================================================================================
+		//=================================================================================================================================================================
 		doc.getElementById("headerWindowClose").onclick = function(){diz.closeHeaderWindow(); };
 		doc.getElementById("headerWindowDeleteDaily").onclick = function(){
 			var p = diz.headerCurrent;
@@ -1121,6 +1160,7 @@ class ScheduleManagerHTML{
 	closeHeaderWindow(){
 		this.headerWindowI = -1;
 		this.headerCurrent = null;
+		this.empCurrent = null;
 		var hwindow = this.doc.getElementById("headerWindow");
 		this.changeClass(hwindow,"ishidden",true);
 	}

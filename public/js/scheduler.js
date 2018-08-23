@@ -286,6 +286,7 @@ class ScheduleManager {
 			}
 			*/
 			var ii = null;
+			role.shifts = []; // ?
 			for (var i2=0;i2<this.dbposition_ids.length;i2++){
 				if (this.dbposition_ids[i2].name == role.name){
 					ii = this.dbposition_ids[i2].id;
@@ -303,8 +304,6 @@ class ScheduleManager {
 						}
 					}
 					if (sh){
-						console.log(sh);
-						console.log("WA",role.name,sh.start,sh.end,st.min,st.max);
 						role.addShift(sh.start.substring(0,5),sh.end.substring(0,5),st.min,st.max);
 					}
 					else{
