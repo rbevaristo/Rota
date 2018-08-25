@@ -48,7 +48,7 @@ return [
 
         'api-2' => [
             'driver' => 'jwt',
-            'provider' => 'users',
+            'provider' => 'employees',
         ],
 
         'admin' => [
