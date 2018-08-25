@@ -349,7 +349,6 @@
                                             <button id="headerWindowPasteGenerated" class="headerBtn1">Paste Generated Schedule</button>
                                             <button id="headerWindowGenerate7" class="headerBtn1">Generate New Schedule (7 Days)</button>
                                             <button id="headerWindowGenerate7S" class="headerBtn1">Generate Shuffled Schedule (7 Days)</button>
-                                            <button id="headerWindowGenerate7S2" class="headerBtn1">Generate Shuffled Schedule (7 Days,Rested)</button>
                                         </div>
                                         <div id="headerWindow2" class="hwwrap">
                                             <div id="headerWindow2Info">aimer<br>friday<br>aug 6</div>
@@ -429,7 +428,7 @@
 
         //console.log(scheduler.currentDate.Year,scheduler.currentDate.Month,scheduler.currentDate.Date,scheduler.currentDate.t);
 
-        if (schedule_string){
+        if (schedule_string && schedule_string.length>16){
             scheduler.loadJSON(schedule_string);
         }
         else{
@@ -857,7 +856,7 @@
                     url: url,
                     type: 'POST',
                     data: {
-                        schedule : "penis"
+                        schedule : "{}"
                     },
                     success: function (result) {
                         if (yes){alert("Savsed");}

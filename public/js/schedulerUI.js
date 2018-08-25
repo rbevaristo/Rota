@@ -806,13 +806,13 @@ class ScheduleManagerHTML{
 			if (exists){ // ui bar
 				scheduledDay = data.columns[i];
 				generation = role.getGenerationGroupYMD(scheduledDay.year,scheduledDay.month,scheduledDay.date);
-				ig = generation.scheduledDays.indexOf(scheduledDay);
+				ig = generation?generation.scheduledDays.indexOf(scheduledDay):-1;
 				var bar = document.createElement("DIV");
 				bar.className = "schedheaderbar";
 				var ww = "calc(100% - 8px)";
 				var ll = "4px";
 				objs.push(bar)
-				if (generation.scheduledDays.length==1){
+				if (generation && generation.scheduledDays.length==1){
 
 				}
 				else if (ig == 0){
@@ -822,7 +822,7 @@ class ScheduleManagerHTML{
 					bar2.style.left = "4px";
 					objs.push(bar2);
 				}
-				else if (ig == generation.scheduledDays.length-1){
+				else if (generation && ig == generation.scheduledDays.length-1){
 					ww = "calc(100% - 4px)";
 					ll = "0px";
 					var bar2 = document.createElement("DIV");
@@ -1043,14 +1043,9 @@ class ScheduleManagerHTML{
 		doc.getElementById("headerWindowGenerate7S").onclick = function(){
 			diz.generateSchedule7(true);
 		};
-		doc.getElementById("headerWindowGenerate7S2").onclick = function(){
-			var p = diz.headerCurrent;
-			console.log(p);
-			diz.generateSchedule7(true,true);
-		};
 	}
 	//
-	generateSchedule7(isShuffle,findrest){
+	generateSchedule7(isShuffle){
 		var diz = this;
 		var p = diz.headerCurrent;			
 		var role = diz.scheduler.getRole(diz.currentRoleView);
@@ -1069,13 +1064,7 @@ class ScheduleManagerHTML{
 			if (isShuffle){
 				role.shuffleGenerate = 1;
 			}
-			if (findrest && this.headerCurrentDayBefore){
-				role.generate((new DateCalc(dateStartT+86400000)).toArrayMMDDYYY(),days,this.headerCurrentDayBefore);
-			}
-			else
-			{
-				role.generate((new DateCalc(dateStartT+86400000)).toArrayMMDDYYY(),days);
-			}
+			role.generate((new DateCalc(dateStartT+86400000)).toArrayMMDDYYY(),days);
 			role.shuffleGenerate = oldVal;
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
@@ -1102,7 +1091,6 @@ class ScheduleManagerHTML{
 		this.changeClass(this.doc.getElementById("headerWindowCopyGenerated"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7S"),"ishidden",p.scheduledDay!=null);
-		this.changeClass(this.doc.getElementById("headerWindowGenerate7S2"),"ishidden",p.scheduledDay!=null || daybefore==null);
 		this.changeClass(this.doc.getElementById("headerWindowPasteGenerated"),"ishidden",!this.generationcopy || p.scheduledDay!=null);
 		this.headerCurrent = p;
 		//
