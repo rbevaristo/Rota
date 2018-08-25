@@ -474,16 +474,6 @@ class Employee{
 	//
 }
 //
-class TimeAvoidance{
-	constructor(){
-		this.start = null;
-		this.end = null;
-		this.day = 0;
-		this.from = null;
-		this.until = null;
-	}
-}
-//
 class DateCalc{
 	constructor(d){
 		this.t = d!=null?d:0;
@@ -698,7 +688,6 @@ class Role{
 		for (i=0;i<reps;i++){
 			var gen = new SchedGeneration(startDate,days,this);
 			gen.id = this.generationId;
-			this.generationId = this.generationId + 1;
 			results = gen.init(daybefore);
 			gen.revertAssign();
 			if (minBad > results.results.badshifts){
@@ -711,6 +700,7 @@ class Role{
 		}
 		lastgen.reAssign();
 		if (results.success){
+			this.generationId = this.generationId + 1;
 			console.log("repets "+i+" / "+reps);
 			console.log("THE BADSHIFTS : "+minBad)
 			console.log(results.results);
@@ -844,7 +834,7 @@ class Role{
 			}
 			date.nextDay();
 			if (!exist){
-				days.push({notexist:true,month:date.Month,date:date.Date,year:date.Year,day:date.Day,mmddyyy:date.MMDDYYY});
+				days.push({notexist:true,month:date.Month,date:date.Date,year:date.Year,day:date.Day,dayN:date.Day,mmddyyy:date.MMDDYYY});
 			}
 		}
 		var tab = [];

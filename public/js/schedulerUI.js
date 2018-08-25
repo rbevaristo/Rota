@@ -919,13 +919,6 @@ class ScheduleManagerHTML{
 		var ig = generation?generation.scheduledDays.indexOf(scheduledDay):null;
 		var shiftsSel = generation?(generation.getEmpShifts(emp)):null;
 		//scheduler.employees[p.e].fname
-		console.log(p);
-		if (generation){
-			//generation.swapSchedGeneration(emp,scheduler.employees[0]);
-			//generation.swapShift(emp,scheduler.employees[0],ig);
-			//diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
-			console.log(generation);
-		}
 		this.headerWindowSL = p.i*p.td.offsetWidth;
 		this.headerWindowI = p.i;
 		this.moveHeaderWindow(this.headerWindowSL - this.doc.getElementById("BottomTableWrap").scrollLeft,null,true);
@@ -945,8 +938,36 @@ class ScheduleManagerHTML{
 		this.changeClass(doc.getElementById("headerWindow2DeleteShift"),"ishidden",shiftExists==null);
 		this.changeClass(doc.getElementById("headerWindow2EditShift"),"ishidden",shiftExists==null);
 		this.changeClass(doc.getElementById("headerWindow2SwapShift"),"ishidden",shiftExists==null);
+		var dd1 = doc.getElementById("headerWindow2SwapShiftDD");
+		var dd2 = doc.getElementById("headerWindow2SwapScheduleDD");
+		dd1.style.visibility = shiftExists==null?'hidden':'visible';
+		dd2.style.visibility = shiftExists==null?'hidden':'visible';
 		this.changeClass(doc.getElementById("headerWindow2SwapSchedule"),"ishidden",shiftExists==null);
 		//this.changeClass(doc.getElementById("headerWindow2AddShift"),"ishidden",shiftExists!=null);
+		//
+		//load dropdowns
+		dd1.innerHTML = "";
+		dd2.innerHTML = "";
+		var emz = [];
+		for (var i=0;i<scheduler.employees.length;i++){
+			if (generation.employees.indexOf(scheduler.employees[i])>=0){
+				emz.push(scheduler.employees[i]);
+			}
+		}
+		for (var i=0;i<emz.length;i++){
+			var em = emz[i];
+			if (em != emp){
+				var opt1 = doc.createElement("option");
+				opt1.value = ""+em.id;
+				opt1.innerHTML = (em.fname?em.fname:"") + " "+(em.lname?em.lname:"");
+				dd1.appendChild(opt1);
+				var opt2 = doc.createElement("option");
+				opt2.value = opt1.value;
+				opt2.innerHTML = opt1.innerHTML;
+				dd2.appendChild(opt2);
+			}
+		}
+		//
 		this.empCurrent = {
 			emp:emp,
 			role:role,
@@ -954,7 +975,8 @@ class ScheduleManagerHTML{
 			shiftsSel:shiftsSel,
 			shift:shift,
 			shiftI:shiftExists,
-			generation:generation
+			generation:generation,
+			ig:ig
 		};
 
 
@@ -966,13 +988,38 @@ class ScheduleManagerHTML{
 		//
 		doc.getElementById("headerWindow2DeleteShift").onclick = function(){
 			var e = diz.empCurrent;
-			if (confirm("aaaa")){
+			if (confirm("Delete this shift?")){
 				console.log(e)
 				e.shift.deleteAssign(e.shift.assigned.indexOf(e.emp));
 			}
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
-
+		//
+		doc.getElementById("headerWindow2SwapShift").onclick = function(){
+			var e = diz.empCurrent;
+			var dd = doc.getElementById("headerWindow2SwapShiftDD");
+			var empS = scheduler.getEmpById(dd.options[dd.selectedIndex].value)
+			if (!empS){
+				return;
+			}
+			if (confirm("Swap Shift With "+(empS.fname?empS.fname:"") + " "+(empS.lname?empS.lname:"")+"?")){
+				e.generation.swapShift(e.emp,empS,e.ig);
+			}
+			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
+		}
+		//
+		doc.getElementById("headerWindow2SwapSchedule").onclick = function(){
+			var e = diz.empCurrent;
+			var dd = doc.getElementById("headerWindow2SwapScheduleDD");
+			var empS = scheduler.getEmpById(dd.options[dd.selectedIndex].value)
+			if (!empS){
+				return;
+			}
+			if (confirm("Swap Schedule With "+(empS.fname?empS.fname:"") + " "+(empS.lname?empS.lname:"")+"?")){
+				e.generation.swapSchedGeneration(e.emp,empS,e);
+			}
+			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
+		}
 		//=================================================================================================================================================================
 		//=================================================================================================================================================================
 		//=================================================================================================================================================================
@@ -1008,6 +1055,13 @@ class ScheduleManagerHTML{
 		doc.getElementById("headerWindowCopyGenerated").onclick = function(){
 			var p = diz.headerCurrent;
 			diz.generationcopy = p.generation;
+			diz.closeHeaderWindow();
+		};
+		doc.getElementById("headerWindowCopyGenerated").onclick = function(){
+			var p = diz.headerCurrent;
+			if (confirm("ok")){
+
+			}
 			diz.closeHeaderWindow();
 		};
 		doc.getElementById("headerWindowPasteGenerated").onclick = function(){
@@ -1089,6 +1143,7 @@ class ScheduleManagerHTML{
 		this.changeClass(this.doc.getElementById("headerWindowDeleteDaily"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowDeleteGenerated"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowCopyGenerated"),"ishidden",p.scheduledDay==null);
+		this.changeClass(this.doc.getElementById("headerWindowSavePDF"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7S"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowPasteGenerated"),"ishidden",!this.generationcopy || p.scheduledDay!=null);

@@ -853,7 +853,7 @@
 #headerWindow{
 	position:absolute;
 	z-index:10;
-	width:280px;
+	width:320px;
 	height:220px;
 	background-color:rgba(235,235,235,0.85);
 	border:1px solid rgb(215,215,215);
