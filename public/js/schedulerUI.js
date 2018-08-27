@@ -476,11 +476,14 @@ class ScheduleManagerHTML{
 		var interrupt = role.isScheduleClear(yy,mm-1,dd,ds);
 		//console.log(interrupt)
 		if (interrupt){
-			this.msg("wew");
+			this.msg("Schedule slots not clear.");
 			return;
 		}
 		this.msg("generating...");
-		role.generate([mm-1,dd,yy],ds);
+		var results = role.generate([mm-1,dd,yy],ds);
+		if (results.msg){
+			diz.msg(results.msg);
+		}
 		this.loadRoleMonthly();
 	}
 	//
@@ -739,7 +742,7 @@ class ScheduleManagerHTML{
 		var datefrom = startDate.toArrayMMDDYYY();
 		var dateto = startDate.getDateAfterDays(days).toArrayMMDDYYY();
 		monthViewLabel.innerHTML = startDate.Year+"<br>"+ScheduleManager.monthsName[this.tableMonthView.month];
-		this.loadRoleTable(this.currentRoleView,datefrom,dateto);
+		this.loadRoleTable(this.currentRoleView,datefrom,dateto); // <---------------------
 		var bt = this.doc.getElementById("BottomTableWrap");
 		if (i){
 			bt.scrollLeft = i;
@@ -778,7 +781,7 @@ class ScheduleManagerHTML{
     		headerTable.removeChild(headerTable.firstChild);
 		}
 		var role = scheduler.getRole(rolename);
-		var data = role.getTable(datefrom,dateto);
+		var data = role.getTable(datefrom,dateto); // <-----------------------------------
 		//consolle.log(data.data);
 
 
@@ -876,7 +879,7 @@ class ScheduleManagerHTML{
 				//bar
 				if (shifts.length>0){
 					var shift = role.getShiftById(shifts[0][1],shifts[0][2]);
-					var rr = shift.shift.getRangePercent();
+					var rr = shift.getRangePercent();
 					var bar = document.createElement("DIV");
 					var rgb1 = 180-180*rr.l;
 					var rgb2 = 255-210*rr.l;
@@ -922,8 +925,6 @@ class ScheduleManagerHTML{
 		this.headerWindowSL = p.i*p.td.offsetWidth;
 		this.headerWindowI = p.i;
 		this.moveHeaderWindow(this.headerWindowSL - this.doc.getElementById("BottomTableWrap").scrollLeft,null,true);
-		doc.getElementById("headerWindow2Info").innerHTML = emp.fname + "<br>" + ScheduleManager.daysName[scheduledDay.dayN]+", "+ScheduleManager.monthsName[scheduledDay.month]+
-		" " + scheduledDay.date + ", "+scheduledDay.year;
 		var shiftExists = null;
 		var shift = null;
 		if (!scheduledDay.notexist){
@@ -935,36 +936,46 @@ class ScheduleManagerHTML{
 				}
 			}
 		}
+		doc.getElementById("headerWindow2Info").innerHTML = emp.fname + "<br>" + ScheduleManager.daysName[scheduledDay.dayN]+", "+ScheduleManager.monthsName[scheduledDay.month]+
+		" " + scheduledDay.date + ", "+scheduledDay.year + "<br>"+ (shift?shift.StartToEndAMPM:"");
+
+		//
+		console.log(shiftExists);
 		this.changeClass(doc.getElementById("headerWindow2DeleteShift"),"ishidden",shiftExists==null);
 		this.changeClass(doc.getElementById("headerWindow2EditShift"),"ishidden",shiftExists==null);
+		this.changeClass(doc.getElementById("headerWindow2Time1"),"ishidden",shiftExists==null && (shiftExists!=null || scheduledDay.notexist));
+		this.changeClass(doc.getElementById("headerWindow2Time2"),"ishidden",shiftExists==null && (shiftExists!=null || scheduledDay.notexist));
+		this.changeClass(doc.getElementById("headerWindow2TimeTo"),"ishidden",shiftExists==null && (shiftExists!=null || scheduledDay.notexist));
 		this.changeClass(doc.getElementById("headerWindow2SwapShift"),"ishidden",shiftExists==null);
 		var dd1 = doc.getElementById("headerWindow2SwapShiftDD");
 		var dd2 = doc.getElementById("headerWindow2SwapScheduleDD");
 		dd1.style.visibility = shiftExists==null?'hidden':'visible';
 		dd2.style.visibility = shiftExists==null?'hidden':'visible';
 		this.changeClass(doc.getElementById("headerWindow2SwapSchedule"),"ishidden",shiftExists==null);
-		//this.changeClass(doc.getElementById("headerWindow2AddShift"),"ishidden",shiftExists!=null);
+		this.changeClass(doc.getElementById("headerWindow2AddShift"),"ishidden",shiftExists!=null || scheduledDay.notexist);
 		//
 		//load dropdowns
 		dd1.innerHTML = "";
 		dd2.innerHTML = "";
-		var emz = [];
-		for (var i=0;i<scheduler.employees.length;i++){
-			if (generation.employees.indexOf(scheduler.employees[i])>=0){
-				emz.push(scheduler.employees[i]);
+		if (shiftExists && generation){
+			var emz = [];
+			for (var i=0;i<scheduler.employees.length;i++){
+				if (generation.employees.indexOf(scheduler.employees[i])>=0){
+					emz.push(scheduler.employees[i]);
+				}
 			}
-		}
-		for (var i=0;i<emz.length;i++){
-			var em = emz[i];
-			if (em != emp){
-				var opt1 = doc.createElement("option");
-				opt1.value = ""+em.id;
-				opt1.innerHTML = (em.fname?em.fname:"") + " "+(em.lname?em.lname:"");
-				dd1.appendChild(opt1);
-				var opt2 = doc.createElement("option");
-				opt2.value = opt1.value;
-				opt2.innerHTML = opt1.innerHTML;
-				dd2.appendChild(opt2);
+			for (var i=0;i<emz.length;i++){
+				var em = emz[i];
+				if (em != emp){
+					var opt1 = doc.createElement("option");
+					opt1.value = ""+em.id;
+					opt1.innerHTML = (em.fname?em.fname:"") + " "+(em.lname?em.lname:"");
+					dd1.appendChild(opt1);
+					var opt2 = doc.createElement("option");
+					opt2.value = opt1.value;
+					opt2.innerHTML = opt1.innerHTML;
+					dd2.appendChild(opt2);
+				}
 			}
 		}
 		//
@@ -982,6 +993,68 @@ class ScheduleManagerHTML{
 
 	}
 	//
+	assignEmpShift(newShift2,oldShift,emp,role,start,end,day){
+		var newShift = newShift2;
+		if (newShift == null)
+		{
+			//create
+			var min = null;
+			var max = null;
+			while (!min){
+				min = prompt("New Shift: "+role.getStartToEndAMPM(start,end)+"\nEnter minimum required employees.");
+				if (min==null){break;}
+				if (min==""){min=null;continue;}
+				if (isNaN(min) || !Number.isInteger(Number(min))){
+					this.msg("Invalid value");
+					min = null;
+					continue;
+				}
+				else{
+					min = Math.floor(Number(min));
+					if (min<1){
+						this.msg("minimum must be 1 or above.");
+						min = null;
+						continue;
+					}
+				}
+			}
+			if (min==null){
+				this.msg("Canceled.");
+				return;
+			}
+			//
+			while (!max){
+				max = prompt("New Shift: "+role.getStartToEndAMPM(start,end)+"\nEnter maximum required employees.");
+				if (max==null){break;}
+				if (max==""){max=null;continue;}
+				if (isNaN(max) || !Number.isInteger(Number(max))){
+					this.msg("Invalid value");
+					min = null;
+					continue;
+				}
+				else{
+					max = Math.floor(Number(max));
+					if (max<min){
+						this.msg("maximum must be "+min+" or above.");
+						max = null;
+						continue;
+					}
+				}
+			}
+			if (max==null){
+				this.msg("Canceled.");
+				return;
+			}
+			newShift = day.insertShift(start,end,min,max);
+		}
+		if (oldShift){
+			oldShift.deleteAssign(oldShift.assigned.indexOf(emp));
+		}
+		role.assignEmp(emp,newShift);
+		this.msg("Assigned to Shift "+newShift.StartToEndAMPM+"\n"+"Assigned Current : "+newShift.assigned.length+" (min:"+newShift.minAssign+" max:"+newShift.maxAssign+")"+
+		(newShift.maxAssign<newShift.assigned.length?("\nWarning, assigned employees exceeded max slots."):""));
+	}
+	//
 	managerTableEventAttachments(){
 		var diz = this;
 		var doc = this.doc;
@@ -991,6 +1064,44 @@ class ScheduleManagerHTML{
 			if (confirm("Delete this shift?")){
 				console.log(e)
 				e.shift.deleteAssign(e.shift.assigned.indexOf(e.emp));
+			}
+			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
+		}
+		//
+		doc.getElementById("headerWindow2EditShift").onclick = function(){
+			var e = diz.empCurrent;
+			var inp1 = doc.getElementById("headerWindow2Time1");
+			var inp2 = doc.getElementById("headerWindow2Time2");
+			if (inp1.value.length==0 || inp2.value.length==0){
+				diz.msg("Input not filled.");
+				return;
+			}
+			if (inp1.value==e.shift.start && inp2.value ==e.shift.end){
+				diz.msg("Attempted to edit to same shift.");
+				return;
+			}
+			var start = inp1.value;
+			var end = inp2.value;
+			if (confirm("Change shift from "+e.shift.StartToEndAMPM+" to "+e.shift.getStartToEndAMPM(start,end)+"?")){
+				var newShift = e.scheduledDay.shiftExists2(start,end);
+				diz.assignEmpShift(newShift,e.shift,e.emp,e.role,start,end,e.scheduledDay);
+			}
+			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
+		}
+		//
+		doc.getElementById("headerWindow2AddShift").onclick = function(){
+			var e = diz.empCurrent;
+			var inp1 = doc.getElementById("headerWindow2Time1");
+			var inp2 = doc.getElementById("headerWindow2Time2");
+			if (inp1.value.length==0 || inp2.value.length==0){
+				diz.msg("Input not filled.");
+				return;
+			}
+			var start = inp1.value;
+			var end = inp2.value;
+			if (confirm("Assign shift "+e.role.getStartToEndAMPM(start,end)+"?")){
+				var newShift = e.scheduledDay.shiftExists2(start,end);
+				diz.assignEmpShift(newShift,null,e.emp,e.role,start,end,e.scheduledDay);
 			}
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
@@ -1055,13 +1166,7 @@ class ScheduleManagerHTML{
 		doc.getElementById("headerWindowCopyGenerated").onclick = function(){
 			var p = diz.headerCurrent;
 			diz.generationcopy = p.generation;
-			diz.closeHeaderWindow();
-		};
-		doc.getElementById("headerWindowCopyGenerated").onclick = function(){
-			var p = diz.headerCurrent;
-			if (confirm("ok")){
-
-			}
+			diz.msg("copied");
 			diz.closeHeaderWindow();
 		};
 		doc.getElementById("headerWindowPasteGenerated").onclick = function(){
@@ -1118,7 +1223,10 @@ class ScheduleManagerHTML{
 			if (isShuffle){
 				role.shuffleGenerate = 1;
 			}
-			role.generate((new DateCalc(dateStartT+86400000)).toArrayMMDDYYY(),days);
+			var results = role.generate((new DateCalc(dateStartT+86400000)).toArrayMMDDYYY(),days);
+			if (results.msg){
+				diz.msg(results.msg);
+			}
 			role.shuffleGenerate = oldVal;
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
@@ -1146,6 +1254,7 @@ class ScheduleManagerHTML{
 		this.changeClass(this.doc.getElementById("headerWindowSavePDF"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7S"),"ishidden",p.scheduledDay!=null);
+		this.changeClass(this.doc.getElementById("headerWindowGenerate7C"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowPasteGenerated"),"ishidden",!this.generationcopy || p.scheduledDay!=null);
 		this.headerCurrent = p;
 		//

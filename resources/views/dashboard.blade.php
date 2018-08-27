@@ -350,18 +350,22 @@
                                             <button id="headerWindowSavePDF" class="headerBtn1">Finalize Schedule Generation</button>
                                             <button id="headerWindowGenerate7" class="headerBtn1">Generate New Schedule (7 Days)</button>
                                             <button id="headerWindowGenerate7S" class="headerBtn1">Generate Shuffled Schedule (7 Days)</button>
+                                            <button id="headerWindowGenerate7C" class="headerBtn1">Generate Schedule with Criteria (7 Days)</button>
                                         </div>
                                         <div id="headerWindow2" class="hwwrap">
                                             <div id="headerWindow2Info">aimer<br>friday<br>aug 6</div>
                                             <button id="headerWindow2DeleteShift" class="headerBtn1">Remove Shift</button>
                                             <button id="headerWindow2EditShift" class="headerBtn1">Edit Shift</button>
-                                            <button id="headerWindow2AddShift" class="headerBtn1 ishidden">Add Shift</button>
-                                            <button id="headerWindow2SwapShift" class="headerBtn1">Swap Shift</button>
-                                            <select id="headerWindow2SwapShiftDD" class="headerBtn1" style="display:inline-block;min-width:120px;position:static;">
-                                            </select>
-                                            <button id="headerWindow2SwapSchedule" class="headerBtn1">Swap Schedule</button>
-                                            <select id="headerWindow2SwapScheduleDD" class="headerBtn1" style="display:inline-block;min-width:120px;position:static;">
-                                            </select>
+                                            <button id="headerWindow2AddShift" style="min-width:70px;" class="headerBtn1 ishidden">Add Shift</button>
+                                            <input id="headerWindow2Time1" class="inputtime" type="time" style="width:120px;margin-left:0px;float:right;margin-right:4px;">
+                                            <input id="headerWindow2Time2" class="inputtime" type="time" style="width:120px;float:right;margin-right:4px;">
+                                            <p id="headerWindow2TimeTo" class="inputtimet">to</p>
+                                            
+
+                                            <button id="headerWindow2SwapShift" class="headerBtn1" style="float:left;">Swap Shift</button>
+                                            <select id="headerWindow2SwapShiftDD" class="headerBtn1" style="float:right;display:inline-block;min-width:120px;position:static;"></select>
+                                            <button id="headerWindow2SwapSchedule" class="headerBtn1" style="float:left;">Swap Schedule</button>
+                                            <select id="headerWindow2SwapScheduleDD" class="headerBtn1" style="float:right;display:inline-block;min-width:120px;position:static;"></select>
                                         </div>
                                         <button id="headerWindowClose" class="closeBtn">&times;</button>
                     
