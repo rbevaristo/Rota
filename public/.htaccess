@@ -4,7 +4,7 @@
     </IfModule>
 
     RewriteEngine On
-    RewriteBase /Rota/public/
+    RewriteBase /rota/public/
     
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

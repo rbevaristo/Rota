@@ -37,7 +37,52 @@
                         Schedules
                     </div>
                     <div class="card-body">
-                        
+                        @if(auth()->user()->user->setting->dayoff && auth()->user()->user->setting->shift)
+                            <h2>Preferences</h2>
+                            <div class="row">
+                            @if(auth()->user()->user->setting->dayoff)
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Dayoff</div>
+                                            </div>
+                                        <div class="btn-group" role="group">
+
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Sun</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="1">Mon</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="2">Tue</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="3">Wed</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="4">Thu</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="5">Fri</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="6">Sat</button>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if(auth()->user()->user->setting->shift)
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">Shift</div>
+                                            </div>
+                                            <select name="selectedShift" id="selectedShift" class="form-control">
+                                                @if(auth()->user()->user->shifts->count())
+                                                    @foreach(auth()->user()->user->shifts as $shift)
+                                                    <option value="{{ $shift->id }}">{{ $shift->start }}-{{ $shift->end }}</option>
+                                                    @endforeach
+                                                @else
+                                                    <option value="">No available shift</option>
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            </div>
+                        <hr>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -81,6 +126,22 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+            
+            $('.btnDays').on('click', function(){
+                var btnarr = '0000000';
+                if($(this).attr('name') == 'inactive'){
+                    $(this).removeClass('btn-secondary').addClass('btn-primary');
+                    $(this).removeAttr('name');
+                    $(this).attr('name', 'active');
+                    btnarr = btnarr.substr(0,$(this).attr('id')) + 1 + btnarr.substr($(this).attr('id') + 1);
+                    console.log(btnarr);
+                } else {
+                    $(this).removeClass('btn-primary').addClass('btn-secondary');
+                    $(this).removeAttr('name');
+                    $(this).attr('name', 'inactive');
+                }
+                
             });
 
             $('#checkPassword').on('click', function() {

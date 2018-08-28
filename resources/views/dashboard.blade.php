@@ -403,6 +403,7 @@
 
 
         let employees = {!! $employs !!}
+        console.log(employees);
         let settings = {!! $settings !!}; 
         let criteria = {!! $criteria !!}; 
         let shifts = {!! $shifts !!}; 
