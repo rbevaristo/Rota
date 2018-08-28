@@ -744,7 +744,7 @@
 }
 .managerTab .blockedDayDiv button.active:hover{background-color:rgb(145,145,145);}
 
-.managerTab .inputtime,.managerTab .inputnumber,.managerTab select{
+.managerTab .inputtime,#headerWindow2 .inputtime,.managerTab .inputnumber,.managerTab select{
 	border:1px solid rgb(215,215,215);
 	margin:4px;
 	width:100px;
@@ -753,6 +753,16 @@
 	font-family:"Helvetica";
 	font-size:16px;
 	padding-left:3px;
+}
+#headerWindow2 .inputtime{
+	height:27px;
+	margin:2px;
+	padding-top:3px;
+	padding-bottom:3px;
+	vertical-align:bottom;
+	border-color:rgb(200,200,200);
+	margin-left:5px;
+
 }
 .managerTab .inputnumber{
 	width:40px;
@@ -853,8 +863,8 @@
 #headerWindow{
 	position:absolute;
 	z-index:10;
-	width:320px;
-	height:220px;
+	width:300px;
+	height:230px;
 	background-color:rgba(235,235,235,0.85);
 	border:1px solid rgb(215,215,215);
 	left:30px;
@@ -877,7 +887,7 @@
 	padding-bottom:3px;
 	margin-top:2px;
 	margin-bottom:2px;
-	min-width:170px;
+	min-width:150px;
 	position:relative;
 }
 
@@ -898,4 +908,7 @@
 	text-align:left;
 	width:calc(100% - 46px);
 	border-color:rgb(220,220,220);
+}
+.inputtimet{
+	float:right;vertical-align:top;font-family:'Helvetica';height:27px;margin-bottom:0;line-height:33px;margin-right:4px;
 }

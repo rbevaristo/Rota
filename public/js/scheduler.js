@@ -108,7 +108,7 @@ class ScheduleManager {
 						id:s.id,
 						minAssign:s.minAssign,
 						maxAssign:s.maxAssign,
-						shift:s.shift.id
+						shift:s.shift?s.shift.id:null
 					});
 				}
 				scheduledDays.push({
@@ -144,9 +144,8 @@ class ScheduleManager {
 				scheduledDays : scheduledDays,
 				disabledDays : role.disabledDays,
 				generations : gens,
-				shiftType : role.shiftType, 
-				shiftDistHrs : role.shiftDistHrs
-			});
+				shiftType : role.shiftType
+				});
 		}
 		var jsonstring = JSON.stringify(tab);
 		var compressed = lzjs.compress(jsonstring);
@@ -203,7 +202,7 @@ class ScheduleManager {
 				var ss = [];
 				for (var ii2=0;ii2<sd2.shifts.length;ii2++){
 					var sh2 = sd2.shifts[ii2];
-					var sh = new Shift(sd,role.getShiftDataById(sh2.shift));
+					var sh = new Shift(sd,sh2.shift!=null?role.getShiftDataById(sh2.shift):null);
 					sh.start = sh2.start;
 					sh.end = sh2.end;
 					sh.id = sh2.id;
@@ -243,7 +242,6 @@ class ScheduleManager {
 
 			role.disabledDays = role2.disabledDays;
 			role.shiftType = role2.shiftType;
-			role.shiftDistHrs = role2.shiftDistHrs;
 			role.shiftDataId = role2.shiftDataId;
 		}
 
@@ -416,6 +414,7 @@ class Employee{
 		this.assignments = []; // [0,0] roleid0 shiftid0
 		this.Age = 0;
 		this.Gender = "";
+		this.shiftDistHrs = 8;
 	}
 	//
 	assignShift(shift){
@@ -673,7 +672,6 @@ class Role{
 		this.disabledDays = []; // eg. if [0], there will be 0 allocations on sundays
 		this.generations = [];
 		this.shiftType = "Normal"; //
-		this.shiftDistHrs = 8;
 		this.shuffleGenerate = 0;             // untouched
 		this.dayoffSetting = 1; // 0 off 1 on    DB
 		this.maxdayoff = 1; // DB
@@ -706,6 +704,7 @@ class Role{
 			console.log(results.results);
 			this.generations.push(gen);
 		}
+		return results;
 	}
 	//
 	setdayoffpre(scheduler){
@@ -807,6 +806,18 @@ class Role{
 		//console.log("sdl2",this.scheduledDays.length);
 	}
 	//
+	getStartToEndAMPM(start,end){
+		var sth = Number(start.substring(0,2));
+		var stm = Number(start.substring(3,5));
+		var enh = Number(end.substring(0,2));
+		var enm = Number(end.substring(3,5));
+		var st1 = (sth<13?sth:sth-12);
+		var en1 = (enh<13?enh:enh-12);
+		var st = (st1==0?12:st1)+(stm==0?"":(":"+(stm<10?"0":"")+stm))+""+(sth<12?"AM":"PM"); 
+		var en = (en1==0?12:en1)+(enm==0?"":(":"+(enm<10?"0":"")+enm))+""+(enh<12?"AM":"PM");
+		return st+" - "+en;
+	}
+	//
 	getShiftDataById(id){
 		for (var i=0;i<this.shifts.length;i++){
 			if (this.shifts[i].id==id){
@@ -816,7 +827,7 @@ class Role{
 	}
 	//
 	getTable(from,to){
-		var emps = this.findEmployees();
+		var emps = this.findEmployees(from,to);
 		var date = new DateCalc();
 		date.setDateMMDDYYYY(from[0],from[1],from[2]);
 		var date2 = new DateCalc();
@@ -887,13 +898,32 @@ class Role{
 		}
 		return null;
 	}
+	//   1        31
+	//        27     34
+	empHasShift(e,from,to){
+		if (!from || !to){
+			return false;
+		}
+		var date1 = new DateCalc();
+		date1.setDateMMDDYYYY(from[0],from[1],from[2]);
+		var date2 = new DateCalc();
+		date2.setDateMMDDYYYY(to[0],to[1],to[2]);
+		var date = new DateCalc();
+		for (var i=0;i<this.scheduledDays.length;i++){
+			var sd = this.scheduledDays[i];
+			date.setDateMMDDYYYY(sd.month,sd.date,sd.year);
+			if (date1.t <= date.t && date2.t >= date.t && sd.findEmpShift(e)>=0){
+				return true;
+			}
+		}
+	}
 	//
-	findEmployees(){
+	findEmployees(from,to){
 		var emps = ScheduleManager.Instance.employees;
 		var picks = [];
 		for (var i=0;i<emps.length;i++){
 			var e = emps[i];
-			if (e.active == 1 && e.role && e.role.toLowerCase()==this.name.toLowerCase()){
+			if (e.active == 1 && ((e.role && e.role.toLowerCase()==this.name.toLowerCase()) || this.empHasShift(e,from,to))){
 				picks.push(e);
 			}
 		}
@@ -1001,12 +1031,16 @@ class Role{
 		if (results.shiftsUsed > totalShiftsMax){
 			results.success = false;
 			console.log("max !!");
-			return results;
+			return {scheduledDays:schedules,employees:emps,results:results,success:results.success,
+				msg:"Failed, exceeded Shift Slots\nMin: "+results.totalShiftsMin+" Max: "+results.totalShiftsMax+
+				"\nUsed:"+results.shiftsUsed+"\nAdd more shift slots(max) to solve this issue."};
 		}
 		else if (results.shiftsUsed < totalShiftsMin){
 			results.success = false;
 			console.log("min !!");
-			return results;
+			return {scheduledDays:schedules,employees:emps,results:results,success:results.success,
+				msg:"Failed, exceeded Shift Slots\nMin: "+results.totalShiftsMin+" Max: "+results.totalShiftsMax+
+				"\nUsed:"+results.shiftsUsed+"\nLessen shift slots(min) to solve this issue."};
 		}
 		//Get Scheduled Days
 		var sdays = this.scheduledDays.length-1
@@ -1078,8 +1112,8 @@ class Role{
 				ems.push(emps[i]);
 			}
 		}
-		console.log("REEEEEEEEEEEEE "+ems[0].fname,ems.length);
 		//console.log(ems);
+		//console.log("REEEEEEEEEEEEE "+ems[0].fname,ems.length);
 		return ems;
 	}
 	//
@@ -1112,6 +1146,7 @@ class Role{
 			var shiftY = null;
 			if (this.shuffleGenerate != 1){
 				if (scheduleYesterday){
+					//console.log("Date : "+scheduledDay.date);
 					emps = this.SortAccording(oemps,scheduleYesterday);
 				}
 				else{
@@ -1140,6 +1175,7 @@ class Role{
 					else{
 						var shift = scheduledDay.shifts[shiftI];
 						this.assignEmp(emp,shift);
+						//console.log(emps[i].fname,":",shift.StartToEndAMPM,"   before:",shiftY?shiftY.StartToEndAMPM:"?");
 						results.assigns.push({emp:emp,shift:shift})
 					}
 				}
@@ -1152,32 +1188,34 @@ class Role{
 	//
 	getBestShiftSlot(shifts,shiftY,d,emp,results,empI){
 		var ss = [];
-		var minAssign = 999999999;
-		for (var i=0;i<shifts.length;i++){
-			if (shifts[i].assigned.length<minAssign && shifts[i].assigned.length < shifts[i].maxAssign){
-				minAssign = shifts[i].assigned.length;
-			}
-		}
-		for (var i=0;i<shifts.length;i++){
-			if (shifts[i].assigned.length <= minAssign && shifts[i].assigned.length < shifts[i].maxAssign){
-				ss.push({i:i,shift:shifts[i]})
-			}
-		}
-		ss.sort(function(a,b) {return (a.shift.assigned.length > b.shift.assigned.length) ? 1 : ((b.shift.assigned.length > a.shift.assigned.length) ? -1 : 0);} ); 
-		var choose = 0;
-		var chosens = [];
-		if (shiftY){
-			for (var i=0;i<ss.length;i++){
-				var sh = ss[i].shift;
-				var dist = sh.HoursBetweenShift(shiftY);
-				if (sh.assigned.length<sh.maxAssign && dist >= this.shiftDistHrs){
-					chosens.push({i:i,dist:dist});
+		var minAssign = 10000000;
+		for (var r=0;r<2;r++){ //first with min , second with none
+			if (r==0){
+				for (var i=0;i<shifts.length;i++){
+					if (shifts[i].assigned.length<minAssign && shifts[i].assigned.length < shifts[i].maxAssign){
+						minAssign = shifts[i].assigned.length;
+					}
 				}
 			}
-			chosens.sort(function(a,b) {return (a.dist > b.dist) ? 1 : ((b.dist > a.dist) ? -1 : 0);} ); 
-			var ii = 0; //Math.floor((chosens.length)/2);
-			//if (d==0){
-				if (chosens.length == 0){
+			for (var i=0;i<shifts.length;i++){
+				if (shifts[i].assigned.length <= minAssign && shifts[i].assigned.length < shifts[i].maxAssign){
+					ss.push({i:i,shift:shifts[i]})
+				}
+			}
+			ss.sort(function(a,b) {return (a.shift.assigned.length > b.shift.assigned.length) ? 1 : ((b.shift.assigned.length > a.shift.assigned.length) ? -1 : 0);} ); 
+			var choose = 0;
+			var chosens = [];
+			if (shiftY){
+				for (var i=0;i<ss.length;i++){
+					var sh = ss[i].shift;
+					var dist = sh.HoursBetweenShift(shiftY);
+					if (sh.assigned.length<sh.maxAssign && dist >= emp.shiftDistHrs){
+						chosens.push({i:i,dist:dist});
+					}
+				}
+				chosens.sort(function(a,b) {return (a.dist > b.dist) ? 1 : ((b.dist > a.dist) ? -1 : 0);} ); 
+				var ii = 0; //Math.floor((chosens.length)/2);
+				if (chosens.length == 0 && r == 1){
 					results.badshifts++;
 				}
 				/*
@@ -1185,23 +1223,24 @@ class Role{
 				console.log("ss : ",ss);
 				console.log("chosens : ",chosens);
 				console.log("dist("+ss.length+">"+chosens.length+")","["+empI+"]"+emp.fname,(chosens[ii]!=null)?chosens[ii].dist:"empty");
-				// */
-			//}
-			if (chosens[ii] != null){
-				results.okshifts++;
-				choose = chosens[ii].i;
+				*/
+				if (chosens[ii] != null){
+					results.okshifts++;
+					choose = chosens[ii].i;
+				}
+				else{
+					minAssign = 10000000;
+					continue; // try again with no min target
+				}
 			}
 			else{
-				choose = 0; // ?
+				results.okshifts++;
 			}
+			if (ss[choose] == null){
+				return null; // totally nothing
+			}
+			return ss[choose].i;
 		}
-		else{
-			results.okshifts++;
-		}
-		if (ss[choose] == null){
-			return null;
-		}
-		return ss[choose].i;
 	}
 	//
 	getAvailableShift(shifts){
@@ -1435,6 +1474,26 @@ class ScheduledDay{
 		this.shifts = [];
 	}
 	//
+	insertShift(start,end,min,max){
+		//assuming its new 
+		var shift = new Shift(this,null);
+		shift.start = start;
+		shift.end = end;
+		shift.minAssign = min;
+		shift.maxAssign = max;
+		var n1 = Number(start.substring(0,2))+Number(start.substring(3,5))*60;
+		for (var i=0;i<this.shifts.length;i++){
+			var s = this.shifts[i].start;
+			var n2 = Number(s.substring(0,2))+Number(s.substring(3,5))*60;
+			if (n1<n2){
+				this.shifts.splice(i, 0, shift);
+				return shift;
+			}
+		}
+		this.shifts.push(shift);
+		return shift;
+	}
+	//
 	shiftExists(shift){
 		for (var i=0;i<this.shifts.length;i++){
 			if (this.shifts[i].start+this.shifts[i].end == shift.start+shift.end){
@@ -1442,6 +1501,15 @@ class ScheduledDay{
 			}
 		}
 		return false;
+	}
+	//
+	shiftExists2(start,end){
+		for (var i=0;i<this.shifts.length;i++){
+			if (this.shifts[i].start+this.shifts[i].end == start+end){
+				return this.shifts[i];
+			}
+		}
+		return null;
 	}
 	//
 	getShiftByString(str){
@@ -1501,10 +1569,10 @@ class Shift{
 		dateWrap.shiftId = dateWrap.shiftId + 1;
 		this.dateWrap = dateWrap
 		this.shift = shift;
-		this.start = shift.start;
-		this.end = shift.end;
-		this.minAssign = shift.defaultMinAssign;
-		this.maxAssign = shift.defaultMaxAssign;
+		this.start = shift?shift.start:null;
+		this.end = shift?shift.end:null;
+		this.minAssign = shift?shift.defaultMinAssign:null;
+		this.maxAssign = shift?shift.defaultMaxAssign:null;
 		this.assigned = []
 	}
 	//
@@ -1535,15 +1603,21 @@ class Shift{
 	}
 	//
 	get StartToEndAMPM(){
-		var sth = Number(this.start.substring(0,2));
-		var stm = Number(this.start.substring(3,5));
-		var enh = Number(this.end.substring(0,2));
-		var enm = Number(this.end.substring(3,5));
-		var st1 = (sth<13?sth:sth-12);
-		var en1 = (enh<13?enh:enh-12);
-		var st = (st1==0?12:st1)+(stm==0?"":(":"+stm))+""+(sth<12?"AM":"PM"); 
-		var en = (en1==0?12:en1)+(enm==0?"":(":"+enm))+""+(enh<12?"AM":"PM");
-		return st+" - "+en;
+		return this.getStartToEndAMPM(this.start,this.end);
+	}
+	//
+	getRangePercent(){
+		var rn = {l:0,r:0,len:0};
+		var s = ScheduleManager.toNum(this.start);
+		var e = ScheduleManager.toNum(this.end);
+		var m = 1440;
+		if (s>e){
+			e = e+m; // ??
+		}
+		rn.l = s/m;
+		rn.r = e/m;
+		rn.len = (e-s)/m;
+		return rn;
 	}
 	//
 	get Hours(){
@@ -1554,6 +1628,18 @@ class Shift{
 			e = e+m; // ??
 		}
 		return (e-s)/60;
+	}
+	//
+	getStartToEndAMPM(start,end){
+		var sth = Number(start.substring(0,2));
+		var stm = Number(start.substring(3,5));
+		var enh = Number(end.substring(0,2));
+		var enm = Number(end.substring(3,5));
+		var st1 = (sth<13?sth:sth-12);
+		var en1 = (enh<13?enh:enh-12);
+		var st = (st1==0?12:st1)+(stm==0?"":(":"+(stm<10?"0":"")+stm))+""+(sth<12?"AM":"PM"); 
+		var en = (en1==0?12:en1)+(enm==0?"":(":"+(enm<10?"0":"")+enm))+""+(enh<12?"AM":"PM");
+		return st+" - "+en;
 	}
 	//
 	HoursBetweenShift(othershift){
