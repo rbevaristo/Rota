@@ -52,6 +52,7 @@ Route::group([], function() {
     Route::post('/dashboard/setting/shift/delete', 'SettingsController@delete_shift');
     Route::post('/dashboard/setting/criteria/update', 'SettingsController@update_criteria');
     Route::post('/dashboard/scheduler/create', 'SchedulerController@create');
+    Route::post('/dashboard/setting/schedule-dayoff/update', 'SettingsController@update_dayoff');
 
    
 });
@@ -85,10 +86,10 @@ Route::group([
     Route::get('/dashboard/message', 'Employee\MessageController@view')->name('employee.message.view');
     Route::get('/dashboard/message/read', 'Employee\MessageController@read')->name('employee.message.read');
     Route::get('/dashboard/evaluation/read', 'Employee\EvaluationController@read')->name('employee.evaluation.read');
+    Route::post('/dashboard/preference/update', 'PreferenceController@preference')->name('employee.preferences');
+
 });
-Route::get('test', function(){
-    return view('pdf.test');
-});
+
 
 Route::get('/page-not-found', function(){
     return view('errors.404');

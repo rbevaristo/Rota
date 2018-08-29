@@ -17,6 +17,7 @@ class CreateUserSettingsTable extends Migration
             $table->increments('id');
             $table->integer('num_days')->default(7);
             $table->integer('num_dayoff')->default(1);
+            $table->string('sched_dayoff')->default(0000000);
             $table->boolean('sharing')->default(false);
             $table->boolean('dayoff')->default(false);
             $table->boolean('shift')->default(false);

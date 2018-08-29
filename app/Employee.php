@@ -56,6 +56,10 @@ class Employee extends Authenticatable implements JWTSubject
         return $this->hasMany('App\EvaluationFile', 'emp_id');
     }
 
+    public function preference() {
+        return $this->hasOne('App\Preference', 'emp_id');
+    }
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

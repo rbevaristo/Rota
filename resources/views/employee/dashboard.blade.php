@@ -49,12 +49,12 @@
                                         <div class="btn-group" role="group">
 
                                             <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Sun</button>
-                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="1">Mon</button>
-                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="2">Tue</button>
-                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="3">Wed</button>
-                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="4">Thu</button>
-                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="5">Fri</button>
-                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="6">Sat</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Mon</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Tue</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Wed</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Thu</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Fri</button>
+                                            <button type="button" name="inactive" class="btn btn-secondary btnDays" id="0">Sat</button>
                                         
                                         </div>
                                     </div>
@@ -128,20 +128,85 @@
                 }
             });
             
+            var d = {!! auth()->user()->preference !!};
+            var e = d.dayoff.toString();
+            var f = [];
+            var c = {!! auth()->user()->user->setting->num_dayoff !!};
+            var dayoff_counter = 0;
+            for(var i = 0; i < e.length; i++){
+                f[i] = e.charAt(i);
+            }
+
+            if(d != null){
+                var count = 0;
+                $('.btnDays').each(function(){
+                    if(f[count] == '1'){
+                        $(this).removeClass('btn-secondary').addClass('btn-primary');
+                        $(this).removeAttr('name');
+                        $(this).attr('name', 'active');
+                        $(this).removeAttr('id');
+                        $(this).attr('id', '1');
+                        dayoff_counter++;
+                    }
+                    count++;
+                });
+            }
+            
+            if(dayoff_counter == c){
+                $('.btnDays').each(function(){
+                    if($(this).attr('id') == '0'){
+                        $(this).attr('disabled', 'true');
+                    }
+                });
+            }
+
             $('.btnDays').on('click', function(){
-                var btnarr = '0000000';
+                var x = '';
+                var cc = 0;
                 if($(this).attr('name') == 'inactive'){
                     $(this).removeClass('btn-secondary').addClass('btn-primary');
                     $(this).removeAttr('name');
                     $(this).attr('name', 'active');
-                    btnarr = btnarr.substr(0,$(this).attr('id')) + 1 + btnarr.substr($(this).attr('id') + 1);
-                    console.log(btnarr);
+                    $(this).removeAttr('id');
+                    $(this).attr('id', '1');
+                    cc++;
                 } else {
                     $(this).removeClass('btn-primary').addClass('btn-secondary');
                     $(this).removeAttr('name');
                     $(this).attr('name', 'inactive');
+                    $(this).removeAttr('id');
+                    $(this).attr('id', '0');
+                    cc--;
                 }
-                
+                $('.btnDays').each(function(){
+                    x += $(this).attr('id');
+                });
+
+                var url = "{{ url('employee/dashboard/preference/update') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        // id: {!! auth()->user()->id !!},
+                        column: 'dayoff',
+                        value: x.toString()
+                    },
+                    success: function (result) {},
+                });
+
+                if(cc == c){
+                    $('.btnDays').each(function(){
+                        if($(this).attr('id') == '0'){
+                            $(this).attr('disabled', 'true');
+                        }
+                    }); 
+                } else {
+                    $('.btnDays').each(function(){
+                        if($(this).attr('id') == '0'){
+                            $(this).removeAttr('disabled');
+                        }
+                    }); 
+                }
             });
 
             $('#checkPassword').on('click', function() {

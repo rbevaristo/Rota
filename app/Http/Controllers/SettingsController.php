@@ -178,4 +178,15 @@ class SettingsController extends Controller
             ]);
         }
     }
+
+    public function update_dayoff(Request $request)
+    {
+
+        auth()->user()->setting->update([
+            $request->column => $request->value
+        ]);
+        return response()->json([
+            'success' => true
+        ]);
+    }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserSetting extends Model
 {
     protected $fillable = [
-        'sharing', 'dayoff', 'shift', 'shuffle', 'user_id'
+        'sched_dayoff','sharing', 'dayoff', 'shift', 'shuffle', 'user_id'
     ];
 
     public function user() {

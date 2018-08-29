@@ -76,6 +76,19 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="btn-group" role="group">
+
+                            <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Sun</button>
+                            <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Mon</button>
+                            <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Tue</button>
+                            <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Wed</button>
+                            <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Thu</button>
+                            <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Fri</button>
+                            <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Sat</button>
+                        
+                        </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -206,7 +219,7 @@
               </div>
             </div>
             
-            <div class="col-md-6" id="shifts">
+            <div class="col-md-12" id="shifts">
               <div class="card">
                 <div class="card-header">
                 <strong> Shifts </strong><small>(max:6) | To recreate shift do delete all first</small>
@@ -221,7 +234,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Number of Shifts </div>
                             </div>
-                            <input type="number" name="nos" id="nos" value="0" min="1" max="6"> 
+                            <input type="number" name="nos" id="nos" value="0" min="0" max="6"> 
                             <button type="button" class="btn btn-default" id="nosBtn" data-toggle="modal" data-target="#modal" disabled>Go</button>
                           </div>
                       </div>
@@ -230,7 +243,7 @@
                         @foreach(auth()->user()->shifts as $shift)
                           <div class="input-group">
                               <div class="input-group-text">
-                                <input type="checkbox" class="shift_active" value="{{ $shift->id }}" {{ ($shift->status) ? 'checked' : '' }}>
+                                <input type="checkbox" id="shift_status" class="shift_active" value="{{ $shift->id }}" {{ ($shift->status) ? 'checked' : '' }}>
                               </div>
                               <div class="input-group-prepend">
                                   <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
@@ -272,10 +285,9 @@
                         @php
                           $s[] = $shift->id;
                         @endphp
-                      <div class="form-group">
-                          {{ $shift->start }} - {{ $shift->end }}
-                      </div>
-                     
+                          <div class="form-group">
+                              {{ $shift->start }} - {{ $shift->end }}
+                          </div>
                       @endforeach
                     </div>
                     @php
@@ -303,7 +315,6 @@
                             <input type="number" class="text-center minimum" id="{{ $employee->position->id }}" name="{{ $s[$i] }}" min="0" max="{{ $count }}" value="{{ $m["min"] != null ? $m["min"] : 0 }}">
 
                             <input type="number" class="text-center maximum" id="{{ $employee->position->id }}" name="{{ $s[$i] }}" min="0" max="{{ $count }}" value="{{ $m["max"] != null ? $m["max"] : 0 }}" {{ $m["max"] > 0 ? '' : 'disabled' }}>
-                            
                         </div>
                         @endfor
                       </div>                     
@@ -360,8 +371,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $('#nos').on('keydown', function(){
-      if($('#nos').val()!=""){
+    $('#nos').on('change', function(){
+      if($(this).val()!="" && $(this).val() != 0){
         $('#nosBtn').removeAttr('disabled');
       } else {
         $('#nosBtn').attr('disabled', 'true');
@@ -623,6 +634,86 @@
           success: function (result) {},
       });
 
+    });
+    var d = {!! auth()->user()->setting !!};
+    var e = d.sched_dayoff.toString();
+    var f = [];
+    var c = d.num_dayoff;
+    var dayoff_counter = 0;
+    for(var i = 0; i < e.length; i++){
+        f[i] = e.charAt(i);
+    }
+
+    if(d != null){
+        var count = 0;
+        $('.btnDays').each(function(){
+            if(f[count] == '1'){
+                $(this).removeClass('btn-secondary').addClass('btn-primary');
+                $(this).removeAttr('name');
+                $(this).attr('name', 'active');
+                $(this).removeAttr('id');
+                $(this).attr('id', '1');
+                dayoff_counter++;
+            }
+            count++;
+        });
+    }
+    
+    if(dayoff_counter == c){
+        $('.btnDays').each(function(){
+            if($(this).attr('id') == '0'){
+                $(this).attr('disabled', 'true');
+            }
+        });
+    }
+
+    $('.btnDays').on('click', function(){
+        var x = '';
+        var cc = 0;
+        if($(this).attr('name') == 'inactive'){
+            $(this).removeClass('btn-secondary').addClass('btn-primary');
+            $(this).removeAttr('name');
+            $(this).attr('name', 'active');
+            $(this).removeAttr('id');
+            $(this).attr('id', '1');
+            cc++;
+        } else {
+            $(this).removeClass('btn-primary').addClass('btn-secondary');
+            $(this).removeAttr('name');
+            $(this).attr('name', 'inactive');
+            $(this).removeAttr('id');
+            $(this).attr('id', '0');
+            cc--;
+        }
+        $('.btnDays').each(function(){
+            x += $(this).attr('id');
+        });
+
+        var url = "{{ url('dashboard/setting/schedule-dayoff/update') }}";
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                // id: {!! auth()->user()->id !!},
+                column: 'sched_dayoff',
+                value: x.toString()
+            },
+            success: function (result) {},
+        });
+
+        if(cc == c){
+            $('.btnDays').each(function(){
+                if($(this).attr('id') == '0'){
+                    $(this).attr('disabled', 'true');
+                }
+            }); 
+        } else {
+            $('.btnDays').each(function(){
+                if($(this).attr('id') == '0'){
+                    $(this).removeAttr('disabled');
+                }
+            }); 
+        }
     });
   });
 </script>
