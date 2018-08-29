@@ -23,7 +23,7 @@ class ScheduleManager {
 		this.dbshifts = null;
 		this.dbrequiredshifts = null;
 		this.dbposition_ids = null;
-		this.dbshifts = null;
+		this.dbshifts_ids = null;
 		//this.updateScheduleHistory();
 		//
 		console.log("Loaded Scheduler.");
@@ -148,6 +148,7 @@ class ScheduleManager {
 				});
 		}
 		var jsonstring = JSON.stringify(tab);
+		console.log("json string length:"+jsonstring.length);
 		var compressed = lzjs.compress(jsonstring);
 		return compressed;
 	}
@@ -267,7 +268,7 @@ class ScheduleManager {
 		this.dbsettings = dbsettings;
 		this.dbcriteria = dbcriteria;
 		this.dbposition_ids = dbposition_ids
-		this.dbshift_ids = dbshifts
+		this.dbshift_ids = dbshift_ids
 		this.applyDB();
 	}
 	//
@@ -410,11 +411,13 @@ class Employee{
 		this.active = 1; //1 true 0 false
 		this.role = null;
 		this.timeAvoidance = [];
-		this.preferredDayoff = -1; // 0-6
 		this.assignments = []; // [0,0] roleid0 shiftid0
 		this.Age = 0;
-		this.Gender = "";
-		this.shiftDistHrs = 8;
+		this.Gender = null;
+		this.criteriaPriority = 1; //
+		this.preferredDayoff = -1; // 0-6
+		this.preferredRest = 8;
+		this.preferredShift = -1//id
 	}
 	//
 	assignShift(shift){
@@ -563,8 +566,8 @@ class SchedGeneration{
 		this.employees = [];
 		this.data = null;
 	}
-	init(){
-		var data = this.role.assignShifts(this.startDate,this.days,null,null);
+	init(emps){
+		var data = this.role.assignShifts(this.startDate,this.days,null,emps);
 		this.data = data;
 		if (!data.success){
 			console.log("the big sad");
@@ -673,42 +676,68 @@ class Role{
 		this.generations = [];
 		this.shiftType = "Normal"; //
 		this.shuffleGenerate = 0;             // untouched
+		this.criteriaGenerate = 0;				//untouhced
 		this.dayoffSetting = 1; // 0 off 1 on    DB
 		this.maxdayoff = 1; // DB
+		this.defaultHrsDist = 8;
+		this.ptScoring = {
+			priop : 1, // percent 
+			prio : 1, // plus
+			dayoff : 100, // points
+			shift : 20, // points
+			rest : 5 // points?
+		};
 	}
 	//
 	generate(startDate,days,daybefore){ // y,m,d
 		var reps = this.shuffleGenerate==1?2048:1;
 		var minBad = 99999;
-		var lastgen = null;
+		var points = 0;
 		var results = null;
+		var emps = this.findEmployees();
+		var gen = new SchedGeneration(startDate,days,this);
+		if (this.criteriaGenerate == 1){
+			this.sortCriteria(emps);
+			console.log("ma",emps);
+		}
+		var tic = (new Date()).getTime();
 		var i = 0;
 		for (i=0;i<reps;i++){
-			var gen = new SchedGeneration(startDate,days,this);
+			tic++;
+			Math.seedrandom(""+tic);
 			gen.id = this.generationId;
-			results = gen.init(daybefore);
+			var results2 = gen.init(emps);
 			gen.revertAssign();
-			if (minBad > results.results.badshifts){
+			if (minBad>0 && minBad > results2.results.badshifts){
+				results = results2;
 				minBad = results.results.badshifts;
-				lastgen = gen;
+				points = results.results.points;
+			}
+			if (minBad == 0 && this.criteriaGenerate == 1 && results2.results.badshifts==0 && results2.results.points>points){
+				results = results2;
+				points = results.results.points;
 			}
 			if (minBad == 0){
-				break;
+				console.log("["+i+"] score : "+points+" / "+(results.results.pointsneed*2)+" "+Math.floor(points/results.results.pointsneed*50)+"% ("+results2.results.points+")");
+				if (this.criteriaGenerate != 1 || points >= results.results.pointsneed*2*0.99){
+					break;
+				}
 			}
 		}
-		lastgen.reAssign();
+		gen.data = results;
+		gen.reAssign();
 		if (results.success){
 			this.generationId = this.generationId + 1;
 			console.log("repets "+i+" / "+reps);
 			console.log("THE BADSHIFTS : "+minBad)
-			console.log(results.results);
+			console.log(gen.data.results);
 			this.generations.push(gen);
 		}
 		return results;
 	}
 	//
-	setdayoffpre(scheduler){
-		var emps = scheduler.employees;
+	setdayoffpre(){
+		var emps = ScheduleManager.Instance.employees;
 		var n = 1;
 		for (var i=0;i<emps.length;i++){
 			if (emps[i].role == this.name){
@@ -721,6 +750,90 @@ class Role{
 		}
 	}
 	//
+	setdayoffpre2(n){
+		var emps = ScheduleManager.Instance.employees;
+		for (var i=0;i<emps.length;i++){
+			if (emps[i].role == this.name){
+				emps[i].preferredDayoff = n;
+			}
+		}
+	}
+	//
+	sortCriteria(emps){
+		var criteria = ScheduleManager.Instance.dbcriteria;
+		if (criteria.age == 0 && criteria.gender == 0 && criteria.name == 0){
+			return;
+		}
+		emps.sort(function(a,b){
+			var age = null;
+			if (criteria.age == 1){
+				if (a.Age == null && b.Age == null){
+					age = 0;
+				}
+				else if (a.Age == null){
+					age = 1;
+				}
+				else if (b.Age == null){
+					age = -1;
+				}
+				else if ((a.Age>=criteria.age_value && b.Age>=criteria.age_value)||(a.Age<criteria.age_value && b.Age<criteria.age_value)){
+					age = (criteria.gender == 0 && criteria.name == 0)?( (a.Age < b.Age)?1:( (a.Age > b.Age)?-1:0 ) ):0;
+				}
+				else
+				{
+					age = (b.Age >= criteria.age_value)?1:( (a.Age >= criteria.age_value)?-1:0 );
+				}
+			}
+
+			var gender = null;
+			var gender1 = criteria.gender_value==0?"Female":"Male"
+			var gender2 = criteria.gender_value==1?"Female":"Male"
+			if (criteria.gender == 1){
+				if (a.Gender == null && b.Gender == null){
+					gender = 0;
+				}
+				else if (a.Gender == null){
+					gender = 1;
+				}
+				else if (b.Gender == null){
+					gender = -1;
+				}
+				else
+				{
+					gender = (a.Gender == gender1 && b.Gender == gender2)?1:( (a.Gender == gender2 && b.Gender == gender1)?-1:0 );
+				}
+			}
+
+			var name = null;
+			var nameI = criteria.name_value==0?"fname":"lname";
+			if (criteria.name == 1){
+				name = (a[nameI].toLowerCase() > b[nameI].toLowerCase())?1:( (a[nameI].toLowerCase() < b[nameI].toLowerCase())?-1:0 );
+			}
+
+			if (age == 1 || age == -1){
+				return age;
+			}
+			else{
+				if (gender == 1 || gender == -1){
+					return gender;
+				}
+				else{
+					if (name == 1 || name == -1){
+						return name;
+					}
+					else{
+						return 0;
+					}
+				}
+			}
+		});
+		for (var i=0;i<emps.length;i++){
+			emps[i].criteriaPriority = emps.length-i-1;
+		}		
+		//emps.sort(function(a,b){ return (a.criteriaPriority ) });
+		return emps;
+	}
+	//
 	getGenerationGroupYMD(yy,mm,dd){
 		for (var g=0;g<this.generations.length;g++){
 			var found = this.generations[g].findScheduleYMD(yy,mm,dd);
@@ -729,11 +842,6 @@ class Role{
 			}
 		}
 		return null;
-	}
-	//
-	setScheduleRefresh(typ,date){
-		this.scheduleRefresh = typ;
-		this.dayOfRefresh = date;
 	}
 	//
 	CloneSchedule(y,m,d,nd,ogen){
@@ -1004,27 +1112,25 @@ class Role{
 		}
 	}
 	//
-	assignShifts(mdy,ds,dos,empz){
+	assignShifts(mdy,ds,dos,emps){
 		var yy = mdy[2];
 		var mm = mdy[0];
 		var dd = mdy[1];
-		var days = 0;
+		var days = ds;
 		var schedules = [];
 		var freshDays = [];
-		if (this.scheduleRefresh == "1W"){days = 7;}
-		else if (this.scheduleRefresh == "2W"){days = 14;}
-		else if (this.scheduleRefresh == "1M"){days = 30;}
-		if (ds){days = ds;}
 		var dt = DateCalc.getTimeYMD(yy,mm,dd); 
 		var dateStart = new DateCalc(dt);
-		var emps = empz==null?this.findEmployees():empz;
-		var results = {missing:[],assigns:[],scheduledDays:schedules,employees:[],success:true,badshifts:0,okshifts:0}; // =========================================
+		var results = {missing:[],assigns:[],scheduledDays:schedules,employees:[],success:true,
+			badshifts:0,okshifts:0,points:0,pointsneed:0,hitdayoff:0,hitshift:0,hitrest:0,hitdayoffs:[]}; // =========================================
 		//
-		var shiftsUsed = (days - 1)*emps.length;
+		var dayOffs = 1;
+		var shiftDays = days - dayOffs;
+		var shiftsUsed = shiftDays*emps.length;
 		var totalShifts = this.getTotalShiftMinMax();
 		var totalShiftsMin = totalShifts.min * days;
 		var totalShiftsMax = totalShifts.max * days;
-		//console.log("wew",shiftsUsed+" / "+totalShiftsMin+" to "+totalShiftsMax);
+		//console.log("Shift Slot Stats",shiftsUsed+" / "+totalShiftsMin+" to "+totalShiftsMax);
 		results.shiftsUsed = shiftsUsed;
 		results.totalShiftsMin = totalShiftsMin;
 		results.totalShiftsMax = totalShiftsMax;
@@ -1041,6 +1147,10 @@ class Role{
 			return {scheduledDays:schedules,employees:emps,results:results,success:results.success,
 				msg:"Failed, exceeded Shift Slots\nMin: "+results.totalShiftsMin+" Max: "+results.totalShiftsMax+
 				"\nUsed:"+results.shiftsUsed+"\nLessen shift slots(min) to solve this issue."};
+		}
+		//
+		if (this.criteriaGenerate == 1){
+			results.pointsneed = this.getPointsNeed(emps,shiftDays,dayOffs);
 		}
 		//Get Scheduled Days
 		var sdays = this.scheduledDays.length-1
@@ -1069,21 +1179,20 @@ class Role{
 			this.fillShiftsNormal(emps,days,schedules,results);
 		}
 		//
-		//console.log(results);
-		//console.log("ok shifts : "+results.okshifts);
-		//console.log("bad shifts : "+results.badshifts);
-		/*
-		if (results.missing.length == 0){
-			console.log("Gen Failed");
-			for (var i=0;i<results.assigns.length;i++){
-				var e = results.assigns[i].emp;
-				var sh = results.assigns[i].shift;
-				sh.deleteAssign(sh.assigned.indexOf(e));
-			}
-
-		}*/
-		//
 		return {scheduledDays:schedules,employees:emps,results:results,success:results.success};
+	}
+	//
+	getPointsNeed(emps,workingDays,dayOffs){
+		var pts = 0;
+		var ptScoring = this.ptScoring;
+		for (var i=0;i<emps.length;i++){
+			var e = emps[i];
+			var pri = ptScoring.prio + (e.criteriaPriority*ptScoring.priop)
+			pts += ptScoring.dayoff*pri*dayOffs;
+			pts += ptScoring.shift*pri*workingDays;
+			pts += ptScoring.rest*pri*workingDays;
+		}
+		return pts*0.5;
 	}
 	//
 	getTotalShiftMinMax(){
@@ -1119,6 +1228,7 @@ class Role{
 	//
 	fillShiftsNormal(emps,days,schedules,results){
 		//
+		var ptScoring = this.ptScoring;
 		var oemps = emps.slice(0);
 		//assign employees to shifts
 		var dayoffs = [0,0,0,0,0,0,0];
@@ -1127,13 +1237,24 @@ class Role{
 		//
 		for (var i=0;i<emps.length;i++){
 			var emp = emps[i];
-			if (emp.preferredDayoff!=null && emp.preferredDayoff>=0 && dayoffs[emp.preferredDayoff]<maxdayoff && !this.disabledDays.includes(emp.preferredDayoff) && this.dayoffSetting==1){
+			if ((this.criteriaGenerate !=1 || Math.random()>=0.4) && emp.preferredDayoff!=null && emp.preferredDayoff>=0 
+				&& dayoffs[emp.preferredDayoff]<maxdayoff && !this.disabledDays.includes(emp.preferredDayoff) && this.dayoffSetting==1){
 				emp.dayoffPickTemp = emp.preferredDayoff;
 				dayoffs[emp.dayoffPickTemp]++;
+				if (this.criteriaGenerate == 1){
+					results.points += ptScoring.dayoff*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) );
+					results.hitdayoff++;
+					results.hitdayoffs.push(emp.fname+" -a"+emp.dayoffPickTemp);
+				}
 			}
 			else{
 				emp.dayoffPickTemp = this.getMinDayoff(dayoffs);
 				//console.log("failed to satisfy "+emp.fname+" "+emp.lname+"'s "+emp.preferredDayoff+" dayoff. changed to "+emp.dayoffPickTemp);
+				if (this.criteriaGenerate == 1 && (emp.dayoffPickTemp == -1 || emp.dayoffPickTemp == emp.preferredDayoff)){
+					results.points += ptScoring.dayoff*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) );
+					results.hitdayoff++;
+					results.hitdayoffs.push(emp.fname);
+				}
 				dayoffs[emp.dayoffPickTemp]++;
 			}
 		}
@@ -1169,11 +1290,15 @@ class Role{
 				if (!this.disabledDays.includes(theDay) && dayoff!=theDay){
 					var shiftI = this.getBestShiftSlot(scheduledDay.shifts,fixrest!=null?shiftY:null,d,emp,results,i);
 					if (shiftI == null){
-						console.log(emp.fname+" NO MORE VACANCY "+ScheduleManager.daysName[theDay]);
+						//console.log(emp.fname+" NO MORE VACANCY "+ScheduleManager.daysName[theDay]);
 						results.missing.push({emp:emp,scheduledDay:scheduledDay});
 					}
 					else{
 						var shift = scheduledDay.shifts[shiftI];
+						if (this.criteriaGenerate == 1 && (emp.preferredShift == -1 || this.isPreferredShift(emp.preferredShift,shift))){
+							results.points += ptScoring.shift*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) )
+							results.hitshift++;
+						}
 						this.assignEmp(emp,shift);
 						//console.log(emps[i].fname,":",shift.StartToEndAMPM,"   before:",shiftY?shiftY.StartToEndAMPM:"?");
 						results.assigns.push({emp:emp,shift:shift})
@@ -1186,9 +1311,26 @@ class Role{
 		}
 	}
 	//
+	isPreferredShift(id,shift){
+		var str = null;
+		var s = SchedulerManager.Instance.dbshifts;
+		for (var i=0;i<s.length;s++){
+			if (s[i].id == id){
+				str = s[i].start.substring(0,5) + s[i].end.substring(0,5);
+				break;
+			}
+		}
+		if (!str){
+			console.log("error ispreffereshisft");
+		}
+		var ss = this.getShiftByString(str);
+		return shift==ss;
+	}
+	//
 	getBestShiftSlot(shifts,shiftY,d,emp,results,empI){
 		var ss = [];
 		var minAssign = 10000000;
+		var ptScoring = this.ptScoring;
 		for (var r=0;r<2;r++){ //first with min , second with none
 			if (r==0){
 				for (var i=0;i<shifts.length;i++){
@@ -1209,7 +1351,7 @@ class Role{
 				for (var i=0;i<ss.length;i++){
 					var sh = ss[i].shift;
 					var dist = sh.HoursBetweenShift(shiftY);
-					if (sh.assigned.length<sh.maxAssign && dist >= emp.shiftDistHrs){
+					if (sh.assigned.length<sh.maxAssign && dist >= this.defaultHrsDist){//emp.shiftDistHrs){
 						chosens.push({i:i,dist:dist});
 					}
 				}
@@ -1227,6 +1369,10 @@ class Role{
 				if (chosens[ii] != null){
 					results.okshifts++;
 					choose = chosens[ii].i;
+					if (this.criteriaGenerate == 1 && (emp.preferredRest <= chosens[ii].dist)){
+						results.points += ptScoring.rest*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) );
+						results.hitrest++;
+					}
 				}
 				else{
 					minAssign = 10000000;
@@ -1235,6 +1381,10 @@ class Role{
 			}
 			else{
 				results.okshifts++;
+				if (this.criteriaGenerate == 1){
+					results.points += ptScoring.rest*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) );
+					results.hitrest++;
+				}
 			}
 			if (ss[choose] == null){
 				return null; // totally nothing
@@ -1281,12 +1431,6 @@ class Role{
 		var times = times!=null?times:1;
 		//test 1 week worth
 		var days = 0;
-		if (this.scheduleRefresh == "1W"){
-			days = 7*times;
-		}
-		else if (this.scheduleRefresh == "2W"){
-			days = 14*times;
-		}
 		if (oneday){
 			days = 1;
 		}

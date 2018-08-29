@@ -391,6 +391,7 @@
 
 @section('custom_scripts')
     <script src="{{ asset('js/lzjs.js') }}"></script>
+    <script src="{{ asset('js/seedrandom.js') }}"></script>
     <script src="{{ asset('js/scheduler.js') }}"></script>
     <script src="{{ asset('js/schedulerUI.js') }}"></script>
     <script>
@@ -407,7 +408,6 @@
 
 
         let employees = {!! $employs !!}
-        console.log(employees);
         let settings = {!! $settings !!}; 
         let criteria = {!! $criteria !!}; 
         let shifts = {!! $shifts !!}; 
@@ -418,7 +418,7 @@
 
 
 
-        scheduler.injectDB(employees,shifts,required_shifts,settings,criteria,position_ids,shifts);
+        scheduler.injectDB(employees,shifts,required_shifts,settings,criteria,position_ids,shift_ids);
 
 
         /*

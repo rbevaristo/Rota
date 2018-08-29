@@ -1197,18 +1197,20 @@ class ScheduleManagerHTML{
 			}
 		};
 		doc.getElementById("headerWindowGenerate7").onclick = function(){
-			diz.generateSchedule7(false);
+			diz.generateSchedule(7,false);
 		};
 		doc.getElementById("headerWindowGenerate7S").onclick = function(){
-			diz.generateSchedule7(true);
+			diz.generateSchedule(7,true);
+		};
+		doc.getElementById("headerWindowGenerate7C").onclick = function(){
+			diz.generateSchedule(7,true,true);
 		};
 	}
 	//
-	generateSchedule7(isShuffle){
+	generateSchedule(days,isShuffle,isCriteria){
 		var diz = this;
 		var p = diz.headerCurrent;			
 		var role = diz.scheduler.getRole(diz.currentRoleView);
-		var days = 7;
 		var isClear = role.isScheduleClear(p.data.columns[p.i].year,p.data.columns[p.i].month,p.data.columns[p.i].date,days);
 		var dateStartT = DateCalc.getTimeYMD(p.data.columns[p.i].year,p.data.columns[p.i].month,p.data.columns[p.i].date);
 		var t = new DateCalc( dateStartT + 86400000*days );
@@ -1218,12 +1220,17 @@ class ScheduleManagerHTML{
 		ScheduleManager.monthsName[mt].substring(0,3)+ " "+dt+" ("+days+" day(s))";
 		if (isClear==null){
 			diz.closeHeaderWindow();
-			diz.msg("Creating"+(isShuffle?" Shuffled":"")+" Schedule...\n"+origclonemsg);
+			diz.msg("Creating Schedule...\n"+origclonemsg);
 			var oldVal = role.shuffleGenerate;
 			if (isShuffle){
 				role.shuffleGenerate = 1;
 			}
+			if (isCriteria){
+				role.criteriaGenerate = 1;
+			}
 			var results = role.generate((new DateCalc(dateStartT+86400000)).toArrayMMDDYYY(),days);
+			role.criteriaGenerate = 0;
+
 			if (results.msg){
 				diz.msg(results.msg);
 			}
@@ -1248,13 +1255,16 @@ class ScheduleManagerHTML{
 		daybefore = role.findDailyScheduleYMD(daybefore.Year,daybefore.Month,daybefore.Date);
 		this.headerCurrentDayBefore = daybefore;
 		//
+		var dbz = this.scheduler.dbcriteria;
+		var cbtn = p.scheduledDay!=null || (!(dbz.age == 1 || dbz.gender == 1 || dbz.name == 1))
+		//
 		this.changeClass(this.doc.getElementById("headerWindowDeleteDaily"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowDeleteGenerated"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowCopyGenerated"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowSavePDF"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7S"),"ishidden",p.scheduledDay!=null);
-		this.changeClass(this.doc.getElementById("headerWindowGenerate7C"),"ishidden",p.scheduledDay!=null);
+		this.changeClass(this.doc.getElementById("headerWindowGenerate7C"),"ishidden",cbtn);
 		this.changeClass(this.doc.getElementById("headerWindowPasteGenerated"),"ishidden",!this.generationcopy || p.scheduledDay!=null);
 		this.headerCurrent = p;
 		//
