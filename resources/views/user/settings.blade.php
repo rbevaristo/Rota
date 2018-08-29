@@ -41,7 +41,6 @@
 @section('content')
 <section style="margin-top:30px">
     <div class="container-fluid">
-        @include('components.sessions')
         <div class="card">
           <div class="card-header text-white bg-primary"><span class="fa fa-gear"></span> Settings</div>
           <div class="card-body">

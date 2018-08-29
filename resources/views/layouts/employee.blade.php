@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/core/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/offcanvas.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
     @yield('custom_styles')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
@@ -33,6 +34,28 @@
     <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/offcanvas.js')}}"></script>
     <script src="{{ asset('js/rota.js') }}"></script>
+    <script src="{{ asset('js/lib/toastr.min.js') }}"></script>
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-center",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    </script>
+    @include('components.messages')
+    @include('components.sessions')
     @yield('custom_scripts')
 </body>
 </html>

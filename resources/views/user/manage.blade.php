@@ -35,8 +35,6 @@
                     </div>
                     
                     <div class="card-body">
-                        @include('components.messages')
-                        @include('components.sessions')
                         @if(count(auth()->user()->employees) > 0)
                         <table class="table">
                             <thead>
@@ -77,7 +75,6 @@
                                         </div>
                                     </td>
                                     <td>
-
                                         <input type="checkbox" data-toggle="toggle" id="status" value="{{ $employee->id }}" {{ $employee->status == false ? '' : 'checked' }}>
                                     </td>
                                 </tr>

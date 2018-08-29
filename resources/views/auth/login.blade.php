@@ -11,8 +11,6 @@
             <div class="card">
                 <div class="card-header text-center bg-primary text-white"><strong>Login as <span>Employee</span></strong></div>
                 <div class="card-body">
-                    @include('components.sessions')
-                    @include('components.messages')
                     <form method="POST" action="{{ route('employee.login') }}" aria-label="{{ __('Login') }}">
                         @csrf
                         <div class="form-group">
@@ -67,4 +65,8 @@
         </div>
     </div>
 </section>
+@endsection
+
+@section('custom_scripts')
+
 @endsection

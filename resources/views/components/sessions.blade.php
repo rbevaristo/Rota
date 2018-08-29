@@ -1,4 +1,4 @@
-@if(session('error'))
+{{-- @if(session('error'))
     <div class="alert alert-danger notice notice-danger notice-sm" role="alert">
         <strong><i class="fa fa-exclamation-triangle"></i></strong>{{ session('error') }}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -16,4 +16,14 @@
             </span>
         </button>
     </div>
+@endif --}}
+
+@if(session('error'))
+    @php
+        echo '<script> toastr.error("'.session("error").'")</script>';
+    @endphp
+@elseif(session('success'))
+    @php
+        echo '<script> toastr.success("'.session("success").'")</script>';
+    @endphp
 @endif

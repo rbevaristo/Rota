@@ -6,7 +6,6 @@
        
         <div class="col-md-6">
             <h2 class="title text-center">Company</h2>
-            @include('components.sessions')
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <strong>Almost Done</strong> Please fill up the form to complete registration.

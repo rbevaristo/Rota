@@ -7,6 +7,7 @@ use App\Profile;
 use App\Employee;
 use App\Position;
 use PasswordMaker;
+use App\Preference;
 use App\EvaluationFile;
 use App\EvaluationResult;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class EmployeesController extends Controller
         if($employee) {
             $profile = Profile::create(['emp_id' => $employee->id]);
             $address = Address::create(['profile_id' => $profile->id]);
-
+            $preference = Preference::create(['emp_id' => $employee->id]);
             return redirect()->back()->with('success', 'Employee Added');
         }
 

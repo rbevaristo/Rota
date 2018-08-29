@@ -14,8 +14,6 @@
                 </div>
             </div>
         @endif
-        @include('components.sessions')
-        @include('components.messages')
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
@@ -37,7 +35,7 @@
                         Schedules
                     </div>
                     <div class="card-body">
-                        @if(auth()->user()->user->setting->dayoff && auth()->user()->user->setting->shift)
+                        @if(auth()->user()->user->setting->dayoff || auth()->user()->user->setting->shift)
                             <h2>Preferences</h2>
                             <div class="row">
                             @if(auth()->user()->user->setting->dayoff)

@@ -180,7 +180,6 @@
         <div class="container d-flex justify-content-center">
             <div class="row">
                 <div class="box col-md-12">
-                    @include('components.sessions')
                     <form action="{{ route('message.send') }}" method="post" role="form">
                         @csrf
                         <div class="form-group">

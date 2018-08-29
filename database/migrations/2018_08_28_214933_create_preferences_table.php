@@ -15,10 +15,10 @@ class CreatePreferencesTable extends Migration
     {
         Schema::create('preferences', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('emp_id')->unsigned()->nullable();
-            $table->string('dayoff')->nullable();
+            $table->integer('emp_id')->unsigned();
+            $table->string('dayoff')->default('0000000');
             $table->string('shift')->nullable();
-
+            $table->integer('rest')->default(8);
             $table->foreign('emp_id')->references('id')->on('employees');
             $table->timestamps();
         });

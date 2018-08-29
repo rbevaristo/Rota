@@ -13,7 +13,6 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                @include('components.sessions')
                 <div class="card">
                     <div class="card-header bg-primary text-white">
                         {{ $message->title }}

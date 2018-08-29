@@ -22,8 +22,6 @@
                         Edit Profile
                     </div>
                     <div class="card-body">
-                        @include('components.messages')
-                        @include('components.sessions')
                     <form action="{{ route('user.profile.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
