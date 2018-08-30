@@ -482,7 +482,7 @@ class ScheduleManagerHTML{
 		this.msg("generating...");
 		var results = role.generate([mm-1,dd,yy],ds);
 		if (results.msg){
-			diz.msg(results.msg);
+			toastr[results.success?"success":"error"](results.msg);
 		}
 		this.loadRoleMonthly();
 	}
@@ -940,7 +940,7 @@ class ScheduleManagerHTML{
 		" " + scheduledDay.date + ", "+scheduledDay.year + "<br>"+ (shift?shift.StartToEndAMPM:"");
 
 		//
-		console.log(shiftExists);
+		//console.log(shiftExists);
 		this.changeClass(doc.getElementById("headerWindow2DeleteShift"),"ishidden",shiftExists==null);
 		this.changeClass(doc.getElementById("headerWindow2EditShift"),"ishidden",shiftExists==null);
 		this.changeClass(doc.getElementById("headerWindow2Time1"),"ishidden",shiftExists==null && (shiftExists!=null || scheduledDay.notexist));
@@ -957,7 +957,7 @@ class ScheduleManagerHTML{
 		//load dropdowns
 		dd1.innerHTML = "";
 		dd2.innerHTML = "";
-		if (shiftExists && generation){
+		if (shiftExists!=null && generation){
 			var emz = [];
 			for (var i=0;i<scheduler.employees.length;i++){
 				if (generation.employees.indexOf(scheduler.employees[i])>=0){
@@ -1051,8 +1051,8 @@ class ScheduleManagerHTML{
 			oldShift.deleteAssign(oldShift.assigned.indexOf(emp));
 		}
 		role.assignEmp(emp,newShift);
-		this.msg("Assigned to Shift "+newShift.StartToEndAMPM+"\n"+"Assigned Current : "+newShift.assigned.length+" (min:"+newShift.minAssign+" max:"+newShift.maxAssign+")"+
-		(newShift.maxAssign<newShift.assigned.length?("\nWarning, assigned employees exceeded max slots."):""));
+		toastr.success("Assigned to Shift "+newShift.StartToEndAMPM+"<br>"+"Assigned Current : "+newShift.assigned.length+" (min:"+newShift.minAssign+" max:"+newShift.maxAssign+")"+
+		(newShift.maxAssign<newShift.assigned.length?("<br>Warning, assigned employees exceeded max slots."):""));
 	}
 	//
 	managerTableEventAttachments(){
@@ -1062,8 +1062,8 @@ class ScheduleManagerHTML{
 		doc.getElementById("headerWindow2DeleteShift").onclick = function(){
 			var e = diz.empCurrent;
 			if (confirm("Delete this shift?")){
-				console.log(e)
 				e.shift.deleteAssign(e.shift.assigned.indexOf(e.emp));
+				toastr.success("Deleted shift.");
 			}
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
@@ -1073,11 +1073,11 @@ class ScheduleManagerHTML{
 			var inp1 = doc.getElementById("headerWindow2Time1");
 			var inp2 = doc.getElementById("headerWindow2Time2");
 			if (inp1.value.length==0 || inp2.value.length==0){
-				diz.msg("Input not filled.");
+				toastr.error("Input not filled.");
 				return;
 			}
 			if (inp1.value==e.shift.start && inp2.value ==e.shift.end){
-				diz.msg("Attempted to edit to same shift.");
+				toastr.error("Attempted to edit to same shift.");
 				return;
 			}
 			var start = inp1.value;
@@ -1094,7 +1094,7 @@ class ScheduleManagerHTML{
 			var inp1 = doc.getElementById("headerWindow2Time1");
 			var inp2 = doc.getElementById("headerWindow2Time2");
 			if (inp1.value.length==0 || inp2.value.length==0){
-				diz.msg("Input not filled.");
+				toastr.error("Input not filled.");
 				return;
 			}
 			var start = inp1.value;
@@ -1115,6 +1115,7 @@ class ScheduleManagerHTML{
 			}
 			if (confirm("Swap Shift With "+(empS.fname?empS.fname:"") + " "+(empS.lname?empS.lname:"")+"?")){
 				e.generation.swapShift(e.emp,empS,e.ig);
+				toastr.success("Swapped shift.");
 			}
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
@@ -1128,6 +1129,7 @@ class ScheduleManagerHTML{
 			}
 			if (confirm("Swap Schedule With "+(empS.fname?empS.fname:"") + " "+(empS.lname?empS.lname:"")+"?")){
 				e.generation.swapSchedGeneration(e.emp,empS,e);
+				toastr.success("Swapped schedule.");
 			}
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
@@ -1145,6 +1147,7 @@ class ScheduleManagerHTML{
 						p.scheduledDay.shifts[i].deleteAssign(0);
 					}
 				}
+				toastr.success("Deleted daily schedule.");
 			}
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		};
@@ -1160,13 +1163,14 @@ class ScheduleManagerHTML{
 					this.generationcopy = null;
 				}
 				role.DeleteGeneration(gen);
+				toastr.success("Deleted schedule.");
 				diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 			}
 		};
 		doc.getElementById("headerWindowCopyGenerated").onclick = function(){
 			var p = diz.headerCurrent;
 			diz.generationcopy = p.generation;
-			diz.msg("copied");
+			toastr.info("Copied schedule.");
 			diz.closeHeaderWindow();
 		};
 		doc.getElementById("headerWindowPasteGenerated").onclick = function(){
@@ -1192,7 +1196,7 @@ class ScheduleManagerHTML{
 			}
 			else
 			{
-				diz.msg("Cannot clone schedule here.\n"+origclonemsg+"\nOccupied : "+
+				toastr.error("Cannot clone schedule here.<br>"+origclonemsg+"<br>Occupied : "+
 				ScheduleManager.monthsName[isClear.month].substring(0,3) + " "+isClear.date);
 			}
 		};
@@ -1216,11 +1220,11 @@ class ScheduleManagerHTML{
 		var t = new DateCalc( dateStartT + 86400000*days );
 		var mt = t.Month;
 		var dt = t.Date;
-		var origclonemsg = "Generate Schedule Date : "+ScheduleManager.monthsName[p.data.columns[p.i].month].substring(0,3)+" "+p.data.columns[p.i].date+" to "+
+		var origclonemsg = "Generate Schedule Date : <br>"+ScheduleManager.monthsName[p.data.columns[p.i].month].substring(0,3)+" "+p.data.columns[p.i].date+" to "+
 		ScheduleManager.monthsName[mt].substring(0,3)+ " "+dt+" ("+days+" day(s))";
 		if (isClear==null){
 			diz.closeHeaderWindow();
-			diz.msg("Creating Schedule...\n"+origclonemsg);
+			toastr.info("Creating Schedule...<br>"+origclonemsg);
 			var oldVal = role.shuffleGenerate;
 			if (isShuffle){
 				role.shuffleGenerate = 1;
@@ -1232,13 +1236,13 @@ class ScheduleManagerHTML{
 			role.criteriaGenerate = 0;
 
 			if (results.msg){
-				diz.msg(results.msg);
+				toastr[results.success?"success":"error"](results.msg);
 			}
 			role.shuffleGenerate = oldVal;
 			diz.loadRoleMonthly(diz.doc.getElementById("BottomTableWrap").scrollLeft);
 		}
 		else{
-			diz.msg("Cannot generate schedule here.\n"+origclonemsg+"\nOccupied : "+
+			toastr.error("Cannot generate schedule here.<br>"+origclonemsg+"<br>Occupied : "+
 			ScheduleManager.monthsName[isClear.month].substring(0,3) + " "+isClear.date);
 		}
 		diz.closeHeaderWindow();

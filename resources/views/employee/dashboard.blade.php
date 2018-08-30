@@ -36,7 +36,7 @@
                     </div>
                     <div class="card-body">
                         @if(auth()->user()->user->setting->dayoff || auth()->user()->user->setting->shift)
-                            <h2>Preferences</h2>
+                            <h2></h2>
                             <div class="row">
                             @if(auth()->user()->user->setting->dayoff)
                                 <div class="col-md-6">
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            @endif 
                             @if(auth()->user()->user->setting->shift)
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -68,10 +68,17 @@
                                             <select name="selectedShift" id="selectedShift" class="form-control">
                                                 @if(auth()->user()->user->shifts->count())
                                                     @foreach(auth()->user()->user->shifts as $shift)
-                                                    <option value="{{ $shift->id }}">{{ $shift->start }}-{{ $shift->end }}</option>
+                                                    <option value="{{ $shift->id }}"
+                                                    @if(auth()->user()->preference->shift == $shift->id)
+                                                        selected
+                                                    @endif
+                                                    >{{ substr($shift->start,0,5) }} - {{ substr($shift->end,0,5) }}</option>
                                                     @endforeach
-                                                @else
-                                                    <option value="">No available shift</option>
+                                                    <option value=""
+                                                    @if(auth()->user()->preference->shift == null)
+                                                        selected
+                                                    @endif
+                                                    >None</option>
                                                 @endif
                                             </select>
                                         </div>
@@ -157,6 +164,22 @@
                     }
                 });
             }
+
+            $('#selectedShift').on('change',function(){
+                var val = $("#selectedShift option:selected").val();
+                val = val==""?null:Number(val);
+                var url = "{{ url('employee/dashboard/preference/update') }}";
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        // id: {!! auth()->user()->id !!},
+                        column: 'shift',
+                        value: val
+                    },
+                    success: function (result) {},
+                });
+            })
 
             $('.btnDays').on('click', function(){
                 var x = '';
