@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Scheduler;
+use App\EmployeeSchedule;
+use LZCompressor\LZString;
 use Illuminate\Http\Request;
 
 class SchedulerController extends Controller
@@ -31,12 +33,84 @@ class SchedulerController extends Controller
             ]);
         }
     
+        $decompressed = \LZCompressor\LZString::decompressFromBase64($request->schedule);
+        $schedule = json_decode($decompressed);
+    
+        for ($i=0;$i<count($schedule->employees);$i++){
+            $emp = $schedule->employees[$i];
+            $emp_id = $emp->trueId;
+
+            $assigns = array();
+            foreach($emp->assignments as $ass){
+                $roleId = $ass[0];
+                $dayId = $ass[1];
+                $shiftId = $ass[2];
+                
+                $role = null;
+                foreach($schedule->roles as $v){
+                    if ($v->id == $roleId){
+                        $role = $v;
+                        break;
+                    }
+                }
+
+                $day = null;
+                foreach($role->scheduledDays as $v){
+                    if ($v->id == $dayId){
+                        $day = $v;
+                        break;
+                    }
+                }
+
+                $shift = null;
+                foreach($role->shifts as $v){
+                    if ($v->id == $shiftId){
+                        $shift = $v;
+                        break;
+                    }
+                }
+
+                $month = (string)$day->month;
+                $date = (string)$day->date;
+                $year = (string)$day->year;
+                if (strlen($month)<2){
+                    $month = "0" . $month;
+                }
+                if (strlen($date)<2){
+                    $date = "0" . $date;
+                }
+                if (strlen($year)<4){
+                    $year = str_repeat("0",4-strlen($year)) . $year;
+                }
+                $str = $month . "|" . $date . "|" . $year . "|" . $shift->start . "|" . $shift->end;
+                array_push($assigns,$str);
+            }
+
+            $val = json_encode($assigns);
+
+            $sched = auth()->user()->employee_schedules->where('emp_id',$emp_id)->first();
+            if($sched){
+                $sched->schedule = $val;
+                $sched->save();
+            }
+            else{
+                $sched = EmployeeSchedule::create([
+                    //Column => Data
+                    'emp_id' => $emp_id,
+                    'user_id' => auth()->user()->id,
+                    'schedule' => $val
+                ]);
+            }
+        }
+
+
         //return a response
 
         //check if creating is success
         if($scheduler){
             return response()->json([
-                'message' => 'Success'
+                'message' => 'Success',
+                'wew' => "wa"
             ]);
         }
 

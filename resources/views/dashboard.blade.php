@@ -841,7 +841,10 @@
                         schedule : scheduler.toJSON()
                     },
                     success: function (result) {
-                        if (yes){alert("Saved");}
+                        if (yes){
+                            alert("Saved");
+                            console.log(result);
+                        }
                     },
                 });
                 console.log("saved sched");
