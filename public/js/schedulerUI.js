@@ -940,7 +940,7 @@ class ScheduleManagerHTML{
 		" " + scheduledDay.date + ", "+scheduledDay.year + "<br>"+ (shift?shift.StartToEndAMPM:"");
 
 		//
-		console.log(shiftExists);
+		//console.log(shiftExists);
 		this.changeClass(doc.getElementById("headerWindow2DeleteShift"),"ishidden",shiftExists==null);
 		this.changeClass(doc.getElementById("headerWindow2EditShift"),"ishidden",shiftExists==null);
 		this.changeClass(doc.getElementById("headerWindow2Time1"),"ishidden",shiftExists==null && (shiftExists!=null || scheduledDay.notexist));
@@ -957,7 +957,7 @@ class ScheduleManagerHTML{
 		//load dropdowns
 		dd1.innerHTML = "";
 		dd2.innerHTML = "";
-		if (shiftExists && generation){
+		if (shiftExists!=null && generation){
 			var emz = [];
 			for (var i=0;i<scheduler.employees.length;i++){
 				if (generation.employees.indexOf(scheduler.employees[i])>=0){

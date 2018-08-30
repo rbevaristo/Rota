@@ -330,8 +330,8 @@ class ScheduleManager {
 			emp.lname = trueEmp.lastname;
 			emp.role = trueEmp.position;
 			emp.preferredDayoff = trueEmp.preferred_dayoff!=null?trueEmp.preferred_dayoff.indexOf("1"):-1;
-			emp.preferredShift = trueEmp.preferredShift!=null?trueEmp.preferredShift:-1;
-			emp.preferredRest = trueEmp.preferredRest!=null?trueEmp.preferredRest:this.defaultHrsDist;
+			emp.preferredShift = trueEmp.preferred_shift!=null?Number(trueEmp.preferred_shift):-1;
+			emp.preferredRest = trueEmp.preferred_rest!=null?trueEmp.preferred_rest:8;
         }
 	}
 	//
@@ -684,20 +684,21 @@ class Role{
 		this.shiftType = "Normal"; //
 		this.shuffleGenerate = 0;             // untouched
 		this.criteriaGenerate = 0;				//untouhced
+		this.criteriaLikely = 0.25;
 		this.dayoffSetting = 1; // 0 off 1 on    DB
 		this.maxdayoff = 1; // DB
 		this.defaultHrsDist = 8;
 		this.ptScoring = {
-			priop : 1, // percent 
-			prio : 1, // plus
+			priop : 1.25, // percent 
+			prio : 0.5, // plus
 			dayoff : 100, // points
-			shift : 20, // points
+			shift : 30, // points
 			rest : 5 // points?
 		};
 	}
 	//
 	generate(startDate,days,daybefore){ // y,m,d
-		var reps = this.shuffleGenerate==1?2048:1;
+		var reps = this.shuffleGenerate==1?2048*3:1;
 		var minBad = 99999;
 		var points = 0;
 		var results = null;
@@ -705,7 +706,7 @@ class Role{
 		var gen = new SchedGeneration(startDate,days,this);
 		if (this.criteriaGenerate == 1){
 			this.sortCriteria(emps);
-			console.log("ma",emps);
+			this.shiftsPrefer(emps,this);
 		}
 		var tic = (new Date()).getTime();
 		var i = 0;
@@ -725,8 +726,8 @@ class Role{
 				points = results.results.points;
 			}
 			if (minBad == 0){
-				console.log("["+i+"] score : "+points+" / "+(results.results.pointsneed*2)+" "+Math.floor(points/results.results.pointsneed*50)+"% ("+results2.results.points+")");
-				if (this.criteriaGenerate != 1 || points >= results.results.pointsneed*2*0.99){
+				//console.log("["+i+"] score : "+points+" / "+(results.results.pointsneed)+" "+Math.floor(points/results.results.pointsneed*100)+"% ("+results2.results.points+")");
+				if (this.criteriaGenerate != 1 || points >= results.results.pointsneed*0.98){
 					break;
 				}
 			}
@@ -763,6 +764,12 @@ class Role{
 			if (emps[i].role == this.name){
 				emps[i].preferredDayoff = n;
 			}
+		}
+	}
+	//
+	shiftsPrefer(emps,role){
+		for (var i=0;i<emps.length;i++){
+			role.preferredShiftTranslate(emps[i],role);
 		}
 	}
 	//
@@ -839,6 +846,15 @@ class Role{
 		}		
 		//emps.sort(function(a,b){ return (a.criteriaPriority ) });
 		return emps;
+	}
+	//
+	getShiftByString(str){
+		for (var i=0;i<this.shifts.length;i++){
+			if (this.shifts[i].nameString == str){
+				return this.shifts[i];
+			}
+		}
+		return null;
 	}
 	//
 	getGenerationGroupYMD(yy,mm,dd){
@@ -1204,7 +1220,7 @@ class Role{
 			pts += ptScoring.shift*pri*workingDays;
 			pts += ptScoring.rest*pri*workingDays;
 		}
-		return pts*0.5;
+		return pts;
 	}
 	//
 	getTotalShiftMinMax(){
@@ -1249,7 +1265,7 @@ class Role{
 		//
 		for (var i=0;i<emps.length;i++){
 			var emp = emps[i];
-			if ((this.criteriaGenerate !=1 || Math.random()>=0.4) && emp.preferredDayoff!=null && emp.preferredDayoff>=0 
+			if ((this.criteriaGenerate !=1 || Math.random()>=this.criteriaLikely) && emp.preferredDayoff!=null && emp.preferredDayoff>=0 
 				&& dayoffs[emp.preferredDayoff]<maxdayoff && !this.disabledDays.includes(emp.preferredDayoff) && this.dayoffSetting==1){
 				emp.dayoffPickTemp = emp.preferredDayoff;
 				dayoffs[emp.dayoffPickTemp]++;
@@ -1287,7 +1303,12 @@ class Role{
 				}
 			}
 			if (this.shuffleGenerate == 1){
-				emps = this.shuffleArray(emps);
+				if (this.criteriaGenerate == 1 && Math.random() > this.criteriaLikely*2){
+					emps.sort(function(a,b){ return (a.criteriaPriority<b.criteriaPriority)?1:( (a.criteriaPriority>b.criteriaPriority)?-1:0 ) });
+				}
+				else{
+					emps = this.shuffleArray(emps);
+				}
 			}
 			//
 			for (var i=0;i<emps.length;i++){
@@ -1325,18 +1346,31 @@ class Role{
 	//
 	isPreferredShift(id,shift){
 		var str = null;
-		var s = SchedulerManager.Instance.dbshifts;
-		for (var i=0;i<s.length;s++){
+		var s = ScheduleManager.Instance.dbshifts;
+		for (var i=0;i<s.length;i++){
 			if (s[i].id == id){
 				str = s[i].start.substring(0,5) + s[i].end.substring(0,5);
+				return (str == (shift.start+shift.end));
 				break;
 			}
 		}
-		if (!str){
-			console.log("error ispreffereshisft");
+	}
+	//
+	preferredShiftTranslate(emp,role){
+		var role = this;
+		var id = emp.preferredShift;
+		if (id == -1){
+			emp.tempPreferredShift = -1;
+			return;
 		}
-		var ss = this.getShiftByString(str);
-		return shift==ss;
+		var s = ScheduleManager.Instance.dbshifts;
+		for (var i=0;i<s.length;i++){
+			if (s[i].id == id){
+				var shiftD = role.getShiftByString(s[i].start.substring(0,5) + s[i].end.substring(0,5));
+				emp.tempPreferredShift = role.shifts.indexOf(shiftD); // could be bugged if custom shift from shiftData
+				break;
+			}
+		}
 	}
 	//
 	getBestShiftSlot(shifts,shiftY,d,emp,results,empI){
@@ -1363,12 +1397,20 @@ class Role{
 				for (var i=0;i<ss.length;i++){
 					var sh = ss[i].shift;
 					var dist = sh.HoursBetweenShift(shiftY);
-					if (sh.assigned.length<sh.maxAssign && dist >= this.defaultHrsDist){//emp.shiftDistHrs){
+					if (sh.assigned.length<sh.maxAssign && (dist >= emp.preferredRest || dist >= this.defaultHrsDist)){//emp.shiftDistHrs){
 						chosens.push({i:i,dist:dist});
 					}
 				}
 				chosens.sort(function(a,b) {return (a.dist > b.dist) ? 1 : ((b.dist > a.dist) ? -1 : 0);} ); 
 				var ii = 0; //Math.floor((chosens.length)/2);
+				if (this.criteriaGenerate==1 && emp.tempPreferredShift != -1 && Math.random()>this.criteriaLikely){
+					for (var i=0;i<chosens.length;i++){
+						if (emp.tempPreferredShift == chosens[i].i){
+							ii = i; // lol
+							break;
+						}
+					}
+				}
 				if (chosens.length == 0 && r == 1){
 					results.badshifts++;
 				}
@@ -1614,6 +1656,10 @@ class ShiftData{
 		rn.r = e/m;
 		rn.len = (e-s)/m;
 		return rn;
+	}
+	//
+	get nameString(){
+		return this.start+this.end;
 	}
 }
 //
