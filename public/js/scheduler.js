@@ -1303,7 +1303,7 @@ class Role{
 				}
 			}
 			if (this.shuffleGenerate == 1){
-				if (this.criteriaGenerate == 1 && Math.random() > this.criteriaLikely*2){
+				if (this.criteriaGenerate == 1 && Math.random() > this.criteriaLikely){
 					emps.sort(function(a,b){ return (a.criteriaPriority<b.criteriaPriority)?1:( (a.criteriaPriority>b.criteriaPriority)?-1:0 ) });
 				}
 				else{
