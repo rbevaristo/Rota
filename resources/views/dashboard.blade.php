@@ -441,7 +441,7 @@
         if (schedule_string && schedule_string.length>16){
             scheduler.loadJSON(schedule_string);
         }
-        else{
+        else if (scheduler.roles.length>0){
             scheduler.ui.changeRoleView(scheduler.roles[0].name);
         }
 

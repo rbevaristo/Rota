@@ -38,8 +38,12 @@ class ScheduleManager {
 		return Number(ss.substring(0,2))*60+Number(ss.substring(3,5));
 	}
 	//
-	t(){
-		console.log(this.toJSON());
+	getFN(f){
+		for (var i=0;i<this.employees.length;i++){
+			if (this.employees[i].fname == f){
+				return this.employees[i];
+			}
+		}
 	}
 	//
 	toJSON(){
@@ -325,6 +329,9 @@ class ScheduleManager {
 			emp.fname = trueEmp.firstname;
 			emp.lname = trueEmp.lastname;
 			emp.role = trueEmp.position;
+			emp.preferredDayoff = trueEmp.preferred_dayoff!=null?trueEmp.preferred_dayoff.indexOf("1"):-1;
+			emp.preferredShift = trueEmp.preferredShift!=null?trueEmp.preferredShift:-1;
+			emp.preferredRest = trueEmp.preferredRest!=null?trueEmp.preferredRest:this.defaultHrsDist;
         }
 	}
 	//
@@ -1134,6 +1141,11 @@ class Role{
 		results.shiftsUsed = shiftsUsed;
 		results.totalShiftsMin = totalShiftsMin;
 		results.totalShiftsMax = totalShiftsMax;
+		if (totalShiftsMin == 0 && totalShiftsMax == 0){
+			console.log("zero !!");
+			return {scheduledDays:schedules,employees:emps,results:results,success:results.success,
+				msg:"There are no shifts.\nGo to Scheduler Settings to add shifts."};
+		}
 		if (results.shiftsUsed > totalShiftsMax){
 			results.success = false;
 			console.log("max !!");
@@ -1250,7 +1262,7 @@ class Role{
 			else{
 				emp.dayoffPickTemp = this.getMinDayoff(dayoffs);
 				//console.log("failed to satisfy "+emp.fname+" "+emp.lname+"'s "+emp.preferredDayoff+" dayoff. changed to "+emp.dayoffPickTemp);
-				if (this.criteriaGenerate == 1 && (emp.dayoffPickTemp == -1 || emp.dayoffPickTemp == emp.preferredDayoff)){
+				if (this.criteriaGenerate == 1 && (emp.preferredDayoff == -1 || emp.dayoffPickTemp == emp.preferredDayoff)){
 					results.points += ptScoring.dayoff*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) );
 					results.hitdayoff++;
 					results.hitdayoffs.push(emp.fname);

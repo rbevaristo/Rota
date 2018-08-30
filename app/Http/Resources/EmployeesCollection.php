@@ -27,6 +27,9 @@ class EmployeesCollection extends Resource
             'age' => $this->age($this->profile->birthdate),
             'contact' => $this->profile->contact,
             'address' => $this->profile->address->number . ', ' . $this->profile->address->street . ', ' . $this->profile->address->city . ', ' . $this->profile->address->state . ', ' . $this->profile->address->zip . ', ' . $this->profile->address->country,
+            'preferred_dayoff' => $this->preference->dayoff,
+            'preferred_shift' => $this->preference->shift,
+            'preferred_rest' => $this->preference->rest,
         ];
     }
 

@@ -139,6 +139,7 @@ class EmployeesController extends Controller
             if($d) {
                 $profile = \App\Profile::create(['emp_id' => $d->id]);
                 $address = \App\Address::create(['profile_id' => $profile->id]);
+                $preference = \App\Preference::create(['emp_id' => $d->id]);
             }
         }
 
