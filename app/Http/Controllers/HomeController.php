@@ -43,7 +43,7 @@ class HomeController extends Controller
 
         $schedule_string = auth()->user()->scheduler; //->schedule;
         $schedule_string = $schedule_string?$schedule_string->schedule:null;
-        
+
         $position_ids = Position::all();
         $shift_ids = Shift::all();
 

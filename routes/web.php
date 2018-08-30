@@ -53,6 +53,7 @@ Route::group([], function() {
     Route::post('/dashboard/setting/criteria/update', 'SettingsController@update_criteria');
     Route::post('/dashboard/scheduler/create', 'SchedulerController@create');
     Route::post('/dashboard/setting/schedule-dayoff/update', 'SettingsController@update_dayoff');
+    Route::post('/dashboard/employee/update/all', 'EmployeesController@update_all');
 
    
 });

@@ -12,6 +12,7 @@ use App\EvaluationFile;
 use App\EvaluationResult;
 use Illuminate\Http\Request;
 use App\Charts\PerformanceChart;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\EvaluationCollection;
@@ -153,5 +154,13 @@ class EmployeesController extends Controller
         ]);
     }
 
+    public function update_all(Request $request)
+    {
+        $update = DB::table('employees')->where('user_id', auth()->user()->id)->update(['status' => $request->val]);
+        if($update){
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
 
 }
