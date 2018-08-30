@@ -42,7 +42,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Position</th>
-                                    <th>Activate</th>
+                                    <th><a href="#" id="activate-all"> Activate </a> / <a href="#" id="deactivate-all"> Deactivate </a>All</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -205,7 +205,9 @@
                         id : $(this).val(),
                         status: 1
                     },
-                    success: function (result) {},
+                    success: function (result) {
+                        toastr.info('Employee activated');
+                    },
                 });
             } 
             else { 
@@ -217,7 +219,9 @@
                         id : $(this).val(),
                         status: 0
                     },
-                    success: function (result) {}
+                    success: function (result) {
+                        toastr.warning('Employee deactivated');
+                    }
                 });
             }
         });
@@ -261,7 +265,9 @@
                     id : emp_id,
                     position: $(this).val()
                 },
-                success: function (result) {}
+                success: function (result) {
+                    toastr.info('Position updated');
+                }
             });
         });
 
@@ -280,6 +286,45 @@
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             }
+        });
+
+        $('#activate-all').on('click', function(){
+            var url = "{{ url('/dashboard/employee/update/all') }}";
+            var id = "{{ auth()->user()->id }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id : id,
+                    val: 1
+                },
+                success: function (result) {
+                    toastr.info('Activating Employees...');
+                    setTimeout(() => {
+                        location.reload();                        
+                    }, 3000);
+                    
+                }
+            });
+        });
+        $('#deactivate-all').on('click', function(){
+            var url = "{{ url('/dashboard/employee/update/all') }}";
+            var id = "{{ auth()->user()->id }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id : id,
+                    val: 0
+                },
+                success: function (result) {
+                    toastr.info('Deactivating Employees...');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+
+                }
+            });
         });
     });
 </script>

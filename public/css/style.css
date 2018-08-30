@@ -425,8 +425,8 @@ a .fa-gear {
 /* Manage Employees */
 
 #manage-employees img {
-    height: 60px;
-    width: 60px;
+    height: 30px;
+    width: 30px;
     border-radius: 50% !important;
 }
 
@@ -661,6 +661,12 @@ footer a:hover {
     }
     #manage-employees select {
         padding: 0;
+        font-size: 8px;
+    }
+    #manage-employees input[type="search"] {
+        font-size: 8px;
+    }
+    #manage-employees btn {
         font-size: 8px;
     }
 }

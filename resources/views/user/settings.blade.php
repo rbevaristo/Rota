@@ -424,7 +424,9 @@
                 column: $(this).attr('name'),
                 value: 1
               },
-              success: function (result) {},
+              success: function (result) {
+                toastr.info('Preference activated');
+              },
           });
       } else {
           var url = "{{ url('/dashboard/setting/update/') }}";
@@ -436,7 +438,9 @@
                 column: $(this).attr('name'),
                 value: 0
               },
-              success: function (result) {},
+              success: function (result) {
+                toastr.warning('Preference deactivated');
+              },
           });
       }
     });
@@ -451,7 +455,9 @@
               column: $(this).attr('id'),
               value: $(this).val()
             },
-            success: function (result) {},
+            success: function (result) {
+              toastr.info('Shift updated');
+            },
         });
     });
 
@@ -465,7 +471,9 @@
                 id: $(this).val(),
                 value: 1
               },
-              success: function (result) {},
+              success: function (result) {
+                toastr.info('Shift Activated');
+              },
           });
       } else {
           var url = "{{ url('/dashboard/setting/shift/activate') }}";
@@ -476,7 +484,9 @@
                 id: $(this).val(),
                 value: 0
               },
-              success: function (result) {},
+              success: function (result) {
+                toastr.warning('Shift deactivated');
+              },
           });
       }
     });
@@ -493,7 +503,7 @@
                 value: 1
               },
               success: function (result) {
-                
+                toastr.info('Criteria activated');
               },
           });
           if($(this).attr('name') == 'age'){
@@ -514,6 +524,7 @@
                 value: 0
               },
               success: function (result) {
+                toastr.warning('Criteria deactivated');
               },
           });
           if($(this).attr('name') == 'age'){
@@ -549,6 +560,9 @@
               id: $(this).attr('name'),
             },
             success: function (result) {
+              setTimeout(() => {
+                toastr.warning('Shift deleted');
+              }, 3000);
               location.reload();
             },
         });
@@ -569,7 +583,9 @@
             column: $(this).attr('name'),
             value: $(this).val()
           },
-          success: function (result) {},
+          success: function (result) {
+            toastr.info('Days to generate updated');
+          },
       });
       
       $.ajax({
@@ -697,7 +713,9 @@
                 column: 'sched_dayoff',
                 value: x.toString()
             },
-            success: function (result) {},
+            success: function (result) {
+              toastr.info('Dayoff updated');
+            },
         });
 
         if(cc == c){
