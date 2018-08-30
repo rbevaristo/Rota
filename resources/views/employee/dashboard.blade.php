@@ -78,7 +78,7 @@
                                                     @if(auth()->user()->preference->shift == null)
                                                         selected
                                                     @endif
-                                                    >None</option>
+                                                    >Select Shift</option>
                                                 @endif
                                             </select>
                                         </div>

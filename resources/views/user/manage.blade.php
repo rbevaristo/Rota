@@ -245,7 +245,7 @@
                             <input type="text" id="position" name="position" class="form-control" placeholder="Position Name" required>
                         </div>
                         <div class="form-group float-right">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                         </form>
@@ -253,7 +253,14 @@
                 `
                 );
             }
+            $('#cancel').on('click', function(){
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            });
         });
+
+        
 
         $('.myposition').on('change', function() {
             var url = "{{ url('/dashboard/employee/position/update') }}";

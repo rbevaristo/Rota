@@ -33,7 +33,7 @@
                 <div class="card-header text-center bg-primary text-white"><strong>Register as <span>Administrator</span></strong></div>
                 <div class="card-body">
                     
-                    <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
+                    <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}" onsubmit="validate()">
                         @csrf
                         <div class="form-group">
                             <div class="input-group">
@@ -84,7 +84,6 @@
                                 <li id="capital" class="invalid">A <b>capital (uppercase)</b> letter</li>
                                 <li id="number" class="invalid">A <b>number</b></li>
                                 <li id="length" class="invalid">Minimum <b>8 characters</b></li>
-                                <li id="confirm" class="invalid"><b>Confirm </b>Password</li>
                             </ul>
                             </small>
                         </div>
@@ -106,29 +105,27 @@
 
 @section('custom_scripts')
 <script>
-var myInput = document.getElementById("password");
+var pwd = document.getElementById("password");
 var letter = document.getElementById("letter");
 var capital = document.getElementById("capital");
 var number = document.getElementById("number");
 var length = document.getElementById("length");
-var confirm = document.getElementById("confirm-password");
-var conf = document.getElementById('confirm');
 
 // When the user clicks on the password field, show the message box
-myInput.onfocus = function() {
+pwd.onfocus = function() {
     document.getElementById("message").style.display = "block";
 }
 
 // When the user clicks outside of the password field, hide the message box
-myInput.onblur = function() {
+pwd.onblur = function() {
     document.getElementById("message").style.display = "none";
 }
 
 // When the user starts to type something inside the password field
-myInput.onkeyup = function() {
+pwd.onkeyup = function() {
     // Validate lowercase letters
     var lowerCaseLetters = /[a-z]/g;
-    if(myInput.value.match(lowerCaseLetters)) {  
+    if(pwd.value.match(lowerCaseLetters)) {  
         letter.classList.remove("invalid");
         letter.classList.add("valid");
     } else {
@@ -138,7 +135,7 @@ myInput.onkeyup = function() {
 
     // Validate capital letters
     var upperCaseLetters = /[A-Z]/g;
-    if(myInput.value.match(upperCaseLetters)) {  
+    if(pwd.value.match(upperCaseLetters)) {  
         capital.classList.remove("invalid");
         capital.classList.add("valid");
     } else {
@@ -148,7 +145,7 @@ myInput.onkeyup = function() {
 
     // Validate numbers
     var numbers = /[0-9]/g;
-    if(myInput.value.match(numbers)) {  
+    if(pwd.value.match(numbers)) {  
         number.classList.remove("invalid");
         number.classList.add("valid");
     } else {
@@ -157,22 +154,12 @@ myInput.onkeyup = function() {
     }
 
     // Validate length
-    if(myInput.value.length >= 8) {
+    if(pwd.value.length >= 8) {
         length.classList.remove("invalid");
         length.classList.add("valid");
     } else {
         length.classList.remove("valid");
         length.classList.add("invalid");
-    }
-}
-
-confirm.onkeyup = function(){
-    if(confirm.value == myInput.value){
-        conf.classList.remove("invalid");
-        conf.classList.add("valid");
-    } else {
-        conf.classList.remove("valid");
-        conf.classList.add("invalid");
     }
 }
 </script>
