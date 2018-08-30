@@ -1,5 +1,9 @@
 @extends('layouts.employee')
 
+@section('custom_styles')
+<link rel="stylesheet" href="{{ asset('css/schedulerstyles.css') }}">
+@endsection
+
 @section('content')
 <section id="employee-dashboard">
     <div class="container-fluid">
@@ -92,6 +96,54 @@
                 </div>
             </div>
         </div>
+
+
+
+
+        <div class="row" style="margin-top:24px;">
+            <div class="col-md-12" id="schedule">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <p style="float:left;"><strong>Schedule</strong></p>
+                        <div id="monthContainer">
+                            <button id ="monthLeft">&#171;</button>
+                            <p id = "monthViewLabel">2018<br>September</p>
+                            <button id ="monthRight">&#187;</button>
+                        </div>
+                    </div>
+                    <div class="card-body" style="margin:0;padding:0;">
+                        <div id="ManagerWindowWrapper">
+                            <div class="managerwindow">
+                                <div id="ManagerTable">
+                                    <div id="LeftTableWrap">
+                                        <table id="LeftTable">
+                                        </table>
+                                    </div>
+                                    <div id="RightTableWrap">
+                                        <div id="TopTableWrap">
+                                            <table id="TopTable">
+                                            </table>
+                                        </div>
+                                        <div id="BottomTableWrap">
+                                            <table id="RightTable">
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
     </div>
 </section>
 <!-- Modal -->
@@ -125,6 +177,7 @@
 @endsection
 
 @section('custom_scripts')
+    <script src="{{ asset('js/lzjs.js') }}"></script>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({

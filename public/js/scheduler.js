@@ -153,7 +153,8 @@ class ScheduleManager {
 		}
 		var jsonstring = JSON.stringify(tab);
 		console.log("json string length:"+jsonstring.length);
-		var compressed = lzjs.compress(jsonstring);
+		var compressed = LZString.compressToBase64(jsonstring);
+		console.log("compressed length : "+compressed.length);
 		return compressed;
 	}
 	//==========================================================================================================================================================================
@@ -161,7 +162,7 @@ class ScheduleManager {
 	//==========================================================================================================================================================================
 	//==========================================================================================================================================================================
 	loadJSON(str){
-		var str2 = lzjs.decompress(str);
+		var str2 = LZString.decompressFromBase64(str);
 		var tab = JSON.parse(str2);
 		this.employeeId = 0;
 		this.roleId = 0;
@@ -684,21 +685,21 @@ class Role{
 		this.shiftType = "Normal"; //
 		this.shuffleGenerate = 0;             // untouched
 		this.criteriaGenerate = 0;				//untouhced
-		this.criteriaLikely = 0.25;
+		this.criteriaLikely = 0.5;
 		this.dayoffSetting = 1; // 0 off 1 on    DB
 		this.maxdayoff = 1; // DB
 		this.defaultHrsDist = 8;
 		this.ptScoring = {
 			priop : 1.25, // percent 
 			prio : 0.5, // plus
-			dayoff : 100, // points
-			shift : 30, // points
-			rest : 5 // points?
+			dayoff : 10, // points
+			shift : 3, // points
+			rest : 0.25 // points?
 		};
 	}
 	//
-	generate(startDate,days,daybefore){ // y,m,d
-		var reps = this.shuffleGenerate==1?2048*3:1;
+	generate(startDate,days,oldVal){ // y,m,d
+		var reps = this.shuffleGenerate==1?2048*1:1;
 		var minBad = 99999;
 		var points = 0;
 		var results = null;
@@ -710,6 +711,7 @@ class Role{
 		}
 		var tic = (new Date()).getTime();
 		var i = 0;
+		//
 		for (i=0;i<reps;i++){
 			tic++;
 			Math.seedrandom(""+tic);
@@ -738,6 +740,9 @@ class Role{
 			this.generationId = this.generationId + 1;
 			console.log("repets "+i+" / "+reps);
 			console.log("THE BADSHIFTS : "+minBad)
+			if (this.criteriaGenerate == 1){
+				console.log("Percent : "+Math.floor(points/results.results.pointsneed*100)+"%");
+			}
 			console.log(gen.data.results);
 			this.generations.push(gen);
 		}
@@ -1145,7 +1150,7 @@ class Role{
 		var dt = DateCalc.getTimeYMD(yy,mm,dd); 
 		var dateStart = new DateCalc(dt);
 		var results = {missing:[],assigns:[],scheduledDays:schedules,employees:[],success:true,
-			badshifts:0,okshifts:0,points:0,pointsneed:0,hitdayoff:0,hitshift:0,hitrest:0,hitdayoffs:[]}; // =========================================
+			badshifts:0,okshifts:0,points:0,pointsneed:0,hitdayoff:0,hitshift:0,hitrest:0,hitdayoffs:[],hitshifts:[],missshifts:[]}; // =========================================
 		//
 		var dayOffs = 1;
 		var shiftDays = days - dayOffs;
@@ -1328,9 +1333,18 @@ class Role{
 					}
 					else{
 						var shift = scheduledDay.shifts[shiftI];
-						if (this.criteriaGenerate == 1 && (emp.preferredShift == -1 || this.isPreferredShift(emp.preferredShift,shift))){
-							results.points += ptScoring.shift*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) )
-							results.hitshift++;
+						if (this.criteriaGenerate == 1){
+							var preferred = this.isPreferredShift(emp.preferredShift,shift);
+							if (emp.preferredShift == -1 || preferred){
+								results.points += ptScoring.shift*( ptScoring.prio + (emp.criteriaPriority*ptScoring.priop) )
+								results.hitshift++;
+							}
+							if (preferred){
+								results.hitshifts.push(emp.fname+" "+shiftI+" "+ScheduleManager.daysName[theDay]);
+							}
+							else{
+								results.missshifts.push(emp.fname+" "+shiftI+" "+ScheduleManager.daysName[theDay]);
+							}
 						}
 						this.assignEmp(emp,shift);
 						//console.log(emps[i].fname,":",shift.StartToEndAMPM,"   before:",shiftY?shiftY.StartToEndAMPM:"?");

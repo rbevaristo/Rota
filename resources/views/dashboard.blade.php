@@ -372,10 +372,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="managerwindow" style="margin-top:20px">
-                                <button id="empManagerBtn" class = "managerBtn1">Manage Employees</button>
-                                <button id="roleManagerBtn" class = "managerBtn1">Manage Roles</button>
-                                <button id="saveBtn" class = "managerBtn1">Save Schedule</button>
+                            <div class="managerwindow" style="margin-top:20px;text-align:center !important;">
+                                <button id="empManagerBtn" class = "managerBtn1 ishidden">Manage Employees</button>
+                                <button id="roleManagerBtn" class = "managerBtn1 ishidden">Manage Roles</button>
+                                <button id="saveBtn" class = "managerBtn1" style="display:inline-block !important;float:none;margin-bottom:14px;">Save Schedule</button>
                             </div>
                         </div>
                     </div>
