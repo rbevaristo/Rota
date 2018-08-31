@@ -69,7 +69,7 @@ class SchedulerController extends Controller
                 }
 
                 $shift = null;
-                foreach($role->shifts as $v){
+                foreach($day->shifts as $v){
                     if ($v->id == $shiftId){
                         $shift = $v;
                         break;
