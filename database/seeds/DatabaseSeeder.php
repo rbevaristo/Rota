@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
     {
         $shift = \App\Shift::all()->random();
         if($shift){
-            return $shift->start . '-' . $shift->end;
+            return $shift->id;
         }
         return NULL;
     }

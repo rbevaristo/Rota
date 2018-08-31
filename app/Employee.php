@@ -60,8 +60,8 @@ class Employee extends Authenticatable implements JWTSubject
         return $this->hasOne('App\Preference', 'emp_id');
     }
 
-    public function employee_schedule() {
-        return $this->hasOne('App\EmployeeSchedule');
+    public function schedule() {
+        return $this->hasOne('App\EmployeeSchedule', 'emp_id');
     }
     
     /**

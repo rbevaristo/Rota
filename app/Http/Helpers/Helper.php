@@ -31,4 +31,16 @@ class Helper
     static function get_shift($shift){
         return $shift->start . ' - ' . $shift->end;
     }
+
+    static function getStartToEndAMPM($start,$endx){
+        $sth = (int)(substr($start,0,2));
+        $stm = (int)(substr($start,3,5));
+        $enh = (int)(substr($endx,0,2));
+        $enm = (int)(substr($endx,3,5));
+        $st1 = ($sth<13?$sth:$sth-12);
+        $en1 = ($enh<13?$enh:$enh-12);
+        $st = ($st1==0?12:$st1) . ($stm==0?"":(":"+($stm<10?"0":"")+$stm)) . ($sth<12?"AM":"PM");
+        $en = ($en1==0?12:$en1) . ($enm==0?"":(":"+($enm<10?"0":"")+$enm)) . ($enh<12?"AM":"PM");
+        return $st . " - " . $en;
+    }
 }
