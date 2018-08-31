@@ -347,7 +347,7 @@
                                             <button id="headerWindowDeleteGenerated" class="headerBtn1">Delete Generated Schedule</button>
                                             <button id="headerWindowCopyGenerated" class="headerBtn1">Copy Generated Schedule</button>
                                             <button id="headerWindowPasteGenerated" class="headerBtn1">Paste Generated Schedule</button>
-                                            <button id="headerWindowSavePDF" class="headerBtn1">Finalize Schedule Generation</button>
+                                            <!--<button id="headerWindowSavePDF" class="headerBtn1">Save as PDF</button>-->
                                             <button id="headerWindowGenerate7" class="headerBtn1">Generate New Schedule (7 Days)</button>
                                             <button id="headerWindowGenerate7S" class="headerBtn1">Generate Shuffled Schedule (7 Days)</button>
                                             <button id="headerWindowGenerate7C" class="headerBtn1">Generate Schedule with Criteria (7 Days)</button>

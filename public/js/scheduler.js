@@ -13,6 +13,7 @@ class ScheduleManager {
 		this.roles = []; // Role class
 		this.employeeId = 0;
 		this.roleId = 0;
+		this.lockedPast = false;
 		this.employees = []; // Employee class
 		this.currentDate = new DateCalc(Date.now());
 		this.currentDate.setStartOfDay();
@@ -51,6 +52,7 @@ class ScheduleManager {
 			employeeId:this.employeeId,
 			roleId:this.roleId,
 			employees:[],
+			lockedPast:this.lockedPast,
 			roles:[],
 		};
 		if (this.ui && this.ui.currentRoleView){
@@ -253,6 +255,7 @@ class ScheduleManager {
 
 		this.employeeId = tab.employeeId;
 		this.roleId = tab.employeeId;
+		this.lockedPast = tab.lockedPast;
 		this.applyDB();
 		if (tab.v != null && typeof tab.v == "string"){
 			this.ui.changeRoleView(tab.v);
@@ -505,6 +508,11 @@ class DateCalc{
 	static isEndOfMonthYMD(y,m,d){
 		var days = DateCalc.getDaysInMonth(y,m);
 		return (days==d)?true:false;
+	}
+	static isPastMDY(m,d,y,tt){
+		var t = DateCalc.resetDay(tt?tt:(new Date()).getTime());
+		var day = DateCalc.getTimeYMD(y,m,d);
+		return t>day?-1:(t<day?1:0);
 	}
 	setStartOfDay(){
 		this.t = DateCalc.resetDay(this.t);

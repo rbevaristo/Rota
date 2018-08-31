@@ -475,6 +475,10 @@ class ScheduleManagerHTML{
 		var dd = Number(da.value.substring(8,10));
 		var interrupt = role.isScheduleClear(yy,mm-1,dd,ds);
 		//console.log(interrupt)
+		if (this.scheduler.lockedPast && DateCalc.isPastMDY(mm-1,dd,yy) == -1){
+			toastr.error("Pasts schedules are locked.");
+			return;
+		}
 		if (interrupt){
 			this.msg("Schedule slots not clear.");
 			return;
@@ -1061,6 +1065,10 @@ class ScheduleManagerHTML{
 		//
 		doc.getElementById("headerWindow2DeleteShift").onclick = function(){
 			var e = diz.empCurrent;
+			if (diz.scheduler.lockedPast && DateCalc.isPastMDY(e.scheduledDay.month,e.scheduledDay.date,e.scheduledDay.year) == -1){
+				toastr.error("Pasts schedules are locked.");
+				return;
+			}
 			if (confirm("Delete this shift?")){
 				e.shift.deleteAssign(e.shift.assigned.indexOf(e.emp));
 				toastr.success("Deleted shift.");
@@ -1070,6 +1078,10 @@ class ScheduleManagerHTML{
 		//
 		doc.getElementById("headerWindow2EditShift").onclick = function(){
 			var e = diz.empCurrent;
+			if (diz.scheduler.lockedPast && DateCalc.isPastMDY(e.scheduledDay.month,e.scheduledDay.date,e.scheduledDay.year) == -1){
+				toastr.error("Pasts schedules are locked.");
+				return;
+			}
 			var inp1 = doc.getElementById("headerWindow2Time1");
 			var inp2 = doc.getElementById("headerWindow2Time2");
 			if (inp1.value.length==0 || inp2.value.length==0){
@@ -1091,6 +1103,10 @@ class ScheduleManagerHTML{
 		//
 		doc.getElementById("headerWindow2AddShift").onclick = function(){
 			var e = diz.empCurrent;
+			if (diz.scheduler.lockedPast && DateCalc.isPastMDY(e.scheduledDay.month,e.scheduledDay.date,e.scheduledDay.year) == -1){
+				toastr.error("Pasts schedules are locked.");
+				return;
+			}
 			var inp1 = doc.getElementById("headerWindow2Time1");
 			var inp2 = doc.getElementById("headerWindow2Time2");
 			if (inp1.value.length==0 || inp2.value.length==0){
@@ -1108,6 +1124,10 @@ class ScheduleManagerHTML{
 		//
 		doc.getElementById("headerWindow2SwapShift").onclick = function(){
 			var e = diz.empCurrent;
+			if (diz.scheduler.lockedPast && DateCalc.isPastMDY(e.scheduledDay.month,e.scheduledDay.date,e.scheduledDay.year) == -1){
+				toastr.error("Pasts schedules are locked.");
+				return;
+			}
 			var dd = doc.getElementById("headerWindow2SwapShiftDD");
 			var empS = scheduler.getEmpById(dd.options[dd.selectedIndex].value)
 			if (!empS){
@@ -1122,6 +1142,12 @@ class ScheduleManagerHTML{
 		//
 		doc.getElementById("headerWindow2SwapSchedule").onclick = function(){
 			var e = diz.empCurrent;
+			var sdf = e.role.getGenerationGroupYMD(e.scheduledDay.year,e.scheduledDay.month,e.scheduledDay.date);
+			sdf = sdf?sdf.scheduledDays[0]:null;
+			if (sdf && diz.scheduler.lockedPast && DateCalc.isPastMDY(sdf.month,sdf.date,sdf.year) == -1){
+				toastr.error("Pasts schedules are locked.");
+				return;
+			}
 			var dd = doc.getElementById("headerWindow2SwapScheduleDD");
 			var empS = scheduler.getEmpById(dd.options[dd.selectedIndex].value)
 			if (!empS){
@@ -1140,6 +1166,10 @@ class ScheduleManagerHTML{
 		doc.getElementById("headerWindowClose").onclick = function(){diz.closeHeaderWindow(); };
 		doc.getElementById("headerWindowDeleteDaily").onclick = function(){
 			var p = diz.headerCurrent;
+			if (diz.scheduler.lockedPast && DateCalc.isPastMDY(p.scheduledDay.month,p.scheduledDay.date,p.scheduledDay.year) == -1){
+				toastr.error("Pasts schedules are locked. :(");
+				return;
+			}
 			//console.log(p.scheduledDay,p.generation,p.ig);
 			if (confirm('Clear all shifts on '+ScheduleManager.monthsName[p.scheduledDay.month]+" "+p.scheduledDay.date+", "+p.scheduledDay.year+'?\nThis action cannot be undone.')) {
 				for (var i=0;i<p.scheduledDay.shifts.length;i++){
@@ -1154,6 +1184,11 @@ class ScheduleManagerHTML{
 		doc.getElementById("headerWindowDeleteGenerated").onclick = function(){
 			var p = diz.headerCurrent;
 			var gen = p.generation;
+			var sdf = gen.scheduledDays[0];
+			if (sdf && diz.scheduler.lockedPast && DateCalc.isPastMDY(sdf.month,sdf.date,sdf.year) == -1){
+				toastr.error("Pasts schedules are locked.");
+				return;
+			}
 			var il = gen.scheduledDays.length-1
 			if (confirm('Delete Schedule?\n'+ScheduleManager.monthsName[gen.scheduledDays[0].month].substring(0,3) + " " + gen.scheduledDays[0].date +" to "+
 				ScheduleManager.monthsName[gen.scheduledDays[il].month].substring(0,3) + " " + gen.scheduledDays[il].date+" ("+(il+1)+' day(s))\nThis action cannot be undone.')) {
@@ -1177,6 +1212,10 @@ class ScheduleManagerHTML{
 			if (!diz.headerCurrent || !diz.currentRoleView){return;}
 			var p = diz.headerCurrent;
 			var gen = diz.generationcopy;
+			if (diz.scheduler.lockedPast && DateCalc.isPastMDY(p.data.columns[p.i].month,p.data.columns[p.i].date,p.data.columns[p.i].year) == -1){
+				toastr.error("Pasts schedules are locked.");
+				return;
+			}
 			var role = diz.scheduler.getRole(diz.currentRoleView);
 			var isClear = role.isScheduleClear(p.data.columns[p.i].year,p.data.columns[p.i].month,p.data.columns[p.i].date,gen.scheduledDays.length);
 			console.log("wa",isClear);
@@ -1218,10 +1257,15 @@ class ScheduleManagerHTML{
 		var isClear = role.isScheduleClear(p.data.columns[p.i].year,p.data.columns[p.i].month,p.data.columns[p.i].date,days);
 		var dateStartT = DateCalc.getTimeYMD(p.data.columns[p.i].year,p.data.columns[p.i].month,p.data.columns[p.i].date);
 		var t = new DateCalc( dateStartT + 86400000*days );
+		var MDY = (new DateCalc(dateStartT+86400000)).toArrayMMDDYYY();
 		var mt = t.Month;
 		var dt = t.Date;
 		var origclonemsg = "Generate Schedule Date : <br>"+ScheduleManager.monthsName[p.data.columns[p.i].month].substring(0,3)+" "+p.data.columns[p.i].date+" to "+
 		ScheduleManager.monthsName[mt].substring(0,3)+ " "+dt+" ("+days+" day(s))";
+		if (diz.scheduler.lockedPast && DateCalc.isPastMDY(MDY[0],MDY[1],MDY[2]) == -1){
+			toastr.error("Pasts schedules are locked.");
+			return;
+		}
 		if (isClear==null){
 			diz.closeHeaderWindow();
 			toastr.info("Creating Schedule...<br>"+origclonemsg);
@@ -1232,7 +1276,7 @@ class ScheduleManagerHTML{
 			if (isCriteria){
 				role.criteriaGenerate = 1;
 			}
-			var results = role.generate((new DateCalc(dateStartT+86400000)).toArrayMMDDYYY(),days);
+			var results = role.generate(MDY,days);
 			role.criteriaGenerate = 0;
 
 			if (results.msg){
@@ -1265,7 +1309,7 @@ class ScheduleManagerHTML{
 		this.changeClass(this.doc.getElementById("headerWindowDeleteDaily"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowDeleteGenerated"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowCopyGenerated"),"ishidden",p.scheduledDay==null);
-		this.changeClass(this.doc.getElementById("headerWindowSavePDF"),"ishidden",p.scheduledDay==null);
+		//this.changeClass(this.doc.getElementById("headerWindowSavePDF"),"ishidden",p.scheduledDay==null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7S"),"ishidden",p.scheduledDay!=null);
 		this.changeClass(this.doc.getElementById("headerWindowGenerate7C"),"ishidden",cbtn);
