@@ -24,7 +24,11 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.dashboard');
+        $sched = auth()->user()->schedule->schedule;
+
+        return view('employee.dashboard',[
+            'schedule' => $sched
+        ]);
     }
 
 }

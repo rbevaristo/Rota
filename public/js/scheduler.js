@@ -281,6 +281,7 @@ class ScheduleManager {
 	}
 	//
 	applyDB(){
+		this.lockedPast = this.dbsettings.schedlock==1?true:false;
 		for (var i=0;i<this.roles.length;i++){
 			var role = this.roles[i];
 			role.dayoffSetting = this.dbsettings.dayoff;

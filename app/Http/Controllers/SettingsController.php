@@ -22,8 +22,11 @@ class SettingsController extends Controller
         if($request->column == 'num_days'){
             $set->num_days = $request->value;
             $set->save();
-        } else if($request->column == 'num_dayoff'){
+        } else if($request->column == ''){
             $set->num_dayoff = $request->value;
+            $set->save();
+        } else if($request->column == 'sched_lock'){
+            $set->sched_lock = $request->value;
             $set->save();
         } else {
             $set->update([

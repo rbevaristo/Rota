@@ -869,7 +869,9 @@
             });
             
             function saveSchedule(yes){
-                toastr.info("Saving schedule...");
+                if (yes){
+                    toastr.info("Saving schedule...");
+                }
                 var url = "{{ url('/dashboard/scheduler/create') }}";
                 $.ajax({
                     url: url,
@@ -878,8 +880,10 @@
                         schedule : scheduler.toJSON()
                     },
                     success: function (result) {
+                        console.log("HMM");
                         if (yes){
-                            
+                            console.log(result);
+
                             setTimeout(() => {
                                 toastr.success('Schedule Saved!');
                                 toastr.success("<br /><br /><button type='button' id='confirmationRevertYes' class='btn clear'>view</button>",'Click to view pdf',
@@ -894,7 +898,6 @@
                                 });
                             }, 5000);
                             
-                            console.log(result);
                         }
                     },
                 });

@@ -131,7 +131,7 @@ class SchedulerController extends Controller
         if($scheduler){
             return response()->json([
                 'message' => 'Success',
-                'file' => $s->filename,
+                'file' => $s->filename
             ]);
         }
 

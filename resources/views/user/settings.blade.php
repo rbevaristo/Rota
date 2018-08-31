@@ -88,6 +88,23 @@
                         
                         </div>
                     </div>
+
+                    <div class="col-8" style="margin-top:16px;">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                              <div class="input-group-text">Past Lock</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4" style="margin-top:16px;">
+                      <div class="form-group">
+                        <input type="checkbox" data-toggle="toggle"" class="sched_lock" value="{{ auth()->user()->setting->sched_lock }}"  id="{{ auth()->user()->setting->id }}" name="sched_lock" {{ (auth()->user()->setting->sched_lock == 0) ? '' : 'checked' }}>                        
+                      </div>
+                    </div>
+
+
                   </div>
                 </div>
               </div>
@@ -598,6 +615,39 @@
           },
           success: function (result) {},
       });
+    });
+
+
+    $('.sched_lock').on('change', function(){
+      if($(this).is(':checked')){
+          var url = "{{ url('/dashboard/setting/update') }}";
+          $.ajax({
+              url: url,
+              type: 'POST',
+              data: {
+                id: $(this).attr('id'),
+                column: $(this).attr('name'),
+                value: 1
+              },
+              success: function (result) {
+              },
+          });
+          $('.sched_lock').removeAttr('disabled');
+      } else {
+          var url = "{{ url('/dashboard/setting/update') }}";
+          $.ajax({
+              url: url,
+              type: 'POST',
+              data: {
+                id: $(this).attr('id'),
+                column: $(this).attr('name'),
+                value: 0
+              },
+              success: function (result) {
+              },
+          });
+          $('.sched_lock').removeAttr('disabled');
+      }
     });
 
     $('.minimum').on('change', function(){

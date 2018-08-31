@@ -111,26 +111,10 @@
                             <button id ="monthRight">&#187;</button>
                         </div>
                     </div>
-                    <div class="card-body" style="margin:0;padding:0;">
-                        <div id="ManagerWindowWrapper">
-                            <div class="managerwindow">
-                                <div id="ManagerTable">
-                                    <div id="LeftTableWrap">
-                                        <table id="LeftTable">
-                                        </table>
-                                    </div>
-                                    <div id="RightTableWrap">
-                                        <div id="TopTableWrap">
-                                            <table id="TopTable">
-                                            </table>
-                                        </div>
-                                        <div id="BottomTableWrap">
-                                            <table id="RightTable">
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div id="schedWindow" class="card-body" style="margin:0;padding:0;">
+                        <div id="empSchedTableWrapper">
+                            <table id="empSchedTable">
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -177,8 +161,13 @@
 @endsection
 
 @section('custom_scripts')
+    <script src="{{ asset('js/schedulerUI2.js') }}"></script>
     <script src="{{ asset('js/lzjs.js') }}"></script>
     <script>
+        var schedUI = new ScheduleManagerHTML2(this.document);
+        schedUI.schedule = {!! $schedule !!};
+        schedUI.Initialize(this.document);
+
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
