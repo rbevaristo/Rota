@@ -1164,8 +1164,10 @@ class Role{
 		results.totalShiftsMax = totalShiftsMax;
 		if (totalShiftsMin == 0 && totalShiftsMax == 0){
 			console.log("zero !!");
-			return {scheduledDays:schedules,employees:emps,results:results,success:results.success,
+			var res =  {scheduledDays:schedules,employees:emps,results:results,success:results.success,
 				msg:"There are no shifts.\nGo to Scheduler Settings to add shifts."};
+				console.log(res);
+			return res;
 		}
 		if (results.shiftsUsed > totalShiftsMax){
 			results.success = false;
@@ -1232,8 +1234,10 @@ class Role{
 		var mi = 0;
 		var ma = 0;
 		for (var i=0;i<this.shifts.length;i++){
-			mi = mi + this.shifts[i].defaultMinAssign;
-			ma = ma + this.shifts[i].defaultMaxAssign;
+			if (this.shifts[i].active){
+				mi = mi + this.shifts[i].defaultMinAssign;
+				ma = ma + this.shifts[i].defaultMaxAssign;
+			}
 		}
 		return {min:mi,max:ma};
 	}
