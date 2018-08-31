@@ -15,6 +15,7 @@ use App\Charts\PerformanceChart;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\ScheduleResource;
 use App\Http\Resources\EvaluationCollection;
 
 
@@ -68,7 +69,8 @@ class EmployeesController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => new EmployeeResource($employee),
-                'evaluation' => new EvaluationCollection($evaluation)
+                'evaluation' => new EvaluationCollection($evaluation),
+                'schedule' => new ScheduleResource($employee->schedule)
             ]);
         }
          return response()->json([

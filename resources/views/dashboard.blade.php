@@ -420,7 +420,6 @@
 
         scheduler.injectDB(employees,shifts,required_shifts,settings,criteria,position_ids,shift_ids);
 
-
         /*
         var role = scheduler.getRole("Clerk");
         role.addShift("07:00","15:00",1,2);
@@ -490,6 +489,7 @@
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
+                        console.log(result.schedule);
                         $('.modal .modal-header').html('');
                         $('.modal .modal-body').html('');
                         $('.modal .modal-header').html(`
@@ -558,15 +558,15 @@
                                     <div class="col-md-6">
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Schedules</div>
-                                            <div class="card-body" style="height: 200px; overflow-y: auto;">
-                                                
+                                            <div class="card-body" style="height: 300px; overflow-y: auto;">
+                                                `+getSchedule(result.schedule)+`
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6" id="evaluation_files">
                                         <div class="card">
                                             <div class="card-header bg-primary text-white">Evaluation</div>
-                                            <div class="card-body" style="height: 200px; overflow-y: auto;">
+                                            <div class="card-body" style="height: 300px; overflow-y: auto;">
                                                 <div class="row text-center">
                                                     <p>Evaluations are inactive to the employees, click the checkbox to activate and it will be visible to the employees.</p>    
                                                 </div>
@@ -608,7 +608,43 @@
                 });
             });
 
-
+            function getSchedule(schedule){
+                var data = `
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Shift</th>
+                                </tr>    
+                            </thead>
+                            <tbody>
+                `;
+                if(schedule.schedule.length > 0){
+                    for(var i = 0; i < schedule.schedule.length; i++){ 
+                        var x = schedule.schedule[i].split(',');
+                        data += `  
+                            <tr>
+                                <td>`+x[0]+`</td>
+                                <td>`+x[1]+`</td>
+                            </tr>     
+                        `;
+                    }
+                }
+                else {
+                    data += `
+                        <tr>
+                            <td colspan="2">No schedule assigned</td>    
+                        </tr>
+                    `;
+                }
+                data += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                return data;
+            }
             function getEvaluation(evaluations){ 
                 var data = '';
                 var keys = Object.keys(evaluations);
@@ -833,6 +869,7 @@
             });
             
             function saveSchedule(yes){
+                toastr.info("Saving schedule...");
                 var url = "{{ url('/dashboard/scheduler/create') }}";
                 $.ajax({
                     url: url,
@@ -842,7 +879,21 @@
                     },
                     success: function (result) {
                         if (yes){
-                            alert("Saved");
+                            
+                            setTimeout(() => {
+                                toastr.success('Schedule Saved!');
+                                toastr.success("<br /><br /><button type='button' id='confirmationRevertYes' class='btn clear'>view</button>",'Click to view pdf',
+                                {
+                                    closeButton: false,
+                                    allowHtml: true,
+                                    onShown: function (toast) {
+                                        $("#confirmationRevertYes").click(function(){
+                                            window.open("{{ asset('storage/schedule') }} /"+result.file, '_blank');
+                                        });
+                                        }
+                                });
+                            }, 5000);
+                            
                             console.log(result);
                         }
                     },

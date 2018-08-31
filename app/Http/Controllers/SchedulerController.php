@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use App\Schedule;
 use App\Scheduler;
 use App\EmployeeSchedule;
 use LZCompressor\LZString;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\ScheduleCollection;
 
 class SchedulerController extends Controller
 {
@@ -35,7 +39,9 @@ class SchedulerController extends Controller
     
         $decompressed = \LZCompressor\LZString::decompressFromBase64($request->schedule);
         $schedule = json_decode($decompressed);
-    
+        
+       
+
         for ($i=0;$i<count($schedule->employees);$i++){
             $emp = $schedule->employees[$i];
             $emp_id = $emp->trueId;
@@ -70,7 +76,7 @@ class SchedulerController extends Controller
                     }
                 }
 
-                $month = (string)$day->month;
+                $month = (string)$day->month + 1;
                 $date = (string)$day->date;
                 $year = (string)$day->year;
                 if (strlen($month)<2){
@@ -82,7 +88,8 @@ class SchedulerController extends Controller
                 if (strlen($year)<4){
                     $year = str_repeat("0",4-strlen($year)) . $year;
                 }
-                $str = $month . "|" . $date . "|" . $year . "|" . $shift->start . "|" . $shift->end;
+                // $str = $month . "|" . $date . "|" . $year . "|" . $shift->start . "|" . $shift->end;
+                $str = $year . "-" . $month . "-" . $date . "," . $shift->start . "-" . $shift->end;
                 array_push($assigns,$str);
             }
 
@@ -103,14 +110,28 @@ class SchedulerController extends Controller
             }
         }
 
+        $data = [
+            'user' => auth()->user(),
+            'company' => auth()->user()->company,
+        ];
+        $schedules = ScheduleCollection::collection(auth()->user()->employee_schedules);
+        //return $schedules;
 
+        $name = auth()->user()->company->name . date('ymd') . time() . '.pdf';
+        $pdf = PDF::loadView('pdf.schedule', compact('data'), compact('schedules'))->setPaper('a4', 'landscape');
+        Storage::put('public/schedule/'.$name, $pdf->output());
+        // return $pdf->download($name);
+        $s = Schedule::create([
+            'user_id' => auth()->user()->id,
+            'filename' => $name
+        ]);
         //return a response
 
         //check if creating is success
         if($scheduler){
             return response()->json([
                 'message' => 'Success',
-                'wew' => "wa"
+                'file' => $s->filename,
             ]);
         }
 
@@ -118,11 +139,4 @@ class SchedulerController extends Controller
             'message' => 'Error'
         ]);
     }
-
-    public function schedule()
-    {
-        
-    }
-
-   
 }
