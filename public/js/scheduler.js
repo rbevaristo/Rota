@@ -314,6 +314,7 @@ class ScheduleManager {
 						}
 					}
 					if (sh){
+						console.log("lol");
 						role.addShift(sh.start.substring(0,5),sh.end.substring(0,5),st.min,st.max);
 					}
 					else{
@@ -574,8 +575,8 @@ class SchedGeneration{
 		this.employees = [];
 		this.data = null;
 	}
-	init(emps){
-		var data = this.role.assignShifts(this.startDate,this.days,null,emps);
+	init(emps,results){
+		var data = this.role.assignShifts(this.startDate,this.days,null,emps,results);
 		this.data = data;
 		if (!data.success){
 			console.log("the big sad");
@@ -698,6 +699,12 @@ class Role{
 		};
 	}
 	//
+	loadResultArray(shiftsUsed,totalShiftsMin,totalShiftsMax,ptneed){
+		return {missing:[],assigns:[],scheduledDays:null,employees:[],success:true,
+			badshifts:0,okshifts:0,points:0,pointsneed:0,hitdayoff:0,hitshift:0,hitrest:0,pointsneed:ptneed,
+			hitdayoffs:[],hitshifts:[],missshifts:[],shiftsUsed:shiftsUsed,totalShiftsMin:totalShiftsMin,totalShiftsMax:totalShiftsMax};
+	}
+	//
 	generate(startDate,days,oldVal){ // y,m,d
 		var reps = this.shuffleGenerate==1?2048*1:1;
 		var minBad = 99999;
@@ -709,14 +716,52 @@ class Role{
 			this.sortCriteria(emps);
 			this.shiftsPrefer(emps,this);
 		}
+		// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+		var dayOffs = 1;
+		var shiftDays = days - dayOffs;
+		var shiftsUsed = shiftDays*emps.length;
+		var totalShifts = this.getTotalShiftMinMax();
+		var totalShiftsMin = totalShifts.min * days;
+		var totalShiftsMax = totalShifts.max * days;
+		var pointsNeeded = this.getPointsNeed(emps,shiftDays,dayOffs);
+		var results = this.loadResultArray(shiftsUsed,totalShiftsMin,totalShiftsMax,pointsNeeded);
+		if (totalShiftsMin == 0 && totalShiftsMax == 0){
+			console.log("zero !!");
+			var res =  {scheduledDays:null,employees:emps,results:results,success:results.success,
+				msg:"There are no shifts.<br>Go to Scheduler Settings to add shifts."};
+				console.log(res);
+			return res;
+		}
+		if (results.shiftsUsed > totalShiftsMax){
+			if (!confirm("Some shifts exceed maximum number of required employees.\nBypass this constraint? (Not recommended)")){
+				results.success = false;
+				console.log("max !!");
+				return {scheduledDays:null,employees:emps,results:results,success:results.success,
+				msg:"Failed<br>Exceeded Max Shift Slots<br>Min: "+results.totalShiftsMin+" Max: "+results.totalShiftsMax+
+				"\nUsed:"+results.shiftsUsed+"<br>Add more shift slots(max) to solve this issue."};
+			}
+		}
+		else if (results.shiftsUsed < totalShiftsMin){
+			if (!confirm("Some shifts do not meet minimum number of required employees.\nBypass this constraint? (Only recommended for high positions)")){
+				results.success = false;
+				console.log("min !!");
+				var res = {scheduledDays:null,employees:emps,results:results,success:results.success,
+					msg:"Failed<br>Exceeded Min Shift Slots<br>Min: "+results.totalShiftsMin+" Max: "+results.totalShiftsMax+
+					"\nUsed:"+results.shiftsUsed+"<br>Lessen shift slots(min) to solve this issue."};
+				console.log(res);
+				return res;
+			}
+		}
+		// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 		var tic = (new Date()).getTime();
 		var i = 0;
 		//
 		for (i=0;i<reps;i++){
 			tic++;
+			var resultsx = this.loadResultArray(shiftsUsed,totalShiftsMin,totalShiftsMax,pointsNeeded);
 			Math.seedrandom(""+tic);
 			gen.id = this.generationId;
-			var results2 = gen.init(emps);
+			var results2 = gen.init(emps,resultsx);
 			gen.revertAssign();
 			if (minBad>0 && minBad > results2.results.badshifts){
 				results = results2;
@@ -729,7 +774,8 @@ class Role{
 			}
 			if (minBad == 0){
 				//console.log("["+i+"] score : "+points+" / "+(results.results.pointsneed)+" "+Math.floor(points/results.results.pointsneed*100)+"% ("+results2.results.points+")");
-				if (this.criteriaGenerate != 1 || points >= results.results.pointsneed*0.98){
+				if (this.criteriaGenerate != 1 || points >= results.results.pointsneed*1){
+					console.log("BREEKKK "+points+"/"+results.results.pointsneed);
 					break;
 				}
 			}
@@ -1140,7 +1186,7 @@ class Role{
 		}
 	}
 	//
-	assignShifts(mdy,ds,dos,emps){
+	assignShifts(mdy,ds,dos,emps,results){
 		var yy = mdy[2];
 		var mm = mdy[0];
 		var dd = mdy[1];
@@ -1149,44 +1195,10 @@ class Role{
 		var freshDays = [];
 		var dt = DateCalc.getTimeYMD(yy,mm,dd); 
 		var dateStart = new DateCalc(dt);
-		var results = {missing:[],assigns:[],scheduledDays:schedules,employees:[],success:true,
-			badshifts:0,okshifts:0,points:0,pointsneed:0,hitdayoff:0,hitshift:0,hitrest:0,hitdayoffs:[],hitshifts:[],missshifts:[]}; // =========================================
 		//
-		var dayOffs = 1;
-		var shiftDays = days - dayOffs;
-		var shiftsUsed = shiftDays*emps.length;
-		var totalShifts = this.getTotalShiftMinMax();
-		var totalShiftsMin = totalShifts.min * days;
-		var totalShiftsMax = totalShifts.max * days;
-		//console.log("Shift Slot Stats",shiftsUsed+" / "+totalShiftsMin+" to "+totalShiftsMax);
-		results.shiftsUsed = shiftsUsed;
-		results.totalShiftsMin = totalShiftsMin;
-		results.totalShiftsMax = totalShiftsMax;
-		if (totalShiftsMin == 0 && totalShiftsMax == 0){
-			console.log("zero !!");
-			var res =  {scheduledDays:schedules,employees:emps,results:results,success:results.success,
-				msg:"There are no shifts.\nGo to Scheduler Settings to add shifts."};
-				console.log(res);
-			return res;
-		}
-		if (results.shiftsUsed > totalShiftsMax){
-			results.success = false;
-			console.log("max !!");
-			return {scheduledDays:schedules,employees:emps,results:results,success:results.success,
-				msg:"Failed, exceeded Shift Slots\nMin: "+results.totalShiftsMin+" Max: "+results.totalShiftsMax+
-				"\nUsed:"+results.shiftsUsed+"\nAdd more shift slots(max) to solve this issue."};
-		}
-		else if (results.shiftsUsed < totalShiftsMin){
-			results.success = false;
-			console.log("min !!");
-			return {scheduledDays:schedules,employees:emps,results:results,success:results.success,
-				msg:"Failed, exceeded Shift Slots\nMin: "+results.totalShiftsMin+" Max: "+results.totalShiftsMax+
-				"\nUsed:"+results.shiftsUsed+"\nLessen shift slots(min) to solve this issue."};
-		}
+		results.schedules = schedules;
 		//
-		if (this.criteriaGenerate == 1){
-			results.pointsneed = this.getPointsNeed(emps,shiftDays,dayOffs);
-		}
+
 		//Get Scheduled Days
 		var sdays = this.scheduledDays.length-1
 		for (var ii=0;ii<days;ii++){
