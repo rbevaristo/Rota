@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Employee;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EvalCollection;
 use App\Http\Resources\EvaluationCollection;
 
 class EvaluationController extends Controller
@@ -20,6 +21,6 @@ class EvaluationController extends Controller
 
     public function evaluation()
     {
-        return response()->json(['data' => EvaluationCollection::collection(auth()->user()->evaluation_files->where('active', 1))]);
+        return response()->json(['data' => EvalCollection::collection(auth()->user()->evaluation_files->where('active', 1))]);
     }
 }

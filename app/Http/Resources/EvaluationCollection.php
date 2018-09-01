@@ -14,9 +14,10 @@ class EvaluationCollection extends Resource
      */
     public function toArray($request)
     {
-        return [
-            'filename' => $this->filename,
-            'url' => 'http://localhost/rota/public/storage/pdf/'.$this->filename
-        ];
+        return parent::toArray($request);
+        // [
+        //     'filename' => $this->filename,
+        //     'url' => 'http://localhost/rota/public/storage/pdf/'.$this->filename
+        // ];
     }
 }
