@@ -21,6 +21,17 @@
     </style>
 </head>
 <body>
+@php
+$n; $start; $holder = 0; $count = 0;
+    foreach(auth()->user()->employee_schedules as $schedule){
+        $temp = sizeof(json_decode($schedule->schedule));
+        if( $temp > $holder){
+            $count += 1;
+            $n = json_decode($schedule->schedule);
+            $holder = $temp;
+        } 
+    }
+@endphp
         <div class="container-fluid">
             <div class="text-center">
                 <h1>{{ $data['company']['name'] }}</h1>
@@ -98,7 +109,7 @@
                                     @endphp
                                 @endfor
                             @else
-                                <td colspan="{{ sizeof($n) }}" class="text-center">No schedule</td>
+                                <td colspan="{{ (sizeof($n)+$count) }}" class="text-center">No schedule</td>
                             @endif
                         </tr>
                         @endforeach

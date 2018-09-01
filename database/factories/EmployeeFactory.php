@@ -11,7 +11,7 @@ $factory->define(\App\Employee::class, function (Faker $faker) {
         'password' => bcrypt('123456'),
         'is_reset' => 0,
         'status' => 0,
-        'user_id' => 1,
+        'user_id' => \App\User::all()->random(),
         'position_id' => \App\Position::all()->random(),
     ];
 });

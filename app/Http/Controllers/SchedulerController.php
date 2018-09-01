@@ -111,24 +111,27 @@ class SchedulerController extends Controller
             }
         }
 
-        $data = [
-            'user' => auth()->user(),
-            'company' => auth()->user()->company,
-        ];
-        foreach(auth()->user()->employees as $user){
-            $user->notify(new ScheduleNotification(EmployeeSchedule::where('id', $user->id)->first()));     
-        }
-        $schedules = ScheduleCollection::collection(auth()->user()->employee_schedules);
-        //return $schedules;
+        // if(!$request->savePdf){
+            $data = [
+                'user' => auth()->user(),
+                'company' => auth()->user()->company,
+            ];
 
-        $name = auth()->user()->company->name . date('ymd') . time() . '.pdf';
-        $pdf = PDF::loadView('pdf.schedule', compact('data'), compact('schedules'))->setPaper('a4', 'landscape');
-        Storage::put('public/schedule/'.$name, $pdf->output());
-        // return $pdf->download($name);
-        $s = Schedule::create([
-            'user_id' => auth()->user()->id,
-            'filename' => $name
-        ]);
+            foreach(auth()->user()->employees as $user){
+                $user->notify(new ScheduleNotification(EmployeeSchedule::where('id', $user->id)->first()));     
+            }
+            $schedules = ScheduleCollection::collection(auth()->user()->employee_schedules);
+            //return $schedules;
+
+            $name = auth()->user()->company->name . date('ymd') . time() . '.pdf';
+            $pdf = PDF::loadView('pdf.schedule', compact('data'), compact('schedules'))->setPaper('a4', 'landscape');
+            Storage::put('public/schedule/'.$name, $pdf->output());
+            // return $pdf->download($name);
+            $s = Schedule::create([
+                'user_id' => auth()->user()->id,
+                'filename' => $name
+            ]);
+        // }
         //return a response
 
         //check if creating is success

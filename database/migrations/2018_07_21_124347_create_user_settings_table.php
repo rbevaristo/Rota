@@ -16,12 +16,12 @@ class CreateUserSettingsTable extends Migration
         Schema::create('user_settings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('num_days')->default(7);
-            $table->integer('')->default(1);
-            $table->string('sched_dayoff')->default(0000000);
+            $table->string('sched_dayoff')->default('0000000');
             $table->boolean('sharing')->default(false);
             $table->boolean('dayoff')->default(false);
             $table->boolean('shift')->default(false);
-            $table->boolean('shuffle')->default(false);            
+            $table->boolean('shuffle')->default(false);
+            $table->boolean('sched_lock')->default(true);
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

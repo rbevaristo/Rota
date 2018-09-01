@@ -213,14 +213,14 @@
                     </div>
                   </div>
 
-                  <div class="row padding">
+                  <!-- <div class="row padding">
                     <div class="col-8">
                       Sharing
                     </div>
                     <div class="col-4">
                       <input type="checkbox" data-toggle="toggle" class="settings" value="{{ auth()->user()->setting->id }}" id="sharing" name="sharing" {{ (auth()->user()->setting->sharing == 0) ? '' : 'checked' }}>
                     </div>
-                  </div>
+                  </div> -->
 
                   {{-- <div class="row padding">
                     <div class="col-8">
