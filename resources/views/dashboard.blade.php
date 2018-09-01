@@ -259,9 +259,25 @@
                                                         {{-- <a href="#myModal" class="message" data-toggle="modal" role="button">
                                                             <i class="fa fa-envelope" data-toggle="tooltip" data-placement="top" title="Send Message"></i>
                                                         </a> --}}
+                                                        @if($file = auth()->user()->evaluation_files->where('emp_id', $employee->id)->sortByDesc('created_at')->first())
+                                                            @php
+                                                                $det = date_diff(date_create(date('Y-m-d')), date_create(date('Y-m-d', strtotime($file->created_at))))->d;
+                                                            @endphp
+                                                            @if($det >= 30)
+                                                                <a href="#myModal" class="evaluation" data-toggle="modal" role="button">
+                                                                    <i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i>
+                                                                </a>
+                                                            @else
+                                                            <a href="#" class="evaluation" data-toggle="modal" role="button">
+                                                                    <i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="This employee has been evaluated for this month."></i>
+                                                                </a>
+                                                            @endif
+                                                        @else
                                                         <a href="#myModal" class="evaluation" data-toggle="modal" role="button">
-                                                            <i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i>
-                                                        </a>
+                                                                <i class="fa fa-bar-chart" data-toggle="tooltip" data-placement="top" title="Evaluate"></i>
+                                                            </a>
+                                                        @endif
+                                                        
                                                     </div>
                                                 </div>
                                             </div>

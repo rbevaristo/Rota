@@ -10,6 +10,7 @@ use LZCompressor\LZString;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ScheduleCollection;
+use App\Notifications\ScheduleNotification;
 
 class SchedulerController extends Controller
 {
@@ -114,6 +115,9 @@ class SchedulerController extends Controller
             'user' => auth()->user(),
             'company' => auth()->user()->company,
         ];
+        foreach(auth()->user()->employees as $user){
+            $user->notify(new ScheduleNotification(EmployeeSchedule::where('id', $user->id)->first()));     
+        }
         $schedules = ScheduleCollection::collection(auth()->user()->employee_schedules);
         //return $schedules;
 

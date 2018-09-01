@@ -21,15 +21,6 @@
     </style>
 </head>
 <body>
-    @php
-        $n;
-        foreach(auth()->user()->employee_schedules as $schedule){
-            if(sizeof(json_decode($schedule->schedule)) > 0){
-                $n = json_decode($schedule->schedule);
-                break;
-            }
-        }
-    @endphp
         <div class="container-fluid">
             <div class="text-center">
                 <h1>{{ $data['company']['name'] }}</h1>
@@ -44,12 +35,13 @@
                         <tr>
                             <td></td>
                             @php
-                                $ns; $start;
+                                $ns; $start; $holder = 0;
                                 foreach(auth()->user()->employee_schedules as $schedule){
-                                    if(sizeof(json_decode($schedule->schedule)) > 0){
+                                    $temp = sizeof(json_decode($schedule->schedule));
+                                    if( $temp > $holder){
                                         $ns = json_decode($schedule->schedule);
-                                        break;
-                                    }
+                                        $holder = $temp;
+                                    } 
                                 }
     
                             @endphp

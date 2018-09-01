@@ -18,6 +18,7 @@ Route::group([
     Route::post('evaluate', 'Api\EvaluationController@evaluate');
     Route::get('profile', 'Api\ProfileController@profile');
     Route::post('profile/update', 'Api\ProfileController@update');
+    Route::get('schedule', 'Api\ScheduleController@schedule');
 });
 
 Route::group([

@@ -92,6 +92,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany('App\EmployeeSchedule');
     }
 
+    public function schedule_files(){
+        return $this->hasMany('App\Schedule');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
