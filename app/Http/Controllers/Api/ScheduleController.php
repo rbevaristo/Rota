@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ScheduleFilesCollection;
 
 class ScheduleController extends Controller
 {
@@ -15,7 +16,7 @@ class ScheduleController extends Controller
     public function schedule()
     {
         return response()->json([
-            'data' => auth()->user()->schedule_files
+            'data' => ScheduleFilesCollection::collection(auth()->user()->schedule_files)
         ]);
     }
 }

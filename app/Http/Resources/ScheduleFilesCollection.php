@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class EvaluationFilesCollection extends Resource
+class ScheduleFilesCollection extends Resource
 {
     /**
      * Transform the resource collection into an array.
@@ -15,9 +15,8 @@ class EvaluationFilesCollection extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'filename' => $this->filename, 
-            'url' => 'http://localhost/rota/public/storage/pdf/'.$this->filename
+            'filename' => $this->filename,
+            'url' => 'http://localhost/rota/public/storage/schedule/'. $this->filename
         ];
     }
 }

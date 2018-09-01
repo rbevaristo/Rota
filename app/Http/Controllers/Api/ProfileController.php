@@ -33,7 +33,7 @@ class ProfileController extends Controller
         $profile->avatar = $request->hasFile('file') ? $this->upload($request) : auth()->user()->profile->avatar;
         $profile->gender = ($request->gender == 'Male') ? 1 : 0;
         $profile->birthdate = $request->birthdate;
-        $profile->contact = $request->contact_number;
+        $profile->contact = $request->mobile;
         $profile->save();
 
         // Update User's Address

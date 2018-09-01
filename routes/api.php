@@ -18,7 +18,7 @@ Route::group([
     Route::post('evaluate', 'Api\EvaluationController@evaluate');
     Route::get('profile', 'Api\ProfileController@profile');
     Route::post('profile/update', 'Api\ProfileController@update');
-    Route::get('schedule', 'Api\ScheduleController@schedule');
+    Route::get('schedules', 'Api\ScheduleController@schedule');
 });
 
 Route::group([
@@ -36,5 +36,6 @@ Route::group([
     Route::post('profile/update', 'Api\Employee\ProfileController@update');
     Route::get('evaluation/files', 'Api\Employee\EvaluationController@evaluation');
     Route::post('request/leave', 'Api\Employee\UserRequestController@send');
+    Route::get('schedule', 'Api\Employee\ScheduleController@schedule');
     
 });
