@@ -92,6 +92,21 @@
                             </div>
                         <hr>
                         @endif
+                        @if(isset($schedule))
+                            @php
+                                $schedules = json_decode($schedule);
+                            @endphp
+                            @for($i = 0; $i < sizeof($schedules); $i++)
+                                @php
+                                    $v = explode(',', $schedules[$i]);
+                                @endphp
+                                @if($v[0] == date('Y-m-d'))
+                                    <div class="alert alert-info">
+                                        <h1>{{ date('F d, Y', strtotime($v[0])) }} - {{ $v[1] }}</h1>
+                                    </div>
+                                @endif
+                            @endfor
+                        @endif
                     </div>
                 </div>
             </div>
@@ -178,7 +193,8 @@
             var d = {!! auth()->user()->preference !!};
             var e = d.dayoff.toString();
             var f = [];
-            var c = {!! auth()->user()->user->setting->num_dayoff !!};
+            // var c = {!! auth()->user()->user->setting->num_dayoff !!};
+            var c = 1;
             var dayoff_counter = 0;
             for(var i = 0; i < e.length; i++){
                 f[i] = e.charAt(i);
@@ -313,7 +329,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </form>
@@ -333,7 +349,9 @@
                             }
                         }
                     });
+                    
                 }
+                
             });
         });
     </script>

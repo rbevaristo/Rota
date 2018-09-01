@@ -329,6 +329,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="{{ route('user.settings') }}">Scheduler Settings</a>
+                                    <a class="dropdown-item" href="{{ route('user.schedule') }}">Scheduler Files</a>
                                 </div>
                             </span>
                         </div>
@@ -900,12 +901,10 @@
                     success: function (result) {
                         console.log("HMM");
                         if (yes){
-                            setTimeout(() => {
-                                toastr.info("Generating PDF");
-                            }, 1000);
+                            toastr.info("Generating PDF");
                             console.log(result);
                             
-                            //setTimeout(() => {
+                            setTimeout(() => {
                                 toastr.success('Schedule Saved!');
                                 toastr.success("<br /><br /><button type='button' id='confirmationRevertYes' class='btn clear'>view</button>",'Click to view pdf',
                                 {
@@ -917,7 +916,7 @@
                                         });
                                         }
                                 });
-                            // }, 3000);
+                            }, 2000);
                             
                         }
                     },

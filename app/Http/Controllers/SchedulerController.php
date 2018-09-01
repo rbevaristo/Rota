@@ -110,20 +110,20 @@ class SchedulerController extends Controller
                 ]);
             }
         }
-
-        // if(!$request->savePdf){
+        $s = '';
+        if($request->savePdf == true){
             $data = [
                 'user' => auth()->user(),
                 'company' => auth()->user()->company,
             ];
 
-            foreach(auth()->user()->employees as $user){
-                $user->notify(new ScheduleNotification(EmployeeSchedule::where('id', $user->id)->first()));     
-            }
+            // foreach(auth()->user()->employees as $user){
+            //     $user->notify(new ScheduleNotification(EmployeeSchedule::where('id', $user->id)->first()));     
+            // }
             $schedules = ScheduleCollection::collection(auth()->user()->employee_schedules);
             //return $schedules;
 
-            $name = auth()->user()->company->name . date('ymd') . time() . '.pdf';
+            $name = auth()->user()->firstname . date('ymd') . time() . '.pdf';
             $pdf = PDF::loadView('pdf.schedule', compact('data'), compact('schedules'))->setPaper('a4', 'landscape');
             Storage::put('public/schedule/'.$name, $pdf->output());
             // return $pdf->download($name);
@@ -131,14 +131,14 @@ class SchedulerController extends Controller
                 'user_id' => auth()->user()->id,
                 'filename' => $name
             ]);
-        // }
+        }
         //return a response
 
         //check if creating is success
         if($scheduler){
             return response()->json([
                 'message' => 'Success',
-                'file' => $s->filename
+                'file' => $s != '' ? $s->filename : null
             ]);
         }
 

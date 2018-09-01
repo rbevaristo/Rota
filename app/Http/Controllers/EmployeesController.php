@@ -109,7 +109,7 @@ class EmployeesController extends Controller
             else
                  return redirect()->back()->with('error', 'Column '.$value.' does not exist on storage');
         }
-
+        $err = [];
         while($datas = fgetcsv($file))
         {
             if($datas[0]=="")
@@ -123,27 +123,41 @@ class EmployeesController extends Controller
             $position=$data['position'];
             $email=(isset($data['email']) == '') ? null : $data['email'];
 
-            $d = Employee::firstOrNew(['username'=>$id]);
-            $d->username = $id;
-            $d->firstname =$firstname;
-            $d->lastname=$lastname;
-            $d->email =$email;
-            $pwd = new PasswordMaker;
-            $d->password = $pwd->makePassword($firstname, $lastname, $id);
-            $d->user_id = auth()->user()->id;
-            if($p = \App\Position::where('name', $position)->first()){
-                $d->position_id = $p->id;
+            $d = Employee::where('username', $id)->first();
+            
+            if(!$d && strlen($id) >= 5 && $this->checkEmail($email)){
+                $d = new Employee;
+                $d->username = $id;
+                $d->firstname = $firstname;
+                $d->lastname = $lastname;
+                $d->email = $email;
+                $pwd = new PasswordMaker;
+                $d->password = $pwd->makePassword($firstname, $lastname, $id);
+                $d->user_id = auth()->user()->id;
+                if($p = \App\Position::where('name', $position)->first()){
+                    $d->position_id = $p->id;
+                } else {
+                    $p = \App\Position::create(['name' => $position, 'user_id' => auth()->user()->id]);
+                    $d->position_id = $p->id;
+                }
+                
+                $d->save();
+                if($d) {
+                    $profile = \App\Profile::create(['emp_id' => $d->id]);
+                    $address = \App\Address::create(['profile_id' => $profile->id]);
+                    $preference = \App\Preference::create(['emp_id' => $d->id]);
+                }
+            } elseif($d && strlen($id) >= 5) {
+                $err[] = 'Employee ID: ' . $d->username . ' already exist in storage.';
+            } elseif(!$this->checkEmail($email)) {
+                $err[] = 'Invalid Email';
             } else {
-                $p = \App\Position::create(['name' => $position, 'user_id' => auth()->user()->id]);
-                $d->position_id = $p->id;
+                $err[] = 'Employee ID:'. $id .' is less than 5 characters';
             }
             
-            $d->save();
-            if($d) {
-                $profile = \App\Profile::create(['emp_id' => $d->id]);
-                $address = \App\Address::create(['profile_id' => $profile->id]);
-                $preference = \App\Preference::create(['emp_id' => $d->id]);
-            }
+        }
+        if(sizeof($err) > 0){
+            return redirect()->back()->with('error', 'Error adding employees either Employee ID is less than 5 characters or the ID is existing or Email is invalid');
         }
 
         return redirect()->back()->with('success', 'Employees Added');
@@ -163,6 +177,19 @@ class EmployeesController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);
+    }
+
+    public function checkEmail($email)
+    {  
+        if($email == null){
+            return true;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false; 
+        }
+
+        return true;
     }
 
 }

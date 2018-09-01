@@ -1,9 +1,7 @@
 @extends('layouts.employee')
 
 @section('custom_styles')
-<style>
-
-</style>
+<link rel="stylesheet" href="{{ asset('css/jquery-countryselector.css') }}">
 @endsection
 
 @section('content')
@@ -178,7 +176,8 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fa fa-flag"></i></div>
                                         </div>
-                                        <input type="text" id="country" name="country" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->country }}" placeholder="Country">
+                                        <select class="form-control" name="country" id="country" data-role="country-selector" value="{{ auth()->user()->profile->address->country }}"></select>
+                                        {{-- <input type="text" id="country" name="country" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" value="{{ auth()->user()->profile->address->country }}" placeholder="Country"> --}}
                                     </div>
                                 </div>
                             </div>
@@ -202,6 +201,7 @@
 @endsection
 
 @section('custom_scripts')
+<script src="{{ asset('js/lib/jquery.countrySelector.js') }}"></script>
 <script>
     $(document).ready(() => {
         $('.custom-file-input').on('change', function() { 

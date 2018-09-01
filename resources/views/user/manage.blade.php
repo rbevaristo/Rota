@@ -15,7 +15,8 @@
                 <div class="card box-shadow">
                     <div class="card-header bg-primary text-white">
                         Employees
-                        <span class="float-right" style="position:absolute; right: 80px; top: 7px;">
+                       
+                        <span class="float-right" style="position:absolute; right: 50px; top: 7px;">
                             <form>
                                 <div class="input-group">
                                     <input class="form-control border-secondary py-2" type="search" id="search" placeholder="Search...">
@@ -27,11 +28,15 @@
                                 </div>
                             </form>
                         </span>
-                        <div class="float-right">
-                            <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                <span><i class="fa fa-user-plus"></i>Add</span>
+                        <span class="float-right dropdown">
+                            <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-gear"></i>
                             </a>
-                        </div>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-user-plus"></i> Add Employee</a>
+                                <a class="dropdown-item" href="{{ route('user.settings') }}"><i class="fa fa-gear"></i> Scheduler Settings</a>                                
+                            </div>
+                        </span>
                     </div>
                     
                     <div class="card-body">
@@ -93,87 +98,127 @@
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">
-                    <small>added employees will be provided an account automatically. Employee ID as Username and the password is the <strong class="text-primary">1ST</strong> letter of their firstname plus the <strong class="text-primary">COMPLETE</strong> lastname plus the last <strong class="text-primary">TWO</strong> characters of their Employee ID. They will be given the option to change their password once they logged in.</small>
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title " id="exampleModalLongTitle">
+                    Add Employee
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/dashboard/employee/create') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fa fa-id-card"></i></div>
-                            </div>
-                             <input type="text" id="username" name="username" class="form-control form-control-sm" placeholder="Employee ID" required>
+                <div class="row">
+                    <div class="col-md-6">
+                    <small>
+                        <div class="alert alert-info">
+                        Added employees will be provided an account automatically. The following are the credentials employees can use to access their accounts:
+                        <ul>
+                            <li>Username:<strong class="text-primary"> Employee ID </strong></li>
+                            <li>Password:
+                                <ul>
+                                    <li> <strong class="text-primary">1ST</strong> letter of their firstname </li>
+                                    <li> <strong class="text-primary">COMPLETE</strong> lastname </li>
+                                    <li> <strong class="text-primary">TWO</strong> characters of their Employee ID </li>
+                                </ul>
+                                
+                            </li>
+                        </ul>
                         </div>
+                    </small>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fa fa-tasks"></i></div>
+                    <div class="col-md-6">
+                        <form action="{{ url('/dashboard/employee/create') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-id-card"></i></div>
+                                    </div>
+                                     <input type="text" id="username" name="username" class="form-control form-control-sm" placeholder="Employee ID" required>
+                                </div>
                             </div>
-                            <select name="position_id" id="position_id" class="form-control form-control-sm" required>
-                                <option value="">Select Position</option>
-                                @foreach(\App\Position::all()->where('user_id', null) as $position)
-                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
-                                @endforeach
-                                @foreach(auth()->user()->positions as $position)
-                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
-                                @endforeach
-                                <option value="Others">Others</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fa fa-user"></i></div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-tasks"></i></div>
+                                    </div>
+                                    <select name="position_id" id="position_id" class="form-control form-control-sm" required>
+                                        <option value="">Select Position</option>
+                                        @foreach(\App\Position::all()->where('user_id', null) as $position)
+                                            <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                        @endforeach
+                                        @foreach(auth()->user()->positions as $position)
+                                            <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                        @endforeach
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
                             </div>
-                            <input type="text" id="firstname" name="firstname" class="form-control form-control-sm" placeholder="First Name" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fa fa-user"></i></div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                    </div>
+                                    <input type="text" id="firstname" name="firstname" class="form-control form-control-sm" placeholder="First Name" required>
+                                </div>
                             </div>
-                            <input type="text" id="lastname" name="lastname" class="form-control form-control-sm" placeholder="Last Name" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fa fa-envelope"></i></div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-user"></i></div>
+                                    </div>
+                                    <input type="text" id="lastname" name="lastname" class="form-control form-control-sm" placeholder="Last Name" required>
+                                </div>
                             </div>
-                            <input type="text" id="email" name="email" class="form-control form-control-sm" placeholder="Email (optional)">
-                        </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-envelope"></i></div>
+                                    </div>
+                                    <input type="text" id="email" name="email" class="form-control form-control-sm" placeholder="Email (optional)">
+                                </div>
+                            </div>
+                            <div class="form-group float-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>    
                     </div>
-                    <div class="form-group float-right">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>    
+                </div>
             </div>
             <div class="text-center"><i>or</i></div>
             <div class="modal-footer">
-                <form action="{{ route('upload.excel.file') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="excelfile" id="excelfile" accept=".csv" required>
-                        <label class="custom-file-label" for="excelfile">Choose CSV file</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="alert alert-info">
+                            <small>
+                                To add employee using csv file upload. The following columns are required. Details enclosed with () are not needed, details only in Capitalize Letters.
+                                <ul>
+                                    <li><strong class="text-primary">ID</strong> (employee id, must be atleast 5 characters)</li>
+                                    <li><strong class="text-primary">FIRSTNAME</strong></li>
+                                    <li><strong class="text-primary">LASTNAME</strong></li>
+                                    <li><strong class="text-primary">POSITION</strong></li>
+                                    <li><strong class="text-primary">EMAIL</strong> (optional)</li>
+                                </ul>
+                            </small>
+                        </div>
                     </div>
-                    <div class="form-group float-right">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Upload</button>
+                    <div class="col-md-6">
+                        <form action="{{ route('upload.excel.file') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="excelfile" id="excelfile" accept=".csv" required>
+                                <label class="custom-file-label" for="excelfile">Choose CSV file</label>
+                            </div>
+                            <div class="form-group float-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

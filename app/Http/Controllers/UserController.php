@@ -54,4 +54,8 @@ class UserController extends Controller
         }
         return view('user.settings');
     }
+
+    public function schedule() {
+        return view('user.schedule');
+    }
 }

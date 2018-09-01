@@ -10,6 +10,18 @@
         <div class="card">
             <div class="card-header bg-primary text-white">
                 Performance Evaluation
+                <span class="float-right">
+                    <form>
+                        <div class="input-group">
+                            <input class="form-control border-secondary py-2" type="search" id="search" placeholder="Search...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fa fa-search text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </span>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -24,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(auth()->user()->evaluation_files as $files)
+                            @foreach(auth()->user()->evaluation_files->sortByDesc('created_at') as $files)
                             @php
                                 $emp = auth()->user()->employees->where('id', $files->emp_id)->first();
                             @endphp
@@ -73,9 +85,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $('.table').DataTable({
-               
-            });
+
             $('input[type="checkbox"]').on('change', function() {
                 if ($(this).is(':checked')){ 
                     var url = "{{ url('/dashboard/evaluation/status/update') }}";
@@ -99,6 +109,17 @@
                             status: 0
                         },
                         success: function (result) {}
+                    });
+                }
+            });
+            $('#search').on("keyup", function(e){
+                var value = $(this).val().toLowerCase();
+                var content = $('tbody').html();
+                if(value == ''){
+                    $('tbody').html(content);
+                } else {
+                    $('tbody tr').filter(function(){
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
                 }
             });

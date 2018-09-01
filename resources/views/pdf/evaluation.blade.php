@@ -48,13 +48,13 @@
                                 @if($eval == 0)
                                 {{ ' - Not Applicable' }}
                                 @elseif($eval == 1)
-                                {{ ' - Above Average' }}
-                                @elseif($eval == 2)
-                                {{ ' - Average' }}
-                                @elseif($eval == 3)
-                                {{ ' - Below Average' }}
-                                @else
                                 {{ ' - Unsatisfactory' }}
+                                @elseif($eval == 2)
+                                {{ ' - Below Average' }}
+                                @elseif($eval == 3)
+                                {{ ' - Average' }}
+                                @else
+                                {{ ' - Above Average' }}
                                 @endif
                             </td>
                         </tr>

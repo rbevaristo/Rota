@@ -42,18 +42,28 @@
 <section style="margin-top:30px">
     <div class="container-fluid">
         <div class="card">
-          <div class="card-header text-white bg-primary"><span class="fa fa-gear"></span> Settings</div>
+          <div class="card-header text-white bg-primary">
+            Scheduler Settings
+            <span class="float-right dropdown">
+                <a href="#" class="text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-gear"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{{ route('user.manage') }}"><i class="fa fa-gear"></i> Manage Employees</a>                                
+                </div>
+            </span>
+          </div>
           <div class="card-body">
             <div class="row">
 
             <div class="col-md-3">
               <div class="card">
                 <div class="card-header">
-                 <strong>Schedule</strong> <small> Number of days and dayoff has a 7:1 ratio</small>
+                 <strong>Schedule</strong>
                 </div>
                 <div class="card-body">
                   <div class="row padding">
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                       <div class="form-group">
                         <div class="input-group">
                           <div class="input-group-prepend">
@@ -74,8 +84,11 @@
                           <input type="number" class="text-center num_dayoff" name="num_dayoff" id="{{ auth()->user()->setting->id }}" value="{{ auth()->user()->setting->num_dayoff }}" min="1" disabled>
                         </div>
                       </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
+                        <div class="alert alert-info">
+                         <small>Choose <strong>Dayoff</strong> to alter fix dayoff in the scheduler. </small> 
+                        </div>
                         <div class="btn-group" role="group">
 
                             <button type="button" name="inactive" class="btn btn-sm btn-secondary btnDays" id="0">Sun</button>
@@ -88,14 +101,22 @@
                         
                         </div>
                     </div>
-
+                  </div>
+                  <div class="row padding">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <small>Toggle <strong>Pass Lock</strong> to lock and unlock past dates schedules.</small>
+                        </div>
+                    </div>
                     <div class="col-8" style="margin-top:16px;">
+                      
                       <div class="form-group">
                         <div class="input-group">
                           <div class="input-group-prepend">
                               <div class="input-group-text">Past Lock</div>
                           </div>
                         </div>
+                        
                       </div>
                     </div>
                     <div class="col-4" style="margin-top:16px;">
@@ -113,10 +134,15 @@
             <div class="col-md-3">
               <div class="card">
                 <div class="card-header">
-                 <strong> Criteria </strong> <small> This options may affect the generation of schedule</small>
+                 <strong> Criteria </strong>
                 </div>
                 <div class="card-body">
                   <div class="row padding">
+                    <div class="col-md-12">
+                      <div class="alert alert-info">
+                          <small>Options to alter scheduler. </small> 
+                      </div>
+                    </div>
                     <div class="col-8">
                       <div class="form-group">
                         <div class="input-group">
@@ -196,6 +222,11 @@
                 <div class="card-body">
                   
                   <div class="row padding">
+                    <div class="col-md-12">
+                      <div class="alert alert-info">
+                          <small>Toggle <strong>Dayoff</strong> to enable employee to set their preferred dayoff.  </small> 
+                      </div>
+                    </div>
                     <div class="col-8">
                       Dayoff
                     </div>
@@ -205,6 +236,11 @@
                   </div>
 
                   <div class="row padding">
+                    <div class="col-md-12">
+                        <div class="alert alert-info">
+                            <small>Toggle <strong>Shift</strong> to enable employee to set their preferred shift. </small> 
+                        </div>
+                    </div>
                     <div class="col-8">
                       Shift
                     </div>
@@ -213,14 +249,14 @@
                     </div>
                   </div>
 
-                  <!-- <div class="row padding">
+                  {{-- <div class="row padding">
                     <div class="col-8">
                       Sharing
                     </div>
                     <div class="col-4">
                       <input type="checkbox" data-toggle="toggle" class="settings" value="{{ auth()->user()->setting->id }}" id="sharing" name="sharing" {{ (auth()->user()->setting->sharing == 0) ? '' : 'checked' }}>
                     </div>
-                  </div> -->
+                  </div> --}}
 
                   {{-- <div class="row padding">
                     <div class="col-8">
@@ -238,11 +274,16 @@
             <div class="col-md-12" id="shifts">
               <div class="card">
                 <div class="card-header">
-                <strong> Shifts </strong><small>(max:6) | To recreate shift do delete all first</small>
+                <strong> Shifts </strong>
                 </div>
                 <div class="card-body">
                   
                   <div class="row padding">
+                    <div class="col-md-12">
+                      <div class="alert alert-info">
+                          <small>Min Shift: 1 | Max Shift: 6 | To recreate shift do delete all first</small>
+                      </div>
+                    </div>
                     <div class="col-12">
                       @if(auth()->user()->shifts->count() == 0)
                       <div class="form-group">
@@ -258,9 +299,9 @@
                       <div class="form-group">
                         @foreach(auth()->user()->shifts as $shift)
                           <div class="input-group">
-                              <div class="input-group-text">
+                              {{-- <div class="input-group-text">
                                 <input type="checkbox" id="shift_status" class="shift_active" value="{{ $shift->id }}" {{ ($shift->status) ? 'checked' : '' }}>
-                              </div>
+                              </div> --}}
                               <div class="input-group-prepend">
                                   <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
                               </div>
@@ -290,8 +331,12 @@
                 </div>
                 <div class="card-body text-center">
 
-                  <div class="row">
-                    
+                  <div class="row padding">
+                    <div class="col-md-12">
+                      <div class="alert alert-info">
+                        Set the required min and max employee per shift.
+                      </div>
+                    </div>
                     <div class="col-md-2 col-4">
                       Shifts <br><br>
                       @php
