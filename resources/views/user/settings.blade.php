@@ -347,7 +347,7 @@
                           $s[] = $shift->id;
                         @endphp
                           <div class="form-group">
-                            {{ substr($shift->start,0,5) }} - {{ substr($shift->end,0,5) }}
+                              {{ substr($shift->start,0,5) }} - {{ substr($shift->end,0,5) }}
                           </div>
                       @endforeach
                     </div>
