@@ -13,7 +13,8 @@ Route::group([], function() {
     // Custom Auth Routes
     Route::get('login/admin', 'Auth\LoginController@loginAsAdmin')->name('auth.admin');
     Route::get('verify/{token}', 'Auth\RegisterController@verify');
-
+    Route::get('employee/password/reset', 'ResetController@index')->name('employee.index');
+    Route::post('employee/password/reset', 'ResetController@reset')->name('employee.reset');
     // Views
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     Route::get('/dashboard/setup', 'HomeController@setup')->name('user.setup');
@@ -54,7 +55,7 @@ Route::group([], function() {
     Route::post('/dashboard/scheduler/create', 'SchedulerController@create');
     Route::post('/dashboard/setting/schedule-dayoff/update', 'SettingsController@update_dayoff');
     Route::post('/dashboard/employee/update/all', 'EmployeesController@update_all');
-
+    Route::post('/dashboard/password/reset', 'ResetController@password_reset');
    
 });
 
@@ -67,9 +68,9 @@ Route::group([
     
     Route::get('dashboard', 'Employee\EmployeeController@index')->name('employee.dashboard');
     Route::post('logout', 'Employee\LoginController@logout')->name('employee.logout');
-    Route::post('password/email', 'Employee\ForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
-    Route::get('password/reset', 'Employee\ForgotPasswordController@showLinkRequestForm')->name('employee.password.request');
-    Route::post('password/reset', 'Employee\ResetPasswordController@reset');
+    //Route::post('password/email', 'Employee\ForgotPasswordController@sendResetLinkEmail')->name('employee.password.email');
+    //Route::get('password/reset', 'Employee\ForgotPasswordController@showLinkRequestForm')->name('employee.password.request');
+    //Route::post('password/reset', 'Employee\ResetPasswordController@reset');
 
     Route::get('/dashboard/profile', 'Employee\EmployeeRoutesController@profile')->name('employee.profile');
     Route::get('/dashboard/messages', 'Employee\EmployeeRoutesController@messages')->name('employee.messages');

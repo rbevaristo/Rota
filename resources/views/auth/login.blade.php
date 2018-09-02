@@ -46,7 +46,7 @@
                                 <button type="submit" class="btn btn-primary btn-round btn-md">
                                     {{ __('Login') }}
                                 </button>
-                                <a class="btn btn-link text-primary" href="{{ route('employee.password.request') }}">
+                                <a class="btn btn-link text-primary" href="{{ route('employee.index') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             </div>

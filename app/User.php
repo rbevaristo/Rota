@@ -96,6 +96,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany('App\Schedule');
     }
 
+    public function resets() {
+        return $this->hasMany('App\EmployeePasswordReset');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

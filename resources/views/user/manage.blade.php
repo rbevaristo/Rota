@@ -41,13 +41,14 @@
                     
                     <div class="card-body">
                         @if(count(auth()->user()->employees) > 0)
-                        <table class="table">
+                        <table class="table text-center">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Position</th>
                                     <th><a href="#" id="activate-all"> Activate </a> / <a href="#" id="deactivate-all"> Deactivate </a>All</th>
+                                    <th>Reset Password</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,6 +82,13 @@
                                     </td>
                                     <td>
                                         <input type="checkbox" data-toggle="toggle" id="status" value="{{ $employee->id }}" {{ $employee->status == false ? '' : 'checked' }}>
+                                    </td>
+                                    <td>
+                                        @if(auth()->user()->resets->where('username', $employee->username)->first())
+                                            <button type="button" class="btn btn-sm btn-secondary reset" id="{{ $employee->username }}">
+                                                Reset Password
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -375,6 +383,25 @@
                     setTimeout(() => {
                         location.reload();
                     }, 3000);
+
+                }
+            });
+        });
+
+        $('button.reset').on('click', function(){
+            console.log($(this).attr('id'));
+            var url = "{{ url('/dashboard/password/reset') }}";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id : $(this).attr('id'),
+                },
+                success: function (result) {
+                    toastr.success(result["data"]);
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
 
                 }
             });
