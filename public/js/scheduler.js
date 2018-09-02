@@ -320,7 +320,10 @@ class ScheduleManager {
                         }
                     }
                 }
-            }
+			}
+			for (var i=0;i<this.employees.length;i++){
+				this.employees[i].active = false;
+			}
             for (var index = 0; index < this.dbemploys.length; index++) {
                 var trueEmp = this.dbemploys[index];
                 var fnd = scheduler.getEmpByTrueId(trueEmp.id);
@@ -328,7 +331,8 @@ class ScheduleManager {
                 emp.trueId = trueEmp.id;
                 emp.fname = trueEmp.firstname;
                 emp.lname = trueEmp.lastname;
-                emp.role = trueEmp.position;
+				emp.role = trueEmp.position;
+				emp.active = true;
                 emp.preferredDayoff = trueEmp.preferred_dayoff != null ? trueEmp.preferred_dayoff.indexOf("1") : -1;
                 emp.preferredShift = trueEmp.preferred_shift != null ? Number(trueEmp.preferred_shift) : -1;
                 emp.preferredRest = trueEmp.preferred_rest != null ? trueEmp.preferred_rest : 8;
@@ -1040,7 +1044,7 @@ class Role {
         }
         //
     getTable(from, to) {
-            var emps = this.findEmployees(from, to);
+            var emps = this.findEmployees(from, to,true);
             var date = new DateCalc();
             date.setDateMMDDYYYY(from[0], from[1], from[2]);
             var date2 = new DateCalc();
@@ -1130,12 +1134,12 @@ class Role {
             }
         }
         //
-    findEmployees(from, to) {
+    findEmployees(from, to, evenInactive) {
             var emps = ScheduleManager.Instance.employees;
             var picks = [];
             for (var i = 0; i < emps.length; i++) {
                 var e = emps[i];
-                if (e.active == 1 && ((e.role && e.role.toLowerCase() == this.name.toLowerCase()) || this.empHasShift(e, from, to))) {
+                if ((e.active || (evenInactive && this.empHasShift(e, from, to))) && ((e.role && e.role.toLowerCase() == this.name.toLowerCase()) || this.empHasShift(e, from, to))) {
                     picks.push(e);
                 }
             }

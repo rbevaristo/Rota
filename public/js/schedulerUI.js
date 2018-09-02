@@ -788,11 +788,15 @@ class ScheduleManagerHTML{
 		var data = role.getTable(datefrom,dateto); // <-----------------------------------
 		//consolle.log(data.data);
 
-
+		//employee list
 		var xy = [];
 		for (var i=0;i<data.rows.length;i++){
 			var emp = data.rows[i];
-			var row = [{txt:emp.fname+" "+emp.lname}];
+			var empName = emp.fname+" "+emp.lname;
+			if (!emp.active){
+				empName = "<strike>" +empName + "</strike>";
+			}
+			var row = [{txt:empName}];
 			xy.push(row);
 		}
 		for (var i=0;i<xy.length;i++){
