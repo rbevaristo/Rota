@@ -62,6 +62,8 @@
                                                 </div>
                                                 <div class="media-body">
                                                     <p class="media-heading"> 
+                                                        {{ auth()->user()->employees->where('id',$notification->data["messages"]["emp_id"])->first()->firstname }}
+                                                        {{ auth()->user()->employees->where('id',$notification->data["messages"]["emp_id"])->first()->lastname }} <br>
                                                         {{ $notification->data["messages"]["title"] }} 
                                                         <span class="float-right">
                                                             <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
@@ -92,6 +94,8 @@
                                                 </div>
                                                 <div class="media-body">
                                                     <p class="media-heading"> 
+                                                        {{ auth()->user()->employees->where('id',$notification->data["messages"]["emp_id"])->first()->firstname }}
+                                                        {{ auth()->user()->employees->where('id',$notification->data["messages"]["emp_id"])->first()->lastname }} <br>
                                                         {{ $notification->data["messages"]["title"] }} 
                                                         <span class="float-right">
                                                             <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 

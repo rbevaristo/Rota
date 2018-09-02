@@ -18,7 +18,7 @@ class ContactUsController extends Controller
         ]);
 
         if($con) {
-            Mail::to('rota@gmail.com')->send(new ContactUs($con));
+            Mail::to('routa.developers@gmail.com')->send(new ContactUs($con));
             return redirect()->back()->with('success', 'Message sent');
         }
         return redirect()->back()->with('error', 'There must be something wrong');

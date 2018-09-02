@@ -118,9 +118,10 @@
                             <li>Username:<strong class="text-primary"> Employee ID </strong></li>
                             <li>Password:
                                 <ul>
-                                    <li> <strong class="text-primary">1ST</strong> letter of their firstname </li>
-                                    <li> <strong class="text-primary">COMPLETE</strong> lastname </li>
-                                    <li> <strong class="text-primary">TWO</strong> characters of their Employee ID </li>
+                                    <li> <strong class="text-primary">CASE SENSITIVE</strong></li>
+                                    <li> <strong class="text-primary">1ST</strong> letter of their firstname (lowercase)</li>
+                                    <li> <strong class="text-primary">Full</strong> lastname (lowercase)</li>
+                                    <li> <strong class="text-primary">LAST TWO</strong> characters of their Employee ID </li>
                                 </ul>
                                 
                             </li>

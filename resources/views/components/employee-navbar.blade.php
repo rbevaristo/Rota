@@ -55,6 +55,8 @@
                                             </div>
                                             <div class="media-body" style="padding-left: 5px;">
                                                 <p class="media-heading"> 
+                                                    {{ auth()->user()->user->firstname }}
+                                                    {{ auth()->user()->user->lastname }} <br>
                                                     Evaluation 
                                                     <span class="float-right">
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
@@ -80,6 +82,8 @@
                                             </div>
                                             <div class="media-body" style="padding-left: 5px;">
                                                 <p class="media-heading"> 
+                                                    {{ auth()->user()->user->firstname }}
+                                                    {{ auth()->user()->user->lastname }} <br>
                                                     {{ $notification->data["messages"]["title"] }} 
                                                     <span class="float-right">
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
@@ -107,6 +111,8 @@
                                             </div>
                                             <div class="media-body" style="padding-left: 5px;">
                                                 <p class="media-heading"> 
+                                                    {{ auth()->user()->user->firstname }}
+                                                    {{ auth()->user()->user->lastname }} <br>
                                                     Evaluation 
                                                     <span class="float-right">
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
@@ -132,6 +138,8 @@
                                             </div>
                                             <div class="media-body" style="padding-left: 5px;">
                                                 <p class="media-heading"> 
+                                                    {{ auth()->user()->user->firstname }}
+                                                    {{ auth()->user()->user->lastname }} <br>
                                                     {{ $notification->data["messages"]["title"] }} 
                                                     <span class="float-right">
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
