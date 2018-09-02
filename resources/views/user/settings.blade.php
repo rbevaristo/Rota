@@ -347,7 +347,7 @@
                           $s[] = $shift->id;
                         @endphp
                           <div class="form-group">
-                              {{ $shift->start }} - {{ $shift->end }}
+                              {{ substr($shift->start,0,5) }} - {{ substr($shift->end,0,5) }}
                           </div>
                       @endforeach
                     </div>
@@ -360,7 +360,7 @@
                       @if($temp != $employee->position->name)
                       @php
                         $temp = $employee->position->name;
-                        $count = auth()->user()->employees->where('position_id', $employee->position->id)->count();
+                        $count = auth()->user()->employees->where('position_id', $employee->position->id)->where('status',1)->count();
                       @endphp
                       <div class="col-md-2 col-4">
                         <span class="position_name">{{ $employee->position->name }} 
