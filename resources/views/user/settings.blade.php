@@ -221,7 +221,7 @@
                 </div>
                 <div class="card-body">
                   
-                  <div class="row padding">
+                  <div class="row padding" id="preferrence_dayoff">
                     <div class="col-md-12">
                       <div class="alert alert-info">
                           <small>Toggle <strong>Dayoff</strong> to enable employee to set their preferred dayoff.  </small> 
@@ -777,6 +777,8 @@
         });
     }
 
+    $('#preferrence_dayoff')[{!! auth()->user()->setting->sched_dayoff !!}=="0000000"?"show":"hide"]();
+
     $('.btnDays').on('click', function(){
         var x = '';
         var cc = 0;
@@ -809,9 +811,11 @@
                 value: x.toString()
             },
             success: function (result) {
-              toastr.info('Dayoff updated');
+              //toastr.info('Dayoff updated'); //spam lag
             },
         });
+
+        $('#preferrence_dayoff')[x=="0000000"?"show":"hide"]();
 
         if(cc == c){
             $('.btnDays').each(function(){

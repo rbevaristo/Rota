@@ -42,7 +42,7 @@
                         @if(auth()->user()->user->setting->dayoff || auth()->user()->user->setting->shift)
                             <h2></h2>
                             <div class="row">
-                            @if(auth()->user()->user->setting->dayoff)
+                            @if(auth()->user()->user->setting->dayoff && auth()->user()->user->setting->sched_dayoff==0)
                                 <div class="col-md-6">
                                     <div class="input-group">
                                             <div class="input-group-prepend">
