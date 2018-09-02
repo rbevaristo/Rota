@@ -896,7 +896,7 @@
                     type: 'POST',
                     data: {
                         schedule : scheduler.toJSON(),
-                        savePdf : yes
+                        savePdf : (yes) ? 1:0
                     },
                     success: function (result) {
                         console.log("HMM");

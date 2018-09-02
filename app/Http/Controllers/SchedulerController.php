@@ -111,7 +111,7 @@ class SchedulerController extends Controller
             }
         }
         $s = '';
-        if($request->savePdf == true){
+        if($request->savePdf){
             $data = [
                 'user' => auth()->user(),
                 'company' => auth()->user()->company,
