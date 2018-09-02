@@ -1316,7 +1316,10 @@ class Role {
 				if (dayoffSingle != null){
 					emp.dayoffPickTemp = dayoffSingle;
 					dayoffs[emp.dayoffPickTemp]++;	
-					// unable to get points ?
+					// dayoff pts 1
+					results.points += ptScoring.dayoff * (ptScoring.prio + (emp.criteriaPriority * ptScoring.priop));
+					results.hitdayoff++;
+					results.hitdayoffs.push(emp.fname);
 				}
 				else{
 					if ((this.criteriaGenerate != 1 || Math.random() >= this.criteriaLikely) && emp.preferredDayoff != null && emp.preferredDayoff >= 0 &&
@@ -1324,6 +1327,7 @@ class Role {
 						emp.dayoffPickTemp = emp.preferredDayoff;
 						dayoffs[emp.dayoffPickTemp]++;
 						if (this.criteriaGenerate == 1) {
+							// dayoff pts 2
 							results.points += ptScoring.dayoff * (ptScoring.prio + (emp.criteriaPriority * ptScoring.priop));
 							results.hitdayoff++;
 							results.hitdayoffs.push(emp.fname + " -a" + emp.dayoffPickTemp);
@@ -1332,6 +1336,7 @@ class Role {
 						emp.dayoffPickTemp = this.getMinDayoff(dayoffs);
 						//console.log("failed to satisfy "+emp.fname+" "+emp.lname+"'s "+emp.preferredDayoff+" dayoff. changed to "+emp.dayoffPickTemp);
 						if (this.criteriaGenerate == 1 && (emp.preferredDayoff == -1 || emp.dayoffPickTemp == emp.preferredDayoff)) {
+							// dayoff pts 3
 							results.points += ptScoring.dayoff * (ptScoring.prio + (emp.criteriaPriority * ptScoring.priop));
 							results.hitdayoff++;
 							results.hitdayoffs.push(emp.fname);
