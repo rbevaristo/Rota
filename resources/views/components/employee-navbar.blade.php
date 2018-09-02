@@ -62,7 +62,7 @@
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
                                                     </span>
                                                 </p>
-                                                <small>{{ Helper::limit_message($notification->data["messages"]["filename"], 5) }}</small>
+                                                {{-- <small>{{ Helper::limit_message($notification->data["messages"]["filename"], 5) }}</small> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
                                                     </span>
                                                 </p>
-                                                <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
+                                                {{-- <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
                                                     </span>
                                                 </p>
-                                                <small>{{ Helper::limit_message($notification->data["messages"]["filename"], 5) }}</small>
+                                                {{-- <small>{{ Helper::limit_message($notification->data["messages"]["filename"], 5) }}</small> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -145,7 +145,7 @@
                                                         <small>{{ date('F, d, Y', strtotime($notification->created_at))}}</small> 
                                                     </span>
                                                 </p>
-                                                <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
+                                                {{-- <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small> --}}
                                             </div>
                                         </div>
                                     </div>

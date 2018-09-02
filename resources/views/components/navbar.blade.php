@@ -70,7 +70,7 @@
                                                         </span>
                                                     </p>
                                                     <p>
-                                                        <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
+                                                        {{-- <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small> --}}
                                                     </p>
                                                 </div>
                                             </div>
@@ -102,7 +102,7 @@
                                                         </span>
                                                     </p>
                                                     <p>
-                                                        <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small>
+                                                        {{-- <small>{{ Helper::limit_message($notification->data["messages"]["message"], 5) }}</small> --}}
                                                     </p>
                                                 </div>
                                             </div>
