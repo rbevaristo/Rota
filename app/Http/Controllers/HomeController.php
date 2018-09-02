@@ -38,6 +38,7 @@ class HomeController extends Controller
             'dayoff' => auth()->user()->setting->dayoff, // boolean | default is 0 meaning it is off
             'shift' => auth()->user()->setting->shift, // boolean | default is 0 meaning it is off
             'days' => auth()->user()->setting->num_days, // integer | default is 7 for 1 week
+            'scheddayoff' => auth()->user()->setting->sched_dayoff, // string | 0000000
             'dayoffs' => auth()->user()->setting->num_dayoff, // integer | default is 1 it is base from the ratio 7days:1dayoff
             'schedlock' => auth()->user()->setting->sched_lock // boolean | 
         ];

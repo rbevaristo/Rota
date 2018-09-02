@@ -284,16 +284,12 @@ class ScheduleManager {
             for (var i = 0; i < this.roles.length; i++) {
                 var role = this.roles[i];
                 role.dayoffSetting = this.dbsettings.dayoff;
-                /*
-                	//role.addShift(role2.shifts[ii].start,role2.shifts[ii].end,role2.shifts[ii].defaultMinAssign,role2.shifts[ii].defaultMaxAssign);
-                	var sa2 = role2.shifts[ii];
-                	var sa = new ShiftData(sa2.start,sa2.end); 
-                	sa.id = sa2.id;
-                	sa.defaultMaxAssign = sa2.defaultMaxAssign;
-                	sa.defaultMinAssign = sa2.defaultMinAssign;
-                	role.shifts.push(sa);
-                }
-                */
+				//
+				role.disabledDays = [];
+				for (var x=0;x<7;x++){
+					role.disabledDays.push(Number(this.dbsettings.scheddayoff.substring(x,x+1)));
+				}
+				//
                 var ii = null;
                 //role.shifts = []; // ?
                 for (var s = 0; s < role.shifts.length; s++) {
@@ -862,7 +858,15 @@ class Role {
                 role.preferredShiftTranslate(emps[i], role);
             }
         }
-        //
+		//
+	getDayoffSingle(){
+		for (var i=0;i<7;i++){
+			if (this.disabledDays[i]==1){
+				return i;
+			}
+		}
+		return null;
+	}
     sortCriteria(emps) {
             var criteria = ScheduleManager.Instance.dbcriteria;
             if (criteria.age == 0 && criteria.gender == 0 && criteria.name == 0) {
@@ -1307,26 +1311,34 @@ class Role {
             //
             //
             for (var i = 0; i < emps.length; i++) {
-                var emp = emps[i];
-                if ((this.criteriaGenerate != 1 || Math.random() >= this.criteriaLikely) && emp.preferredDayoff != null && emp.preferredDayoff >= 0 &&
-                    dayoffs[emp.preferredDayoff] < maxdayoff && !this.disabledDays.includes(emp.preferredDayoff) && this.dayoffSetting == 1) {
-                    emp.dayoffPickTemp = emp.preferredDayoff;
-                    dayoffs[emp.dayoffPickTemp]++;
-                    if (this.criteriaGenerate == 1) {
-                        results.points += ptScoring.dayoff * (ptScoring.prio + (emp.criteriaPriority * ptScoring.priop));
-                        results.hitdayoff++;
-                        results.hitdayoffs.push(emp.fname + " -a" + emp.dayoffPickTemp);
-                    }
-                } else {
-                    emp.dayoffPickTemp = this.getMinDayoff(dayoffs);
-                    //console.log("failed to satisfy "+emp.fname+" "+emp.lname+"'s "+emp.preferredDayoff+" dayoff. changed to "+emp.dayoffPickTemp);
-                    if (this.criteriaGenerate == 1 && (emp.preferredDayoff == -1 || emp.dayoffPickTemp == emp.preferredDayoff)) {
-                        results.points += ptScoring.dayoff * (ptScoring.prio + (emp.criteriaPriority * ptScoring.priop));
-                        results.hitdayoff++;
-                        results.hitdayoffs.push(emp.fname);
-                    }
-                    dayoffs[emp.dayoffPickTemp]++;
-                }
+				var emp = emps[i];
+				var dayoffSingle = this.getDayoffSingle();
+				if (dayoffSingle != null){
+					emp.dayoffPickTemp = dayoffSingle;
+					dayoffs[emp.dayoffPickTemp]++;	
+					// unable to get points ?
+				}
+				else{
+					if ((this.criteriaGenerate != 1 || Math.random() >= this.criteriaLikely) && emp.preferredDayoff != null && emp.preferredDayoff >= 0 &&
+						dayoffs[emp.preferredDayoff] < maxdayoff && this.dayoffSetting == 1) { // && !this.disabledDays.includes(emp.preferredDayoff)
+						emp.dayoffPickTemp = emp.preferredDayoff;
+						dayoffs[emp.dayoffPickTemp]++;
+						if (this.criteriaGenerate == 1) {
+							results.points += ptScoring.dayoff * (ptScoring.prio + (emp.criteriaPriority * ptScoring.priop));
+							results.hitdayoff++;
+							results.hitdayoffs.push(emp.fname + " -a" + emp.dayoffPickTemp);
+						}
+					} else {
+						emp.dayoffPickTemp = this.getMinDayoff(dayoffs);
+						//console.log("failed to satisfy "+emp.fname+" "+emp.lname+"'s "+emp.preferredDayoff+" dayoff. changed to "+emp.dayoffPickTemp);
+						if (this.criteriaGenerate == 1 && (emp.preferredDayoff == -1 || emp.dayoffPickTemp == emp.preferredDayoff)) {
+							results.points += ptScoring.dayoff * (ptScoring.prio + (emp.criteriaPriority * ptScoring.priop));
+							results.hitdayoff++;
+							results.hitdayoffs.push(emp.fname);
+						}
+						dayoffs[emp.dayoffPickTemp]++;
+					}
+				}
             }
             //
             for (var d = 0; d < days; d++) {
@@ -1360,7 +1372,7 @@ class Role {
                         shiftY = shiftIY >= 0 ? scheduleYesterday.shifts[shiftIY] : null;
                     }
                     var fixrest = true;
-                    if (!this.disabledDays.includes(theDay) && dayoff != theDay) {
+                    if (dayoff != theDay) { // !this.disabledDays.includes(theDay) && 
                         var shiftI = this.getBestShiftSlot(scheduledDay.shifts, fixrest != null ? shiftY : null, d, emp, results, i);
                         if (shiftI == null) {
                             //console.log(emp.fname+" NO MORE VACANCY "+ScheduleManager.daysName[theDay]);
