@@ -31,6 +31,7 @@ class CompanyController extends Controller
             'email' => $request->email,
             'location' => $request->location,
             'contact' => $request->contact_number,
+            'code' => $this->getCode(),
             'user_id' => auth()->user()->id
         ]);
         
@@ -39,6 +40,19 @@ class CompanyController extends Controller
         }
 
         return redirect('/dashboard/manage');
+    }
+
+    public function getCode()
+    {
+        $code = str_random(2);
+        $user_code = auth()->user()->company->where('code', $code)->first();
+        if($user->code){
+            while($user_code->code == $code)
+            {
+                $code = str_random(2);
+            }
+        }        
+        return strtoupper($code);
     }
 
     /**

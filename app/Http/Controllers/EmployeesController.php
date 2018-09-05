@@ -36,7 +36,7 @@ class EmployeesController extends Controller
         $employee = new Employee;
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
-        $employee->username = $request->username;
+        $employee->username = auth()->user()->company->code.$request->username;
         $employee->email = $request->email;
         $pwd = new PasswordMaker;
         $employee->password = $pwd->makePassword($request->firstname, $request->lastname, $request->username);
@@ -127,7 +127,7 @@ class EmployeesController extends Controller
             
             if(!$d && strlen($id) >= 5 && $this->checkEmail($email)){
                 $d = new Employee;
-                $d->username = $id;
+                $d->username = auth()->user()->company->code.$id;
                 $d->firstname = $firstname;
                 $d->lastname = $lastname;
                 $d->email = $email;
